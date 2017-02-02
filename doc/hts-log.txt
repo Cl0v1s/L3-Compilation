@@ -1,0 +1,11 @@
+HTTrack3.48-21 launched on Thu, 02 Feb 2017 10:21:12 at http://dinosaur.compilertools.net/flex/
+(httrack http://dinosaur.compilertools.net/flex/ )
+
+Information, Warnings and Errors reported for this mirror:
+note:	the hts-log.txt file, and hts-cache folder, may contain sensitive information,
+	such as username/password authentication for websites mirrored in this project
+	do not share these files/folders if you want these information to remain private
+
+
+HTTrack Website Copier/3.48-21 mirror complete in 7 seconds : 28 links scanned, 27 files written (137803 bytes overall) [67430 bytes received at 9632 bytes/sec], 138385 bytes transferred using HTTP compression in 28 files, ratio 43%, 9.3 requests per connection
+(No errors, 0 warnings, 0 messages)

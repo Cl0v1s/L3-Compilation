@@ -1,0 +1,38 @@
+%{
+    #include <stdio.h>
+    #define false 0
+    #define true 1
+    char find = false;
+%}
+%s one two final
+%%
+[^ab\s\n\t]    {printf("%s Not {a,b} !\n", yytext); return 1;}
+
+<INITIAL>a {BEGIN one;ECHO;}
+<INITIAL>b {BEGIN final;ECHO;}
+
+<one>a {BEGIN INITIAL;ECHO;}
+<one>b {BEGIN two;ECHO;}
+
+<two>b {BEGIN one;ECHO;}
+<two>a {BEGIN final;ECHO;}
+
+<final>a {BEGIN two;ECHO;}
+<final>b {BEGIN INITIAL;ECHO;}
+
+<final><<EOF>> {;find = true;return 0;}
+
+
+%%
+int main( void ) {
+    if(yylex() != 0)
+    {
+        return 1;
+    }
+    if(find == true)
+    {
+        printf("\nMatched!\n");
+    }
+    else
+        printf("\nNot found!\n");     
+}

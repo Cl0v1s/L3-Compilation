@@ -1,35 +1,63 @@
 %{
 	#include <stdio.h>
+	#include "include/Ast.h"
+	#include "include/IMP.h"
+	#include "include/Env.h"	
 
 	int yyerror(char *s);
 	int yylex();
 	int yylineno;
 %}
 
-	%token I
-	%token V
-	%token AF SK SE IF TH EL WH DO PL MO MU OPEN CLOSE
-	%token EOL
+	%union {
+		int constant;
+		char* variable;
+		struct Ast *node;
+	}
+	%token<variable> V
+	%token<constante> I
+	%token Af Sk Se If Th Wh Do Pl Mo Mu
+	%type<node> C0 C E T F
+	%nonassoc Th
+	%nonassoc El
+	%left '('
+	%start prog 
+
 %%
 
-E: E PL T
-| E MO T
+/* Un programme est une suite de déclaration (C) composé de déclaration atomique (C0)  */
+prog: C	{ 
+	 		Env env;
+			Env_init(&env);
+			Ast_run($1, &env);
+	 	}
+    ;
+
+E: E Pl T
+| E Mo T 
 | T
+;
 
-T: T MU F
+T: T Mu F
 | F
+;
 
-F: OPEN E CLOSE
+F: "(" E ")"
 | I
 | V
+;
 
-C : V AF E
-| SK
-| OPEN C CLOSE
-| IF E TH C EL C
-| WH E DO C
-| C SE C
+C0: V Af E		
+ | Sk			
+ | Se			
+ | '(' C ')'		
+ | If E Th C El C0	
+ | Wh E Do C0		
+ ;
 
+C: C Se C0		
+ | C0			
+ | '(' C0 ')'
 
 %%
 
@@ -37,6 +65,7 @@ int main()
 {
 	yyparse();
 }
+
 
 int yyerror(char *s)
 {

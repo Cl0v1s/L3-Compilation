@@ -4,5 +4,5 @@ flex:
 both: iimp.l iimp.y
 	bison -d iimp.y
 	flex iimp.l
-	cc -o test/iimp iimp.tab.c lex.yy.c -lfl
+	cc -o test/iimp iimp.tab.c lex.yy.c include/*.c -lfl
 	rm -f *.c;rm -f *.h;

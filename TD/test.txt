@@ -1,0 +1,4 @@
+defun tes(arg1:int, arg2:bool)
+
+val1 := 19
+val2 := true

@@ -2,6 +2,7 @@
 %{
     #include <stdio.h>
     #include <stdlib.h>
+    #include <string.h>
     #include "iimp.tab.h"
     /*enum yytokentype 
     {
@@ -29,41 +30,19 @@
 
 %%
 
+"Af" { return Af; }
+"Sk" { return Sk; }
+"Se" { return Se; }
+"If" { return If; }
+"Th" { return Th; }
+"El" { return El; }
+"Wh" { return Wh; }
+"Do" { return Do; }
+"Pl" { return Pl; }
+"Mo" { return Mo; }
+"Mu" { return Mu; }
 
-
-"Af" { return AF; }
-"Sk" { return SK; }
-"Se" { return SE; }
-"If" { return IF; }
-"Th" { return TH; }
-"El" { return EL; }
-"Wh" { return WH; }
-"Do" { return DO; }
-"Pl" { return PL; }
-"Mo" { return MO; }
-"Mu" { return MU; }
-"(" { return OPEN; }
-")" { return CLOSE; }
-
-([1-9][0-9]*)|0 {yylval = atoi(yytext);return I; }
-[a-zA-Z_][a-zA-Z0-9_]* { return V; }
+([1-9][0-9]*)|0 {yylval.constant = atoi(yytext);return I; }
+[a-zA-Z_][a-zA-Z0-9_]* { yylval.variable = strdup(yytext); return V; }
 
 %%
-
-/*int main(int argc, char **argv)
-{
-    int tok;
-    while(tok = yylex())
-    {
-        if(tok == I)
-        {
-            printf(" = %d\n", yylval);
-        }
-        else if(tok == V)
-        {
-            printf("var '%s'\n", yytext);
-        }
-        else 
-            printf("%d\n", tok);
-    }
-}*/

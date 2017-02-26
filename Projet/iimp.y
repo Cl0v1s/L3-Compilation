@@ -14,18 +14,21 @@
 		char* variable;
 		struct Ast *node;
 	}
-	%token<variable> V
-	%token<constante> I
+	%token<variable>V
+	%token<constant>I
 	%token Af Sk Se If Th Wh Do Pl Mo Mu
-	%type<node> C0 C E T F
 	%nonassoc Th
 	%nonassoc El
 	%left '('
 	%start prog 
 
+	/* %type<node> C0 C E T F*/
+	%type<node> C E T F
+	
+
 %%
 
-/* Un programme est une suite de déclaration (C) composé de déclaration atomique (C0)  */
+/* Un programme est une suite de déclaration (C) composé de déclaration atomique (C0) */ 
 prog: C	{ 
 	 		Env env;
 			Env_init(&env);
@@ -33,31 +36,28 @@ prog: C	{
 	 	}
     ;
 
-E: E Pl T
-| E Mo T 
-| T
+
+E: E Pl T {$$ = Ast_init('E',Pl, $1, $3);}
+| E Mo T {$$ = Ast_init('E',Mo, $1, $3);}
+| T {$$ = $1;}
 ;
 
-T: T Mu F
-| F
+T: T Mu F {$$ = Ast_init('T',Mu,  $1, $3);}
+| F {$$ = $1;}
 ;
 
-F: "(" E ")"
-| I
-| V
+F: '(' E ')' {$$ = $2;} 
+| I	{$$ = Ast_init_leaf('I', &$1);}
+| V {$$ = Ast_init_leaf('V', $1);}
 ;
 
-C0: V Af E		
- | Sk			
- | Se			
- | '(' C ')'		
- | If E Th C El C0	
- | Wh E Do C0		
- ;
 
-C: C Se C0		
- | C0			
- | '(' C0 ')'
+C: V Af E {$$ = Ast_init('C', Af, Ast_init_leaf('V', $1), $3);}
+;
+
+
+
+
 
 %%
 

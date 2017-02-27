@@ -33,6 +33,7 @@ prog: C	{
 	 		Env env;
 			Env_init(&env);
 			Ast_run($1, &env);
+			Env_print(&env);
 	 	}
     ;
 
@@ -53,6 +54,11 @@ F: '(' E ')' {$$ = $2;}
 
 
 C: V Af E {$$ = Ast_init('C', Af, Ast_init_leaf('V', $1), $3);}
+| Sk {$$ = Ast_init('C', Sk, 0,0);}
+| '(' C ')' {$$ = $2;}
+| If E Th C El C {$$=Ast_init('C', If, $2, Ast_init('C', El, $4, $6));}
+| Wh E Do C {$$=Ast_init('C', Wh, $2, $4);}
+| C Se C { $$ = Ast_init('C', Se, $1, $3);}
 ;
 
 

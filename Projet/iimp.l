@@ -30,17 +30,17 @@
 
 %%
 
-"Af" { return Af; }
-"Sk" { return Sk; }
-"Se" { return Se; }
-"If" { return If; }
-"Th" { return Th; }
-"El" { return El; }
-"Wh" { return Wh; }
-"Do" { return Do; }
-"Pl" { return Pl; }
-"Mo" { return Mo; }
-"Mu" { return Mu; }
+":=" { return Af; }
+"skip" { return Sk; }
+";" { return Se; }
+"if" { return If; }
+"then" { return Th; }
+"else" { return El; }
+"while" { return Wh; }
+"do" { return Do; }
+"+" { return Pl; }
+"-" { return Mo; }
+"*" { return Mu; }
 
 ([1-9][0-9]*)|0 {yylval.constant = atoi(yytext);return I; }
 [a-zA-Z_][a-zA-Z0-9_]* { yylval.variable = strdup(yytext); return V; }

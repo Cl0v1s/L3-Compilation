@@ -1,2 +1,2 @@
-var Af 1 Pl 1
-var2 Af 4
+a := 5;
+while a do a := a + 1

@@ -77,6 +77,7 @@ void Env_set_value(Env *env, char*key, int value)
         if(strcmp(env->keys[i], key) == 0)
         {
             env->values[i] = value;
+            return;
         }
     }
 }

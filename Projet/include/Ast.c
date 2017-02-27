@@ -57,8 +57,8 @@ int Ast_run(struct Ast* ast, Env *env)
     }
     // On arrive ici si le noeud n'est pas une feuille
     int ope = *(int*)ast->value;
-    printf("Running ope %d\n", ope);
-    int tmp;
+    //printf("Running ope %d\n", ope);
+    int tmp, tmp1, tmp2;
     char* key;
     switch(ope)
     {
@@ -80,21 +80,25 @@ int Ast_run(struct Ast* ast, Env *env)
             {
                 return Ast_run(ast->right->right, env);
             }
-            else 
+            else if(tmp == true)
             {
                 return Ast_run(ast->right->left, env);
             }
             return 1;
         case Wh:
             tmp = Ast_run(ast->left, env);
-            while(tmp!=false)
+            while(tmp==true)
             {
                 Ast_run(ast->right, env);
                 tmp = Ast_run(ast->left, env);
             }
             return 1;
         case Pl:
-            return Ast_run(ast->left, env) + Ast_run(ast->right, env);
+            tmp1 = Ast_run(ast->left, env);
+            tmp2 = Ast_run(ast->right, env);
+            tmp =  tmp1 + tmp2 ;
+            //printf("%d = %d + %d\n", tmp, tmp1, tmp2);
+            return tmp;
         case Mo:
             return Ast_run(ast->left, env) - Ast_run(ast->right, env); 
         case Mu:

@@ -41,6 +41,8 @@
 "+" { return Pl; }
 "-" { return Mo; }
 "*" { return Mu; }
+"(" { return Open; }
+")" { return Close; }
 
 ([1-9][0-9]*)|0 {yylval.constant = atoi(yytext);return I; }
 [a-zA-Z_][a-zA-Z0-9_]* { yylval.variable = strdup(yytext); return V; }

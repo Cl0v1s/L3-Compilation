@@ -41,6 +41,11 @@ struct Ast* Ast_init_leaf(int nodetype, void *value)
 
 int Ast_run(struct Ast* ast, Env *env)
 {
+    // Si AST est nul, on retourne 0 sans l'executer
+    if(ast == 0)
+    {
+        return 0;
+    }
     if(ast->nodetype == 'V')
     {
             char* key = (char*)ast->value;

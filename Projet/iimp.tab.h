@@ -57,7 +57,9 @@ extern int yydebug;
     Pl = 267,
     Mo = 268,
     Mu = 269,
-    El = 270
+    Open = 270,
+    Close = 271,
+    El = 272
   };
 #endif
 
@@ -73,7 +75,7 @@ union YYSTYPE
 		struct Ast *node;
 	
 
-#line 77 "iimp.tab.h" /* yacc.c:1909  */
+#line 79 "iimp.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

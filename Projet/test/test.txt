@@ -1,8 +1,7 @@
-a := 5;
+a := 10;
 b := 1;
 while b do
-	if 1 + (a - 10) then
-		b := 0
-	else 
-		c := a + 1;
-		a := c
+	a := a - 1;
+	if a then 
+		skip;
+	else (if b then b := 0; else skip;)

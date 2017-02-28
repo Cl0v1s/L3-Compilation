@@ -20,26 +20,12 @@ struct Ast* Ast_init_leaf(int nodetype, void *value)
     ast->nodetype = nodetype;
     ast->left = 0; 
     ast->right = 0;
-    if(nodetype == 'I')
-    {
-        int* tmp = malloc(sizeof(int));
-        memcpy(tmp, value, sizeof(int));
-        ast->value=tmp;
-        printf("%d", *((int*)ast->value));
-    }
-    else if(nodetype == 'V')
-    {
-        int len = strlen((char*)value) + 1;
-        char* tmp = malloc(len*sizeof(char));
-        memcpy(tmp, value, len*sizeof(char));
-        ast->value = tmp;
-        printf("%s", ((char*)ast->value));        
-    }
+    ast->value = value;
     printf("\n");
     return ast;
 }
 
-int Ast_run(struct Ast* ast, Env *env)
+/*int Ast_run(struct Ast* ast, Env *env)
 {
     // Si AST est nul, on retourne 0 sans l'executer
     if(ast == 0)
@@ -113,3 +99,4 @@ int Ast_run(struct Ast* ast, Env *env)
         break;
     }
 }
+*/

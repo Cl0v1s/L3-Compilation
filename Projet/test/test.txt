@@ -1,7 +1,1 @@
-a := 10;
-b := 1;
-while b do
-	a := a - 1;
-	if a then 
-		skip;
-	else (if b then b := 0; else skip;)
+a:=10*-2;

@@ -2,7 +2,7 @@
 	#include <stdio.h>
 	#include "include/Ast.h"
 	#include "include/IMP.h"
-	#include "include/Env.h"	
+	#include "include/Env.h"
 
 	int yyerror(char *s);
 	int yylex();
@@ -34,7 +34,7 @@
 prog: C	{ 
 	 		Env env;
 			Env_init(&env);
-			Ast_run($1, &env);
+			Ast_IMP_run($1, &env);
 			Env_print(&env);
 	 	}
     ;
@@ -50,12 +50,13 @@ T: T Mu F {$$ = Ast_init('T',Mu,  $1, $3);}
 ;
 
 F: Open E Close {$$ = $2;} 
-| I	{$$ = Ast_init_leaf('I', &$1);}
-| V {$$ = Ast_init_leaf('V', $1);}
+| I	{$$ = Ast_IMP_init_leaf('I', &$1);}
+| Mo I {$2 = $2 * (-1); $$ = Ast_IMP_init_leaf('I', &$2);}
+| V {$$ = Ast_IMP_init_leaf('V', $1);}
 ;
 
 
-C: V Af E {$$ = Ast_init('C', Af, Ast_init_leaf('V', $1), $3);}
+C: V Af E {$$ = Ast_init('C', Af, Ast_IMP_init_leaf('V', $1), $3);}
 | Sk {$$ = Ast_init('C', Sk, 0,0);}
 | Open C Close {$$ = $2;}
 | If E Th C El C {$$=Ast_init('C', If, $2, Ast_init('C', El, $4, $6));}

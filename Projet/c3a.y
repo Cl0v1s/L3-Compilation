@@ -19,6 +19,7 @@
 	%token Open Close Pl Mo Mu Af Afc Sk Jp Jz St Sp Se
 	%start prog 
 
+    %left Se
 
 	%left Pl Mo
 	%left Mu
@@ -29,10 +30,7 @@
 
 /* Un programme est une suite de déclaration (C) composé de déclaration atomique (C0) */ 
 prog: C	{ 
-	 		Env env;
-			Env_init(&env);
-			Ast_IMP_run($1, &env);
-			Env_print(&env);
+
 	 	}
     ;
 

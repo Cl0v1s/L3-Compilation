@@ -21,6 +21,8 @@
 "St" {return St;}
 "(" {return Open;}
 ")" {return Close;}
+"-" {return Minus;}
+"+" {return Plus;}
 
 ":" {return Sp;}
 \n {return Se;}

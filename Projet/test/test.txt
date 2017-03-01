@@ -1,8 +1,7 @@
-: Pl : 1 : 1 : var
-: St : : :
-loop : Mu : var : 2 : var
+: Pl : +100 : -1 : var
+: Mu : var : 2 : var
 : Sk : : :
-
+:St : : :
 : Jz : 0 : : loop
 
 

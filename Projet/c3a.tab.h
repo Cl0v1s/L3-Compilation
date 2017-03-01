@@ -59,7 +59,9 @@ extern int yydebug;
     Jz = 269,
     St = 270,
     Sp = 271,
-    Se = 272
+    Se = 272,
+    Minus = 273,
+    Plus = 274
   };
 #endif
 
@@ -77,7 +79,7 @@ union YYSTYPE
 		struct QuadList* list;
 	
 
-#line 81 "c3a.tab.h" /* yacc.c:1909  */
+#line 83 "c3a.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

@@ -18,7 +18,7 @@
 	}
 	%token<variable>V
 	%token<constant>I
-	%token Open Close Pl Mo Mu Af Afc Sk Jp Jz St Sp Se
+	%token Open Close Pl Mo Mu Af Afc Sk Jp Jz St Sp Se Minus Plus
 	%start prog 
 
 	%type<value> F FI
@@ -60,11 +60,13 @@ O : Pl Sp F Sp F Sp V { $$ = Quad_create(0,Pl, $3, $5, $7); }
 | St Sp Sp Sp { $$ = Quad_create(0,St, 0, 0, 0); }
 
 F: I {$$ = Value_create('I', &$1);}
+| Minus I {$2 = $2*-1; $$ = Value_create('I', &$2);}
+| Plus I {$$ = Value_create('I', &$2);}
 | V { $$ = Value_create('V', $1);}
 
 FI : I {$$ = Value_create('I', &$1);}
-
-
+| Minus I {$2 = $2*-1; $$ = Value_create('I', &$2);}
+| Plus I {$$ = Value_create('I', &$2);}
 %%
 
 int main()

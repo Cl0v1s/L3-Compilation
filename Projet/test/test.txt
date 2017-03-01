@@ -1,1 +1,9 @@
-a:=10*-2;
+: Pl : 1 : 1 : var
+: St : : :
+loop : Mu : var : 2 : var
+: Sk : : :
+
+: Jz : 0 : : loop
+
+
+

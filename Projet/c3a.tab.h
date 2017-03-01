@@ -72,10 +72,12 @@ union YYSTYPE
 
 		int constant;
 		char* variable;
-		struct Ast *node;
+		struct Value* value;
+		struct Quad* quad;
+		struct QuadList* list;
 	
 
-#line 79 "c3a.tab.h" /* yacc.c:1909  */
+#line 81 "c3a.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

@@ -2,9 +2,12 @@
 
 int line = 0;
 int tmpvar = 0;
+int tmpjump = 0;
 
 void IMP_Compile_C3A(struct Ast* ast)
 {
+    if(ast == 0)
+        return;
     if(ast->nodetype == 'I')
     {
         tmpvar = tmpvar + 1;
@@ -65,6 +68,33 @@ void IMP_Compile_C3A(struct Ast* ast)
         case Se:
             IMP_Compile_C3A(ast->left);
             IMP_Compile_C3A(ast->right);
+        break;
+        case If:
+            tmpjump = tmpjump + 1;
+            tmpleft = tmpjump;
+            IMP_Compile_C3A(ast->left);
+            printf("l%d : Jz : _TMP%d : : IfFalse%d\n", line, tmpvar, tmpleft);
+            line = line + 1;
+            IMP_Compile_C3A(ast->right->left);
+            printf("l%d : Jp : : : IfEnd%d\n", line, tmpleft);
+            line = line + 1;
+            printf("IfFalse%d : Sk : : : \n", tmpleft);
+            line = line + 1;
+            IMP_Compile_C3A(ast->right->right);
+            printf("IfEnd%d : Sk : : : \n", tmpleft);
+            line = line + 1;
+        break;
+        case Wh:
+            tmpjump = tmpjump + 1;
+            tmpleft = tmpjump;
+            IMP_Compile_C3A(ast->left);
+            printf("IfStart%d : Jz : _TMP%d : : IfEnd%d\n", tmpleft, tmpvar, tmpleft);
+            line = line + 1;
+            IMP_Compile_C3A(ast->right);
+            printf("l%d : Jp : : : IfStart%d\n", line, tmpleft);
+            line = line + 1;
+            printf("IfEnd%d : Sk : : : \n", tmpleft);
+            line = line + 1;
         break;
     }
 }

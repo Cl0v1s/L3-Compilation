@@ -87,8 +87,10 @@ void IMP_Compile_C3A(struct Ast* ast)
         case Wh:
             tmpjump = tmpjump + 1;
             tmpleft = tmpjump;
+            printf("IfStart%d : Sk : : : \n", tmpleft);
+            line = line + 1;
             IMP_Compile_C3A(ast->left);
-            printf("IfStart%d : Jz : _TMP%d : : IfEnd%d\n", tmpleft, tmpvar, tmpleft);
+            printf("l%d : Jz : _TMP%d : : IfEnd%d\n", line, tmpvar, tmpleft);
             line = line + 1;
             IMP_Compile_C3A(ast->right);
             printf("l%d : Jp : : : IfStart%d\n", line, tmpleft);

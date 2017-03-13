@@ -18,7 +18,7 @@ struct Quad* C3A_eval(struct Quad* quad, Env* env, struct QuadList* list)
 {
     int tmp;
     struct Quad* next;
-    printf("Eval node %p %s | %p %p\n",quad,  quad->address, list->start, list->start->address);
+    //printf("Eval node %p %s | %p %p\n",quad,  quad->address, list->start, list->start->address);
     switch(quad->operation)
     {
         case Pl:

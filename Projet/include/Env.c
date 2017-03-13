@@ -62,6 +62,8 @@ void Env_add_value(Env *env, char* key, int value)
     env->values = values;
 
     env->length++;
+
+    printf("Creating value %s : (%lu <- %d)\n", key, hash, value);
 }
 
 void Env_set_value(Env *env, char*key, int value)
@@ -78,6 +80,7 @@ void Env_set_value(Env *env, char*key, int value)
         if(env->keys[i] == hash)
         {
             env->values[i] = value;
+            printf("%s : (%lu <- %d)\n",key,  hash, value);            
             return;
         }
     }

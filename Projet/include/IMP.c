@@ -58,7 +58,7 @@ int Ast_IMP_run(struct Ast* ast, Env *env)
             key = (char*)ast->left->value;
             tmp = Ast_IMP_run(ast->right, env);
             Env_set_value(env, key, tmp);
-            printf("%s <- %d\n", key, tmp);
+            //printf("%s <- %d\n", key, tmp);
             return 1;
         case If:
             tmp = Ast_IMP_run(ast->left, env);

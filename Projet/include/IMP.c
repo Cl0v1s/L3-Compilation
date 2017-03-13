@@ -62,18 +62,19 @@ int Ast_IMP_run(struct Ast* ast, Env *env)
             return 1;
         case If:
             tmp = Ast_IMP_run(ast->left, env);
-            if(tmp == false)
+            if(tmp)
+            {
+                return Ast_IMP_run(ast->right->left, env);                
+            }
+            else
             {
                 return Ast_IMP_run(ast->right->right, env);
-            }
-            else if(tmp == true)
-            {
-                return Ast_IMP_run(ast->right->left, env);
             }
             return 1;
         case Wh:
             tmp = Ast_IMP_run(ast->left, env);
-            while(tmp==true)
+            //printf("While\n");
+            while(tmp)
             {
                 Ast_IMP_run(ast->right, env);
                 tmp = Ast_IMP_run(ast->left, env);

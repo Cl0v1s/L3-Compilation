@@ -11,16 +11,18 @@ void Env_print(Env *env)
 {
     for(int i = 0; i < env->length; i++)
     {
-        printf("(%s:%d) ", env->keys[i], env->values[i]);
+        printf("(%lu:%d) ", env->keys[i], env->values[i]);
     } 
     printf("\n"); 
 }
 
 char Env_key_exists(Env *env, char* key)
 {
+    unsigned long hash = Env_hash(key);
+    
     for(int i = 0; i < env->length; i++)
     {
-        if(strcmp(env->keys[i], key) == 0)
+        if(env->keys[i] == hash)
         {
             return true;
         }
@@ -30,9 +32,11 @@ char Env_key_exists(Env *env, char* key)
 
 int Env_get_value(Env *env, char* key)
 {
+    unsigned long hash = Env_hash(key);
+    
     for(int i = 0; i < env->length; i++)
     {
-        if(strcmp(env->keys[i], key) == 0)
+        if(env->keys[i] == hash)
         {
             return env->values[i];
         }
@@ -42,18 +46,14 @@ int Env_get_value(Env *env, char* key)
 
 void Env_add_value(Env *env, char* key, int value)
 {
-    int strlength = 0;
-    for(int i = 0; i < env->length; i++)
-    {
-        strlength += strlen(env->keys[i])+1;
-    }
 
-    char** keys = malloc(strlength+strlen(key)+1);
-    memcpy(keys, env->keys, strlength);
-    env->keys[env->length] = malloc(strlen(key)+1);
-    strcpy(env->keys[env->length], key);
+    unsigned long hash = Env_hash(key);
 
-
+    unsigned long *keys = malloc((env->length+1)*sizeof(unsigned long));
+    memcpy(keys, env->keys, (env->length)*sizeof(unsigned long));
+    keys[env->length] = hash;
+    free(env->keys);
+    env->keys = keys;
 
     int *values = malloc((env->length+1)*sizeof(int));
     memcpy(values, env->values, (env->length)*sizeof(int));
@@ -71,13 +71,25 @@ void Env_set_value(Env *env, char*key, int value)
         Env_add_value(env, key, value);
         return;
     }
+    unsigned long hash = Env_hash(key);
 
     for(int i = 0; i < env->length; i++)
     {
-        if(strcmp(env->keys[i], key) == 0)
+        if(env->keys[i] == hash)
         {
             env->values[i] = value;
             return;
         }
     }
+}
+
+unsigned long Env_hash(char *str)
+{
+    unsigned long hash = 5381;
+    int c;
+
+    while (c = *str++)
+        hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
+
+    return hash;
 }

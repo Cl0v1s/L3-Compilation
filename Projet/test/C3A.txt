@@ -1,6 +1,19 @@
-l0 : Afc : 5 : : a
-Start : Jz : a : : End
-: Mo : a : 1 : a
-: Jp : : : Start
-End : Sk : : :
-: Sk : : : 
+l0 : Afc : 5 : : _TMP1
+l1 : Af : a : _TMP1 :
+l2 : Af : _TMP2 : a :
+l3 : Jz : _TMP2 : : IfFalse1
+l4 : Af : _TMP3 : a :
+IfStart2 : Jz : _TMP3 : : IfEnd2
+l6 : Af : _TMP4 : a :
+l7 : Afc : 1 : : _TMP5
+l8 : Mo : _TMP4 : _TMP5 : _TMP6
+l9 : Af : a : _TMP6 :
+l10 : Jp : : : IfStart2
+IfEnd2 : Sk : : : 
+l12 : Jp : : : IfEnd1
+IfFalse1 : Sk : : : 
+l14 : Afc : 3 : : _TMP7
+l15 : Af : a : _TMP7 :
+IfEnd1 : Sk : : : 
+l17 : Afc : 5 : : _TMP8
+l18 : Af : b : _TMP8 :

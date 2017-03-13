@@ -1,5 +1,6 @@
 %{
 	#include <stdio.h>
+	#include <string.h>
 	#include "include/Quads.h"
 	#include "include/C3A.h"
 	#include "include/Env.h"

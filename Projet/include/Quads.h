@@ -86,6 +86,8 @@ Teste si un quad possède l'étiquette donnée
 */
 int Quad_hasAddress(struct Quad* quad, char* address);
 
+void Quad_setAddress(struct Quad* quad, char* value);
+
 void Quad_delete(struct Quad* quad);
 
 

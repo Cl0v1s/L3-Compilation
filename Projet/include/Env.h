@@ -11,10 +11,12 @@
 **/
 typedef struct
 {
-    char* *keys;
+    unsigned long *keys;
     int *values;
     int length;
 }Env;
+
+unsigned long Env_hash(char *str);
 
 /**
 * Initialise un nouvel Environnement

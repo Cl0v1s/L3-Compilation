@@ -63,9 +63,12 @@ struct QuadList* QuadList_concat(struct QuadList* first, struct QuadList* second
 
 struct Quad* QuadList_search(struct QuadList* list, char* address)
 {
+    //printf("Search in %p\n", list->start);
     struct Quad* current = list->start;
+    
     do
     {
+        //printf("Search: %s | current %p\n", address, current->address);
         if (Quad_hasAddress(current, address) == true)
             return current;
         current = current->next;
@@ -113,6 +116,14 @@ int Quad_hasAddress(struct Quad* quad, char* address)
     if(strcmp(quad->address, address) == 0)
         return true;
     else return false;
+}
+
+void Quad_setAddress(struct Quad* quad, char* value)
+{
+    int len = strlen(value) + 1;
+    char* tmp = malloc(len*sizeof(char));
+    memcpy(tmp, value, len*sizeof(char));
+    quad->address = tmp;
 }
 
 void Quad_delete(struct Quad* quad)

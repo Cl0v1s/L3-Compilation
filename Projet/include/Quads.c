@@ -70,7 +70,7 @@ struct Quad* QuadList_search(struct QuadList* list, char* address)
             return current;
         current = current->next;
     }
-    while(list->start != list->end && current != 0);
+    while(list->start != list->end && current != 0 && current != list->start);
     return 0;
 }
 

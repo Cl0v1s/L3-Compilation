@@ -3,17 +3,18 @@
 void C3A_run(struct QuadList* list, Env* env)
 {
     struct Quad* current = list->start;
+    struct Quad* next;
     do
     {
-        if(C3A_eval(current, env, list) == false)
+        current = C3A_eval(current, env, list);
+        if( current == 0)
             return;
-        current = current->next;
     }
     while(list->start != list->end && current != 0);
 
 }
 
-int C3A_eval(struct Quad* quad, Env* env, struct QuadList* list)
+struct Quad* C3A_eval(struct Quad* quad, Env* env, struct QuadList* list)
 {
     int tmp;
     struct Quad* next;
@@ -22,23 +23,24 @@ int C3A_eval(struct Quad* quad, Env* env, struct QuadList* list)
         case Pl:
             tmp = Value_get(quad->arg1, env) + Value_get(quad->arg2, env);
             Env_set_value(env, quad->destination, tmp);
-            return true;
+            return quad->next;
         case Mo:
             tmp = Value_get(quad->arg1, env) - Value_get(quad->arg2, env);
+            printf("%s <- %d\n", quad->destination, tmp);
             Env_set_value(env, quad->destination, tmp);
-            return true;
+            return quad->next;
         case Mu:
             tmp = Value_get(quad->arg1, env) * Value_get(quad->arg2, env);
             Env_set_value(env, quad->destination, tmp);
-            return true;
+            return quad->next;
         case Af:
             tmp = Value_get(quad->arg2, env);
             Env_set_value(env, quad->destination, tmp);
-            return true; 
+            return quad->next; 
         case Afc:
             tmp = Value_get(quad->arg1, env);
             Env_set_value(env, quad->destination, tmp);
-            return true;
+            return quad->next;
         case Jp:
             next = QuadList_search(list, quad->destination);
             if(next == 0)
@@ -46,25 +48,26 @@ int C3A_eval(struct Quad* quad, Env* env, struct QuadList* list)
                 printf("L'adresse '%s' est introuvable.\n", quad->destination);
                 exit(1);
             }
-            quad->next = next;
-            return true;
+            return next;
         case Jz:
             tmp = Value_get(quad->arg1, env);
             if(tmp != 0)
-                return true;
+            {
+                return quad->next;
+            }
             next = QuadList_search(list, quad->destination);
             if(next == 0)
             {
                 printf("L'adresse '%s' est introuvable.\n", quad->destination);
                 exit(1);
             }
-            quad->next = next;
-            return true;
+            return next;
         case St:
-            return false;
+            return 0;
         case Sk:
+            return quad->next;
         default:
-            return true;
+            return 0;
     }
 }
 

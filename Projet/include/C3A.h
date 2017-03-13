@@ -20,7 +20,7 @@ void C3A_run(struct QuadList* list, Env* env);
 * env : environnement sur lequel agit la commande 
 * list : totalité du programme C3A
 */
-int C3A_eval(struct Quad* quad, Env* env, struct QuadList* list);
+struct Quad* C3A_eval(struct Quad* quad, Env* env, struct QuadList* list);
 
 
 

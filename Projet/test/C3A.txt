@@ -1,0 +1,6 @@
+l0 : Afc : 5 : : a
+Start : Jz : a : : End
+: Mo : a : 1 : a
+: Jp : : : Start
+End : Sk : : :
+: Sk : : : 

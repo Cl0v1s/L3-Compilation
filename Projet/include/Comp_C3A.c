@@ -1,6 +1,44 @@
 #include "Comp_C3A.h"
 int loopCounter = 0;
 
+int Comp_C3A_countInstructions(struct QuadList* list)
+{
+    int res = 0; //on considère que toutes les instructions font 6 octets
+    struct Quad* current = list->start;
+    do
+    {
+        if( current == 0)
+            break;
+        switch(current->operation)
+        {
+            case Afc:
+            case Af:
+                res = res + 6*2;
+            break;
+            case Pl:
+            case Mo:
+                res = res + 6*4;
+            break;
+            case Sk:
+            case St:
+            case Jp:
+                res = res + 6*1;
+            break;
+            case Jz:
+                res = res + 6*3;
+            break;
+            case Mu:
+                res = res + 6*11;
+            break;
+        }
+        current = current->next;
+    }
+    while(list->start != list->end && current != 0);
+    res = res + res%4;
+    return res;
+}
+
+
 Env* Comp_C3A_declareVariables(struct QuadList* list, int* memoryend)
 {
     Env* env = malloc(sizeof(Env));
@@ -30,10 +68,11 @@ Env* Comp_C3A_declareVariables(struct QuadList* list, int* memoryend)
 void C3A_Compile_Y86(struct QuadList* list)
 {
     int stacksize = 0x100;
-    int memorystart = 0x400;
+    int memorystart = Comp_C3A_countInstructions(list);
     int memoryend;
     Env* variablesOffset = Comp_C3A_declareVariables(list, &memoryend);
     memoryend = memorystart+memoryend;
+    printf("prog: 0x00 memory: %#04x stack %#04x\n\n", memorystart, memoryend);
     printf("irmovl %#04x, %%esp\n", memoryend+stacksize);//on règle le stack après la mémoire
     struct Quad* current = list->start;
     do
@@ -148,12 +187,12 @@ void Comp_C3A_translate(struct Quad* quad, int memorystart, Env* variablesOffset
             }
             printf("irmovl $0, %%edx\n");//somme
             printf("irmovl $0, %%eax\n");//counter
-            printf("loop%d: addl %%ebx, %%edx\n", loopCounter);
+            printf("_y86loop%d: addl %%ebx, %%edx\n", loopCounter);
             printf("iaddl 1, %%eax\n"); //incrementation counter
             printf("pushl %%eax\n");
             printf("subl %%ecx, %%eax\n");
             printf("popl %%eax\n");
-            printf("jl loop%d\n", loopCounter);
+            printf("jl _y86loop%d\n", loopCounter);
             loopCounter = loopCounter + 1;            
             tmp = memorystart+Env_get_value(variablesOffset, quad->destination);
             printf("rmmovl %%edx, %#04x\n", tmp);

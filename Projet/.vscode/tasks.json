@@ -4,6 +4,6 @@
     "version": "0.1.0",
     "command": "make",
     "isShellCommand": true,
-    "args": ["comp_iimp"],
+    "args": ["comp_c3a"],
     "showOutput": "always"
 }

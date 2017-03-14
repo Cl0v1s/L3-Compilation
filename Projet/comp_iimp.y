@@ -1,10 +1,10 @@
 %{
 	#include <stdio.h>
+	#include "include/IMP.h"
 	#include "include/Ast.h"
 	#include "include/Quads.h"
-	#include "include/IMP.h"
 	#include "include/Comp_IMP.h"
-
+	
 	int yyerror(char *s);
 	int yylex();
 	int yylineno;

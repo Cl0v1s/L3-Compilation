@@ -1,2 +1,5 @@
-l0 : Mu : 5 : 3 : _TMP1
-: Af : _TMP2 : _TMP1 :
+: Afc : 3 : : a
+start : Mo : a : 1 : a
+: Jz : a : : end
+: Jp : : : start
+end : Sk : : :

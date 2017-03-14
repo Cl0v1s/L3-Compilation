@@ -14,9 +14,11 @@ Env* Comp_C3A_declareVariables(struct QuadList* list, int* memoryend)
             break;
         if(current->operation == Afc || current->operation == Af || current->operation == Pl || current->operation == Mo || current->operation == Mu)
         {
-            // On ne teste pas la pré-existence, si la variable change de position c'est pas grave
-            Env_set_value(env, current->destination, offset);
-            offset = offset + 4;
+            if(Env_key_exists(env, current->destination) == false)
+            {
+                Env_set_value(env, current->destination, offset);
+                offset = offset + 4;
+            }
         }
         current = current->next;
     }
@@ -47,6 +49,8 @@ void C3A_Compile_Y86(struct QuadList* list)
 void Comp_C3A_translate(struct Quad* quad, int memorystart, Env* variablesOffset)
 {
     int tmp;
+    if(quad->address != 0)
+        printf("%s:", quad->address);
     switch(quad->operation)
     {
         case Afc:
@@ -154,5 +158,28 @@ void Comp_C3A_translate(struct Quad* quad, int memorystart, Env* variablesOffset
             tmp = memorystart+Env_get_value(variablesOffset, quad->destination);
             printf("rmmovl %%edx, %#04x\n", tmp);
         break;
+        case Sk:
+            printf("nop\n");
+            break;
+        case St:
+            printf("halt\n");
+            break;
+        case Jp:
+            printf("jmp %s\n", quad->destination);
+            break;
+        case Jz:
+            if(quad->arg1->type == 'I')
+            {
+                tmp = *(int*)quad->arg1->value;
+                printf("irmovl $%d, %%eax\n", tmp);
+            }
+            else if(quad->arg1->type == 'V')
+            {
+                tmp = memorystart + Env_get_value(variablesOffset, (char*)quad->arg1->value);
+                printf("mrmovl %#04x, %%eax\n", tmp);
+            }
+            printf("isubl 0, %%eax\n");
+            printf("je %s\n", quad->destination);
+            break;
     }
 }

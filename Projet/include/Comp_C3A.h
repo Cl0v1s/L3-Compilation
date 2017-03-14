@@ -1,6 +1,7 @@
 #ifndef Comp_C3A_H
 #define Comp_C3A_H
 
+#include "utils.h"
 #include "Env.h"
 #include "Quads.h"
 #include "./../comp_c3a.tab.h"

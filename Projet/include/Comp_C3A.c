@@ -28,7 +28,7 @@ int Comp_C3A_countInstructions(struct QuadList* list)
                 res = res + 6*3;
             break;
             case Mu:
-                res = res + 6*11;
+                res = res + 6*23;
             break;
         }
         current = current->next;
@@ -71,9 +71,9 @@ void C3A_Compile_Y86(struct QuadList* list)
     int memorystart = Comp_C3A_countInstructions(list);
     int memoryend;
     Env* variablesOffset = Comp_C3A_declareVariables(list, &memoryend);
-    memoryend = memorystart+memoryend;
-    printf("prog: 0x00 memory: %#04x stack %#04x\n\n", memorystart, memoryend);
-    printf("irmovl %#04x, %%esp\n", memoryend+stacksize);//on règle le stack après la mémoire
+    memoryend = memorystart+memoryend+stacksize;
+    //printf("prog: 0x00 memory: %#04x stack %#04x\n\n", memorystart, memoryend);
+    printf("irmovl %#04x, %%esp\n", memoryend);//on règle le stack après la mémoire
     struct Quad* current = list->start;
     do
     {
@@ -140,6 +140,7 @@ void Comp_C3A_translate(struct Quad* quad, int memorystart, Env* variablesOffset
             printf("rmmovl %%eax, %#04x\n", tmp);
         break;
         case Mo:
+
             if(quad->arg1->type == 'I')
             {
                 tmp = *(int*)quad->arg1->value;
@@ -185,7 +186,24 @@ void Comp_C3A_translate(struct Quad* quad, int memorystart, Env* variablesOffset
                 tmp = memorystart + Env_get_value(variablesOffset, (char*)quad->arg2->value);
                 printf("mrmovl %#04x, %%ecx\n", tmp);
             }
-            printf("irmovl $0, %%edx\n");//somme
+
+            //gestion du cas ou le deuxieme argument est negatif
+            //on inverse le signe des deux arguments
+            printf("isubl 0, %%ecx\n");
+            printf("jge _y86loopcompare%d\n", loopCounter);
+            printf("pushl %%ebx\n");            
+            printf("irmovl 0, %%ebx\n");
+            printf("subl %%ecx, %%ebx\n");
+            printf("rrmovl %%ebx, %%ecx\n");
+            printf("popl %%ebx\n");
+            printf("pushl %%ecx\n");
+            printf("irmovl 0, %%ecx\n");
+            printf("subl %%ebx, %%ecx\n");
+            printf("rrmovl %%ecx, %%ebx\n");
+            printf("popl %%ecx\n");
+            
+            //gestion de la multiplication à proprement parleri
+            printf("_y86loopcompare%d: irmovl $0, %%edx\n", loopCounter);//somme
             printf("irmovl $0, %%eax\n");//counter
             printf("_y86loop%d: addl %%ebx, %%edx\n", loopCounter);
             printf("iaddl 1, %%eax\n"); //incrementation counter

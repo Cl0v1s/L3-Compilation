@@ -1,7 +1,7 @@
 #include "Comp_C3A.h"
 
 
-Env* Comp_C3A_declareVariables(struct QuadList* list)
+Env* Comp_C3A_declareVariables(struct QuadList* list, int* memoryend)
 {
     Env* env = malloc(sizeof(Env));
     Env_init(env);
@@ -21,19 +21,24 @@ Env* Comp_C3A_declareVariables(struct QuadList* list)
         current = current->next;
     }
     while(list->start != list->end && current != 0);
-
+    *memoryend = offset*4;
     return env;
 }
 
 void C3A_Compile_Y86(struct QuadList* list)
 {
-    Env* variablesOffset = Comp_C3A_declareVariables(list);
+    int stacksize = 0x100;
+    int memorystart = 0x400;
+    int memoryend;
+    Env* variablesOffset = Comp_C3A_declareVariables(list, &memoryend);
+    memoryend = memorystart+memoryend;
+    printf("irmovl %#04x, %%esp\n", memoryend+stacksize);//on règle le stack après la mémoire
     struct Quad* current = list->start;
     do
     {
         if( current == 0)
             break;
-        Comp_C3A_translate(current,0x400,variablesOffset);
+        Comp_C3A_translate(current,memorystart,variablesOffset);
         current = current->next;
     }
     while(list->start != list->end && current != 0);
@@ -45,7 +50,7 @@ void Comp_C3A_translate(struct Quad* quad, int memorystart, Env* variablesOffset
     switch(quad->operation)
     {
         case Afc:
-            tmp = Value_get(quad->arg1, 0); // on peut passer env nul, c'est une valeur numéraire
+            tmp = *(int*)quad->arg1->value; 
             printf("irmovl $%d, %%eax\n", tmp);
             tmp = memorystart+Env_get_value(variablesOffset, quad->destination);
             printf("rmmovl %%eax, %#04x\n", tmp);
@@ -53,15 +58,97 @@ void Comp_C3A_translate(struct Quad* quad, int memorystart, Env* variablesOffset
         case Af:
             if(quad->arg2->type == 'I')
             {
-                tmp = Value_get(quad->arg2, 0); // on peut passer env nul, c'est une valeur numéraire
+                tmp = *(int*)quad->arg1->value;
                 printf("irmovl $%d, %%eax\n", tmp);
                 tmp = memorystart+Env_get_value(variablesOffset, quad->destination);
                 printf("rmmovl %%eax, %#04x\n", tmp);
             }
             else if(quad->arg2->type == 'V')
             {
-                printf()
+                tmp = memorystart + Env_get_value(variablesOffset, (char*)quad->arg2->value);
+                printf("mrmovl %#04x, %%eax\n", tmp);
+                tmp = memorystart+Env_get_value(variablesOffset, quad->destination);
+                printf("rmmovl %%eax, %#04x\n", tmp);
             }
+        break;
+        case Pl:
+            if(quad->arg1->type == 'I')
+            {
+                tmp = *(int*)quad->arg1->value;
+                printf("irmovl $%d, %%eax\n", tmp);
+            }
+            else if(quad->arg1->type == 'V')
+            {
+                tmp = memorystart + Env_get_value(variablesOffset, (char*)quad->arg1->value);
+                printf("mrmovl %#04x, %%eax\n", tmp);
+            } 
+            if(quad->arg2->type == 'I')
+            {
+                tmp = *(int*)quad->arg2->value;
+                printf("irmovl $%d, %%ecx\n", tmp);
+            }
+            else if(quad->arg2->type == 'V')
+            {
+                tmp = memorystart + Env_get_value(variablesOffset, (char*)quad->arg2->value);
+                printf("mrmovl %#04x, %%ecx\n", tmp);
+            }
+            printf("addl %%ecx, %%eax\n");
+            tmp = memorystart+Env_get_value(variablesOffset, quad->destination);
+            printf("rmmovl %%eax, %#04x\n", tmp);
+        break;
+        case Mo:
+            if(quad->arg1->type == 'I')
+            {
+                tmp = *(int*)quad->arg1->value;
+                printf("irmovl $%d, %%eax\n", tmp);
+            }
+            else if(quad->arg1->type == 'V')
+            {
+                tmp = memorystart + Env_get_value(variablesOffset, (char*)quad->arg1->value);
+                printf("mrmovl %#04x, %%eax\n", tmp);
+            } 
+            if(quad->arg2->type == 'I')
+            {
+                tmp = *(int*)quad->arg2->value;
+                printf("irmovl $%d, %%ecx\n", tmp);
+            }
+            else if(quad->arg2->type == 'V')
+            {
+                tmp = memorystart + Env_get_value(variablesOffset, (char*)quad->arg2->value);
+                printf("mrmovl %#04x, %%ecx\n", tmp);
+            }
+            printf("subl %%ecx, %%eax\n");
+            tmp = memorystart+Env_get_value(variablesOffset, quad->destination);
+            printf("rmmovl %%eax, %#04x\n", tmp);
+        break;
+        case Mu:
+            if(quad->arg1->type == 'I')
+            {
+                tmp = *(int*)quad->arg1->value;
+                printf("irmovl $%d, %%ebx\n", tmp);
+            }
+            else if(quad->arg1->type == 'V')
+            {
+                tmp = memorystart + Env_get_value(variablesOffset, (char*)quad->arg1->value);
+                printf("mrmovl %#04x, %%ebx\n", tmp);
+            } 
+            if(quad->arg2->type == 'I')
+            {
+                tmp = *(int*)quad->arg2->value;
+                printf("irmovl $%d, %%ecx\n", tmp);
+            }
+            else if(quad->arg2->type == 'V')
+            {
+                tmp = memorystart + Env_get_value(variablesOffset, (char*)quad->arg2->value);
+                printf("mrmovl %#04x, %%ecx\n", tmp);
+            }
+            printf("irmovl $0, %%edx\n");//somme
+            printf("irmovl $0, %%eax\n");//counter
+            printf("addl %%ebx, %%edx\n");
+            printf("iaddl 1, %%eax\n"); //incrementation counter
+            
+            tmp = memorystart+Env_get_value(variablesOffset, quad->destination);
+            printf("rmmovl %%eax, %#04x\n", tmp);
         break;
     }
 }

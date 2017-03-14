@@ -1,5 +1,5 @@
 #include "Comp_C3A.h"
-
+int loopCounter = 0;
 
 Env* Comp_C3A_declareVariables(struct QuadList* list, int* memoryend)
 {
@@ -12,16 +12,16 @@ Env* Comp_C3A_declareVariables(struct QuadList* list, int* memoryend)
     {
         if( current == 0)
             break;
-        if(current->operation == Afc || current->operation == Af)
+        if(current->operation == Afc || current->operation == Af || current->operation == Pl || current->operation == Mo || current->operation == Mu)
         {
             // On ne teste pas la pré-existence, si la variable change de position c'est pas grave
             Env_set_value(env, current->destination, offset);
-            offset = offset + 1;
+            offset = offset + 4;
         }
         current = current->next;
     }
     while(list->start != list->end && current != 0);
-    *memoryend = offset*4;
+    *memoryend = offset;
     return env;
 }
 
@@ -144,11 +144,15 @@ void Comp_C3A_translate(struct Quad* quad, int memorystart, Env* variablesOffset
             }
             printf("irmovl $0, %%edx\n");//somme
             printf("irmovl $0, %%eax\n");//counter
-            printf("addl %%ebx, %%edx\n");
+            printf("loop%d: addl %%ebx, %%edx\n", loopCounter);
             printf("iaddl 1, %%eax\n"); //incrementation counter
-            
+            printf("pushl %%eax\n");
+            printf("subl %%ecx, %%eax\n");
+            printf("popl %%eax\n");
+            printf("jl loop%d\n", loopCounter);
+            loopCounter = loopCounter + 1;            
             tmp = memorystart+Env_get_value(variablesOffset, quad->destination);
-            printf("rmmovl %%eax, %#04x\n", tmp);
+            printf("rmmovl %%edx, %#04x\n", tmp);
         break;
     }
 }

@@ -27,7 +27,7 @@ struct Variable* Variable_init(int type)
     return var;
 }
 
-void Variable_set(struct Variable* var,int* value)
+void Variable_set(struct Variable* var,int value)
 {
     // Si c'est un int ou un booléen
     if(var->size != 0)
@@ -38,7 +38,7 @@ void Variable_set(struct Variable* var,int* value)
     if(var->value != 0)
         free(var->value);
     var->value = malloc(sizeof(int));
-    *((int*)var->value) = *value; 
+    *((int*)var->value) = value; 
 }
 
 int Variable_get(struct Variable* var)
@@ -132,23 +132,33 @@ void Variable_free(struct Variable* var)
     free(var);
 }
 
-int main()
+/*int main()
 {
     struct Variable* var = Variable_init(INT);
     int a = 10;
     Variable_set(var, &a);
     Variable_print(var);
 
-    struct Variable* var1 = Variable_init(BOOL);
+    struct Variable* var2 = Variable_init(INT);
     a = 100;
-    Variable_set(var1, &a);
-    Variable_print(var1);
+    Variable_set(var2, &a);
+    Variable_print(var2);
 
     int size = ARRAY(1);
+    struct Variable* var1 = Variable_init(size);
+    Variable_arraySet(var1, 0, var);
+    Variable_arraySet(var1, 1, var2);
+    Variable_arraySet(var1, 1, var2);
+    Variable_print(var1);
+
+    size = ARRAY(1);
     printf("size: %d\n", size);
     struct Variable* array = Variable_init(size);
     Variable_arraySet(array, 0, var);
     Variable_arraySet(array, 1, var1);
 
     Variable_print(array);
-}
+    
+
+    
+}*/

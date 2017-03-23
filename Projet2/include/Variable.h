@@ -25,7 +25,7 @@ struct Variable
 struct Variable* Variable_init(int type);
 
 
-void Variable_set(struct Variable* var, int* value);
+void Variable_set(struct Variable* var, int value);
 
 void Variable_arraySet(struct Variable* var, int index, struct Variable* value);
 

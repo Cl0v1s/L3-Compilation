@@ -27,5 +27,5 @@ iimp: iimp/imp.c
 	make comp_c3a
 	cc -o test/iimp iimp/imp.c
 
-test: include/Variable.c
+test: include/Variable.c include/Env.c include/test.c
 	cc -o test/test include/*.c -DDEBUG

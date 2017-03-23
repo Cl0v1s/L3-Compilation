@@ -3,10 +3,11 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 #define INT 0
 #define BOOL 0
-#define ARRAY(size)  ((size) > 0 ? size : -1))
+#define ARRAY(size)  ((size) > 0 ? size : -1)
 
 #define false 0
 #define true 1
@@ -15,7 +16,7 @@ struct Variable
 {
     int size;
     void* value;
-}
+};
 
 /**
 * Initialise une nouvelle variable 
@@ -26,7 +27,13 @@ struct Variable* Variable_init(int type);
 
 void Variable_set(struct Variable* var, int* value);
 
-void Variable_arraySet(struct Variable* var, int index, void* value);
+void Variable_arraySet(struct Variable* var, int index, struct Variable* value);
+
+int Variable_get(struct Variable* var);
+
+struct Variable* Variable_arrayGet(struct Variable* var, int index);
+
+void Variable_print(struct Variable* var);
 
 /**
 * Libère la mémoire associée à une variable 

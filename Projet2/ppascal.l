@@ -10,26 +10,38 @@
 
 %%
 
-"Pl" {return Pl;}
-"Mo" {return Mo;}
-"Mu" {return Mu;}
-"Or" {return Af;}
-"Lt" {return Afc;}
-"Eq" {return Sk;}
-"And" {return Jp;}
-"Not" {return Jz;}
-"true" {return St;}
-"false" {return St;}
-"(" {return Open;}
-")" {return Close;}
- // TODO : Complete with the rest of the syntax. 
-"-" {return Minus;}
-"+" {return Plus;}
+"boolean" { return T_boo; }
+"integer" { return T_int; }
+"defun" { return Def; }
+"defpro" { return Dep; }
+":=" { return Af; }
+"true" { return true; }
+"false" { return false; }
+";" { return Se; }
+"if" { return If; }
+"then" { return Th; }
+"else" { return El; }
+"var" { return Var; }
+"while" { return Wh; }
+"do" { return Do; }
+"+" { return Pl; }
+"-" { return Mo; }
+"*" { return Mu; }
+"and" { return And; }
+"or" { return Or; }
+"not" { return Not; }
+"<=" { return Lt; }
+"=" { return Eq; }
+"(" { return OPar; }
+")" { return CPar; }
+"[" { return OBracket; }
+"]" { return CBracket; }
+"{" { return OBrace; }
+"}" { return CBrace; }
+"," { return Comma; }
+":" { return Colon; }
 
-":" {return Sp;}
-\n {return Se;}
-
-([1-9][0-9]*)|0 {yylval.constant = atoi(yytext);return I; }
+([1-9][0-9]*)|0 { yylval.constant = atoi(yytext); return I; }
 [a-zA-Z_][a-zA-Z0-9_]* { yylval.variable = strdup(yytext); return V; }
 
 [ \t] {;} //Ignore

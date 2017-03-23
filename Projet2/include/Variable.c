@@ -2,7 +2,7 @@
 
 struct Variable* Variable_init(int type)
 {
-    if( type < 0 )
+    if( type == 0 || type < BOOL)
     {
         printf("Invalid type or size.\n");
         exit(-1);
@@ -10,7 +10,7 @@ struct Variable* Variable_init(int type)
 
     struct Variable* var = malloc(sizeof(struct Variable));
     var->size = type;
-    if(var->size == 0)
+    if(var->size < 0)
     {
         var->value = malloc(sizeof(int));
         *(int*)var->value = 0;
@@ -30,7 +30,7 @@ struct Variable* Variable_init(int type)
 void Variable_set(struct Variable* var,int value)
 {
     // Si c'est un int ou un booléen
-    if(var->size != 0)
+    if(var->size <= 0)
     {
         printf("Cant call Variable_set on array.\n");
         exit(-1);
@@ -45,7 +45,7 @@ int Variable_get(struct Variable* var)
 {
     //printf("Getting %p -> %p:\n", var, var->value);
     // Si c'est un int ou un booléen
-    if(var->size != 0)
+    if(var->size > 0)
     {
         printf("Cant call Variable_get on array.\n");
         exit(-1);

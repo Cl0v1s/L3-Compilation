@@ -5,9 +5,9 @@
 #include <stdio.h>
 #include <string.h>
 
-#define INT 0
-#define BOOL 0
-#define ARRAY(size)  ((size) > 0 ? size : -1)
+#define INT -1
+#define BOOL -2
+#define ARRAY(size)  ((size) > 0 ? size : 0)
 
 #define false 0
 #define true 1

@@ -16,6 +16,7 @@ struct Variable
 {
     int size;
     void* value;
+    int item_type;
 };
 
 /**
@@ -24,6 +25,7 @@ struct Variable
 **/
 struct Variable* Variable_init(int type);
 
+void Variable_arraySetType(struct Variable* var, int type);
 
 void Variable_set(struct Variable* var, int value);
 

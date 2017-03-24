@@ -10,6 +10,7 @@ struct Variable* Variable_init(int type)
 
     struct Variable* var = malloc(sizeof(struct Variable));
     var->size = type;
+    var->item_type = 0;
     if(var->size < 0)
     {
         var->value = malloc(sizeof(int));
@@ -25,6 +26,11 @@ struct Variable* Variable_init(int type)
         }
     }
     return var;
+}
+
+void Variable_arraySetType(struct Variable* var, int type)
+{
+	var->item_type = type;
 }
 
 void Variable_set(struct Variable* var,int value)
@@ -61,6 +67,19 @@ void Variable_arraySet(struct Variable* var, int index, struct Variable* value)
         printf("Cant call Variable_arraySet on INT/BOOL.\n");
         exit(-1);
     }
+   	//Si le type des elements est réglé, on vérifie le type de la valeur à insérer
+	if(var->item_type < 0 && value->size != var->item_type)
+	{
+		printf("Wrong type for value to insert\n");
+		exit(-1);
+	}
+	if(var->item_type > 0 && value->size <= 0)
+	{
+		printf("Wrong type for value to insert\n");
+		exit(-1);	
+	}
+   	 
+   
     //Si l'index est inférieur à la taille déjà allouée, on réalloue
     if(index < var->size)
     {

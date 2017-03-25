@@ -37,7 +37,7 @@ struct FuncDisclaimer
 };
 
 // D
-struct Method
+struct Func
 {
     struct FuncDisclaimer* disclaimer;
     struct ArgList* vardisclaimer;
@@ -54,6 +54,6 @@ void ArgList_append(struct ArgList* list, struct Arg* arg);
 
 struct FuncDisclaimer* FuncDisclaimer_init(char* name, struct ArgList* list, struct Type* type);
 
-struct Method* Method_init(struct FuncDisclaimer* disclaimer, struct ArgList* list, struct Ast* ast);
+struct Func* Func_init(struct FuncDisclaimer* disclaimer, struct ArgList* list, struct Ast* ast);
 
 #endif 

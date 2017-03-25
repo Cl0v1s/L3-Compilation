@@ -49,9 +49,9 @@ struct FuncDisclaimer* FuncDisclaimer_init(char* name, struct ArgList* list, str
     return res;
 }
 
-struct Method* Method_init(struct FuncDisclaimer* disclaimer, struct ArgList* list, struct Ast* ast)
+struct Func* Func_init(struct FuncDisclaimer* disclaimer, struct ArgList* list, struct Ast* ast)
 {
-    struct Method* res = malloc(sizeof(struct Method));
+    struct Func* res = malloc(sizeof(struct Func));
     res->disclaimer = disclaimer;
     res->vardisclaimer= list;
     res->ast = ast;

@@ -21,7 +21,7 @@ struct VarDisclaim
 	struct Type* type;
 };
 
-// L_VarDisclaimt
+// L_argt
 struct VarDisclaimList
 {
 	int length;

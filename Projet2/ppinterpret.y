@@ -22,7 +22,7 @@
 
 	%token<identity>V
 	%token<constant>I
-	%token T_boo T_int Def Dep Af true false Se If Th El Var Wh Do Pl Mo Mu And Or Not Lt Eq Opar Cpar OBracket CBracket OBrace CBrace Comma Colon
+	%token T_boo T_int Def Dep Af true false Se If Th El Var Wh Do Pl Mo Mu And Or Not Lt Eq Opar Cpar OBracket CBracket OBrace CBrace Comma Colon TabFunc
 	%start MP
 
   %type<Type> TP

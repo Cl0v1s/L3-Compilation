@@ -3,7 +3,7 @@
 void Env_init(struct Env* env)
 {
     env->keys = malloc(0);
-    int size = ARRAY(1);
+    int size = ARRAY;
     env->values = Variable_init(size);
     env->length = 0;
 }

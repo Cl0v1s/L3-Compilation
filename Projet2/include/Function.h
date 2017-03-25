@@ -1,40 +1,59 @@
 #ifndef FUNCTION_H
 #define FUNCTION_H
 
-#include "Variable.h"
-#include "AST.h"
+#include <stdlib.h>
+#include <string.h>
 
+#include "Env.h"
+#include "Variable.h"
+
+// TP
 struct Type
 {
-	int type;
-	struct Type* child;	
+	int type; // BOOL|INT|ARRAY
+	struct Type* child;
 };
 
-struct Args
-{
-	struct Type** types;
-	int length;	
-};
-
-struct Func
+// Argt
+struct Arg
 {
 	char* name;
-	struct Args* args;
-	struct Ast* ast;
+	struct Type* type;
 };
 
-struct Func* Func_init(char* name, struct Args* args, struct Ast* ast):
+// L_argt
+struct ArgList
+{
+	int length;
+	struct Arg** args;
+};
 
-void Func_exec(struct Func* func, struct Env* env, struct Env* param);
+// D_entf / D_entp (type VOID)
+struct FuncDisclaimer
+{
+	char* name;
+	struct ArgList* args;
+	struct Type* type;
+};
+
+// D
+struct Method
+{
+    struct FuncDisclaimer* disclaimer;
+    struct ArgList* vardisclaimer;
+    struct Ast* ast;
+};
 
 struct Type* Type_init(int type, struct Type* child);
 
-char Type_check(struct Variable* var);
+struct Arg* Arg_init(char* name, struct Type* type);
 
-struct Args* Args_init();
+struct ArgList* ArgList_init();
 
-void Args_add(struct Type* type);
+void ArgList_append(struct ArgList* list, struct Arg* arg);
 
-char Args_check(struct Variable* list);
+struct FuncDisclaimer* FuncDisclaimer_init(char* name, struct ArgList* list, struct Type* type);
+
+struct Method* Method_init(struct FuncDisclaimer* disclaimer, struct ArgList* list, struct Ast* ast);
 
 #endif 

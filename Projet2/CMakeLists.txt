@@ -1,0 +1,18 @@
+cmake_minimum_required(VERSION 2.6)
+#Déclaration du projet
+
+project(Compilation)
+
+
+add_executable(
+
+        build
+
+        include/Env.c
+
+        include/Function.c
+
+        include/Variable.c
+
+        include/test.c
+)

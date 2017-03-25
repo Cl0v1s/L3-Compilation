@@ -7,7 +7,8 @@
 
 #define INT -1
 #define BOOL -2
-#define ARRAY(size)  ((size) > 0 ? size : 0)
+#define VOID 0
+#define ARRAY 1
 
 #define false 0
 #define true 1

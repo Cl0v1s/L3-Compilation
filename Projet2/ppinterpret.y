@@ -1,8 +1,8 @@
 %{
 	#include <stdio.h>
 	#include <string.h>
-	#include "include/Quads.h"
-	#include "include/Comp_C3A.h"
+	#include "include/Function.h"
+	#include "include/Variable.h"
 	#include "include/Env.h"
 
 	int yyerror(char *s);
@@ -11,18 +11,22 @@
 %}
 
 	%union {
-		struct Variable* variable;
-    struct Env* environment;
-    struct Quad* quad;
+		char* identity;
+		int constant;
+        struct Type* type;
+        struct Arg* arg;
+        struct ArgList* argList;
+        struct FuncDisclaimer* func;
+        struct Method* method;
 	}
 
-	%token<variable>V
+	%token<identity>V
 	%token<constant>I
-	%token C Pl Mo Mu Af Sk Jp Jz St Sp Se Minus Plus
-	%start prog
+	%token Pl Mo Mu Af Sk Jp Jz St Sp Se Minus Plus
+	%start MP
 
-	%type<value> F FI
-	%type<list> C
+    %type<Type> TP
+
 
   %left Se
 	%left Pl Mo
@@ -30,13 +34,8 @@
 
 %%
 
-/* Un programme est une suite de déclaration (C) composé de déclaration atomique (C0) */
-prog: C	{
-			// TODO : Appels des fonctions d'interpretation
-	 	}
-    ;
 
-MP: L_vart LD C
+MP: L_vart LD C {}
 
 E: E Pl E
   | E Mo E
@@ -79,11 +78,11 @@ L_argt: %empty
 L_argtnn: Argt
   | L_argtnn Comma Argt
 
-Argt: V Colon TP
+Argt: V Colon TP { $$ = Arg_init($1, $3); }
 
-TP: T_boo
-  | T_int
-  | T_ar TP
+TP: T_boo { $$ = Type_init(BOOL, 0); }
+  | T_int  { $$ = Type_init(INT, 0); }
+  | T_ar TP { $$ = Type_init(ARRAY, $2); }
 
 L_vart: %empty
   | L_vartnn

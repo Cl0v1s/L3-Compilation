@@ -123,6 +123,33 @@ build/fast:
 	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/build
 .PHONY : build/fast
 
+include/Ast.o: include/Ast.c.o
+
+.PHONY : include/Ast.o
+
+# target to build an object file
+include/Ast.c.o:
+	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/include/Ast.c.o
+.PHONY : include/Ast.c.o
+
+include/Ast.i: include/Ast.c.i
+
+.PHONY : include/Ast.i
+
+# target to preprocess a source file
+include/Ast.c.i:
+	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/include/Ast.c.i
+.PHONY : include/Ast.c.i
+
+include/Ast.s: include/Ast.c.s
+
+.PHONY : include/Ast.s
+
+# target to generate assembly for a file
+include/Ast.c.s:
+	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/include/Ast.c.s
+.PHONY : include/Ast.c.s
+
 include/Env.o: include/Env.c.o
 
 .PHONY : include/Env.o
@@ -176,6 +203,60 @@ include/Function.s: include/Function.c.s
 include/Function.c.s:
 	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/include/Function.c.s
 .PHONY : include/Function.c.s
+
+include/Pascal.o: include/Pascal.c.o
+
+.PHONY : include/Pascal.o
+
+# target to build an object file
+include/Pascal.c.o:
+	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/include/Pascal.c.o
+.PHONY : include/Pascal.c.o
+
+include/Pascal.i: include/Pascal.c.i
+
+.PHONY : include/Pascal.i
+
+# target to preprocess a source file
+include/Pascal.c.i:
+	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/include/Pascal.c.i
+.PHONY : include/Pascal.c.i
+
+include/Pascal.s: include/Pascal.c.s
+
+.PHONY : include/Pascal.s
+
+# target to generate assembly for a file
+include/Pascal.c.s:
+	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/include/Pascal.c.s
+.PHONY : include/Pascal.c.s
+
+include/Stack.o: include/Stack.c.o
+
+.PHONY : include/Stack.o
+
+# target to build an object file
+include/Stack.c.o:
+	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/include/Stack.c.o
+.PHONY : include/Stack.c.o
+
+include/Stack.i: include/Stack.c.i
+
+.PHONY : include/Stack.i
+
+# target to preprocess a source file
+include/Stack.c.i:
+	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/include/Stack.c.i
+.PHONY : include/Stack.c.i
+
+include/Stack.s: include/Stack.c.s
+
+.PHONY : include/Stack.s
+
+# target to generate assembly for a file
+include/Stack.c.s:
+	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/include/Stack.c.s
+.PHONY : include/Stack.c.s
 
 include/Variable.o: include/Variable.c.o
 
@@ -240,12 +321,21 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... build"
+	@echo "... include/Ast.o"
+	@echo "... include/Ast.i"
+	@echo "... include/Ast.s"
 	@echo "... include/Env.o"
 	@echo "... include/Env.i"
 	@echo "... include/Env.s"
 	@echo "... include/Function.o"
 	@echo "... include/Function.i"
 	@echo "... include/Function.s"
+	@echo "... include/Pascal.o"
+	@echo "... include/Pascal.i"
+	@echo "... include/Pascal.s"
+	@echo "... include/Stack.o"
+	@echo "... include/Stack.i"
+	@echo "... include/Stack.s"
 	@echo "... include/Variable.o"
 	@echo "... include/Variable.i"
 	@echo "... include/Variable.s"

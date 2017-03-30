@@ -15,4 +15,8 @@ add_executable(
         include/Variable.c
 
         include/test.c
-)
+
+        include/Stack.c
+
+        include/Ast.c
+        include/Pascal.h include/Pascal.c)

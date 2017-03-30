@@ -27,9 +27,19 @@ struct Variable
     struct Type* type;
 };
 
+struct VariableList
+{
+	int size;
+	struct Variable** list;
+};
+
 struct Type* Type_init(int type, struct Type* child);
 
 int Type_check(struct Type* type1, struct Type* type2);
+
+
+struct VariableList* VariableList_init();
+void VariableList_append(struct VariableList* vlist, struct Variable* var);
 
 /**
 * Initialise une nouvelle variable 

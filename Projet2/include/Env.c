@@ -47,18 +47,18 @@ struct Variable* Env_get_value(struct Env* env, char* key)
     return 0;
 }
 
-unsigned long Env* Env_get_key_index(struct Env* env, int index)
+unsigned long Env_get_key_index(struct Env* env, int index)
 {
     if(index >= env->length)
         return 0;
-    return env->keys[i];
+    return env->keys[index];
 }
 
 struct Variable* Env_get_value_index(struct Env* env, int index)
 {
     if(index >= env->length)
         return 0;
-    return env->values[i];
+    return env->values[index];
 }
 
 void Env_add_value_hash(struct Env* env, unsigned long hash, struct Variable* value)

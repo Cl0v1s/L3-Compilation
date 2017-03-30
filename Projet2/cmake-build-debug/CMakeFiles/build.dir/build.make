@@ -153,12 +153,87 @@ CMakeFiles/build.dir/include/test.c.o.provides: CMakeFiles/build.dir/include/tes
 CMakeFiles/build.dir/include/test.c.o.provides.build: CMakeFiles/build.dir/include/test.c.o
 
 
+CMakeFiles/build.dir/include/Stack.c.o: CMakeFiles/build.dir/flags.make
+CMakeFiles/build.dir/include/Stack.c.o: ../include/Stack.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/build.dir/include/Stack.c.o"
+	/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/build.dir/include/Stack.c.o   -c /home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/include/Stack.c
+
+CMakeFiles/build.dir/include/Stack.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/build.dir/include/Stack.c.i"
+	/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/include/Stack.c > CMakeFiles/build.dir/include/Stack.c.i
+
+CMakeFiles/build.dir/include/Stack.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/build.dir/include/Stack.c.s"
+	/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/include/Stack.c -o CMakeFiles/build.dir/include/Stack.c.s
+
+CMakeFiles/build.dir/include/Stack.c.o.requires:
+
+.PHONY : CMakeFiles/build.dir/include/Stack.c.o.requires
+
+CMakeFiles/build.dir/include/Stack.c.o.provides: CMakeFiles/build.dir/include/Stack.c.o.requires
+	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/include/Stack.c.o.provides.build
+.PHONY : CMakeFiles/build.dir/include/Stack.c.o.provides
+
+CMakeFiles/build.dir/include/Stack.c.o.provides.build: CMakeFiles/build.dir/include/Stack.c.o
+
+
+CMakeFiles/build.dir/include/Ast.c.o: CMakeFiles/build.dir/flags.make
+CMakeFiles/build.dir/include/Ast.c.o: ../include/Ast.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object CMakeFiles/build.dir/include/Ast.c.o"
+	/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/build.dir/include/Ast.c.o   -c /home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/include/Ast.c
+
+CMakeFiles/build.dir/include/Ast.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/build.dir/include/Ast.c.i"
+	/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/include/Ast.c > CMakeFiles/build.dir/include/Ast.c.i
+
+CMakeFiles/build.dir/include/Ast.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/build.dir/include/Ast.c.s"
+	/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/include/Ast.c -o CMakeFiles/build.dir/include/Ast.c.s
+
+CMakeFiles/build.dir/include/Ast.c.o.requires:
+
+.PHONY : CMakeFiles/build.dir/include/Ast.c.o.requires
+
+CMakeFiles/build.dir/include/Ast.c.o.provides: CMakeFiles/build.dir/include/Ast.c.o.requires
+	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/include/Ast.c.o.provides.build
+.PHONY : CMakeFiles/build.dir/include/Ast.c.o.provides
+
+CMakeFiles/build.dir/include/Ast.c.o.provides.build: CMakeFiles/build.dir/include/Ast.c.o
+
+
+CMakeFiles/build.dir/include/Pascal.c.o: CMakeFiles/build.dir/flags.make
+CMakeFiles/build.dir/include/Pascal.c.o: ../include/Pascal.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building C object CMakeFiles/build.dir/include/Pascal.c.o"
+	/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/build.dir/include/Pascal.c.o   -c /home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/include/Pascal.c
+
+CMakeFiles/build.dir/include/Pascal.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/build.dir/include/Pascal.c.i"
+	/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/include/Pascal.c > CMakeFiles/build.dir/include/Pascal.c.i
+
+CMakeFiles/build.dir/include/Pascal.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/build.dir/include/Pascal.c.s"
+	/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/include/Pascal.c -o CMakeFiles/build.dir/include/Pascal.c.s
+
+CMakeFiles/build.dir/include/Pascal.c.o.requires:
+
+.PHONY : CMakeFiles/build.dir/include/Pascal.c.o.requires
+
+CMakeFiles/build.dir/include/Pascal.c.o.provides: CMakeFiles/build.dir/include/Pascal.c.o.requires
+	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/include/Pascal.c.o.provides.build
+.PHONY : CMakeFiles/build.dir/include/Pascal.c.o.provides
+
+CMakeFiles/build.dir/include/Pascal.c.o.provides.build: CMakeFiles/build.dir/include/Pascal.c.o
+
+
 # Object files for target build
 build_OBJECTS = \
 "CMakeFiles/build.dir/include/Env.c.o" \
 "CMakeFiles/build.dir/include/Function.c.o" \
 "CMakeFiles/build.dir/include/Variable.c.o" \
-"CMakeFiles/build.dir/include/test.c.o"
+"CMakeFiles/build.dir/include/test.c.o" \
+"CMakeFiles/build.dir/include/Stack.c.o" \
+"CMakeFiles/build.dir/include/Ast.c.o" \
+"CMakeFiles/build.dir/include/Pascal.c.o"
 
 # External object files for target build
 build_EXTERNAL_OBJECTS =
@@ -167,9 +242,12 @@ build: CMakeFiles/build.dir/include/Env.c.o
 build: CMakeFiles/build.dir/include/Function.c.o
 build: CMakeFiles/build.dir/include/Variable.c.o
 build: CMakeFiles/build.dir/include/test.c.o
+build: CMakeFiles/build.dir/include/Stack.c.o
+build: CMakeFiles/build.dir/include/Ast.c.o
+build: CMakeFiles/build.dir/include/Pascal.c.o
 build: CMakeFiles/build.dir/build.make
 build: CMakeFiles/build.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking C executable build"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking C executable build"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/build.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -181,6 +259,9 @@ CMakeFiles/build.dir/requires: CMakeFiles/build.dir/include/Env.c.o.requires
 CMakeFiles/build.dir/requires: CMakeFiles/build.dir/include/Function.c.o.requires
 CMakeFiles/build.dir/requires: CMakeFiles/build.dir/include/Variable.c.o.requires
 CMakeFiles/build.dir/requires: CMakeFiles/build.dir/include/test.c.o.requires
+CMakeFiles/build.dir/requires: CMakeFiles/build.dir/include/Stack.c.o.requires
+CMakeFiles/build.dir/requires: CMakeFiles/build.dir/include/Ast.c.o.requires
+CMakeFiles/build.dir/requires: CMakeFiles/build.dir/include/Pascal.c.o.requires
 
 .PHONY : CMakeFiles/build.dir/requires
 

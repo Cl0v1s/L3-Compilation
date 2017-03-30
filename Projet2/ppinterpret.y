@@ -4,7 +4,8 @@
 	#include "include/Function.h"
 	#include "include/Variable.h"
 	#include "include/Env.h"
-  #include "include/AST.h"
+    #include "include/AST.h"
+    #include "include/Pascal.h"
 
 	int yyerror(char *s);
 	int yylex();
@@ -37,7 +38,8 @@
   %type<funcDisc> D_entf D_entp
   %type<function> D
   %type<functions> LD
-  %type<ast> E Et C
+  %type<ast> E Et C L_argsnn L_args
+
 
   %left Se
 	%left Pl Mo
@@ -46,42 +48,44 @@
 %%
 
 
-MP: L_vart LD C {}
+MP: L_vart LD C {
+    Pascal_run($1, $2, $3);
+}
 
-E: E Pl E {}
-  | E Mo E {}
-  | E Mu E {}
-  | E Or E {}
-  | E Lt E {}
-  | E Eq E {}
-  | E And E {}
-  | Not E {}
-  | OPar E CPar {}
-  | I {}
-  | V {}
-  | True {}
-  | False {}
-  | V OPar L_args CPar {}
-  | NewAr TP OBracket E CBracket {}
-  | Et {}
+E: E Pl E { $$ = Ast_init('E', Pl, $1, $3); }
+  | E Mo E { $$ = Ast_init('E', Mo, $1, $3); }
+  | E Mu E { $$ = Ast_init('E', Mu, $1, $3); }
+  | E Or E { $$ = Ast_init('E', Or, $1, $3); }
+  | E Lt E { $$ = Ast_init('E', Lt, $1, $3); }
+  | E Eq E { $$ = Ast_init('E', Eq, $1, $3); }
+  | E And E { $$ = Ast_init('E', And, $1, $3); }
+  | Not E { $$ = Ast_init('E', Not, $3, 0); }
+  | OPar E CPar { $$ = $2; }
+  | I { $$ = Ast_init_leaf('I', $1); }
+  | V { $$ = Ast_init_leaf('V', $1); }
+  | True { $$ = Ast_init_leaf('B', true); }
+  | False { $$ = Ast_init_leaf('B', false); }
+  | V OPar L_args CPar { $$ = Ast_init('E', callFUNC, Ast_init_leaf('V', $1), $3); }
+  | NewAr TP OBracket E CBracket { $$ = Ast_init('E', NewAr, Ast_init_leaf('T', $2), $4); }
+  | Et { $$=$1; }
 
-Et: V OBracket E CBracket {}
-  | Et OBracket E CBracket {}
+Et: V OBracket E CBracket { $$ = Ast_init('E', getARR, Ast_init_leaf('V', $1), $3); }
+  | Et OBracket E CBracket { $$ = Ast_init('E', getARR, $1, $3); }
 
-C: C Se C {}
-  | Et Af E {}
-  | V Af E {}
-  | Sk {}
-  | OBrace C CBrace {}
-  | If E Th C El C {}
-  | Wh E Do C {}
-  | V OPar L_args CPar {}
+C: C Se C { $$ = Ast_init('C', Se, $1, $3);}
+  | Et Af E { $$ = Ast_init('C', Af, $1, $3); }
+  | V Af E { $$ = Ast_init('C', Af, $1, $3); }
+  | Sk { $$ = Ast_init('C', Sk, 0,0); }
+  | OBrace C CBrace { $$ = $2; }
+  | If E Th C El C { $$ = Ast_init('C', If, $1, Ast_init('C', El, $4, $6));}
+  | Wh E Do C { $$ = Ast_init('C', Wh, $2, $3); }
+  | V OPar L_args CPar { $$ = Ast_init('C', callFUNC, Ast_init_leaf('V', $1), $3); }
 
-L_args: %empty {}
-  | L_argsnn {}
+L_args: %empty { $$ = Ast_init('L', 0, 0, 0); }
+  | L_argsnn { $$ = $1;}
 
-L_argsnn: E {}
-  | E Comma L_argsnn {}
+L_argsnn: E { $$ = $1; }
+  | E Comma L_argsnn { $$ = Ast_init('L', 0, $1, $3); }
 
 L_argt: %empty { $$ = Env_init(); }
   | L_argtnn { $$ = $1;}

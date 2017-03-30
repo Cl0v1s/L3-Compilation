@@ -24,6 +24,25 @@ int Type_check(struct Type* type1, struct Type* type2)
     return true;
 }
 
+struct VariableList* VariableList_init()
+{
+    struct VariableList* res = malloc(sizeof(struct VariableList));
+    res->size = 0;
+    res->list = malloc(0);
+}
+
+void VariableList_append(struct VariableList* vlist, struct Variable* var)
+{
+    int size = vlist->size + 1;
+    struct Variable** newVars = malloc(size*sizeof(struct Variable*));
+    memcpy(newVars, vlist->list, vlist->size*sizeof(struct Variable*));
+    newVars[vlist->size] = var;
+    free(vlist->list);
+    vlist->list = newVars;
+    vlist->size = size;
+}
+
+
 
 struct Variable* Variable_init(struct Type* type)
 {

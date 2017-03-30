@@ -14,7 +14,7 @@ L_vart
 struct Env
 {
     unsigned long *keys;
-    struct Variable* values;
+    struct Variable** values;
     int length;
 };
 
@@ -62,7 +62,7 @@ void Env_set_value(struct Env* env, char* key, struct Variable* value);
 
 struct Env* Env_concat(struct Env* env1, struct Env* env2);
 
-unsigned long Env* Env_get_key_index(struct Env* env, int index);
+unsigned long Env_get_key_index(struct Env* env, int index);
 
 struct Variable* Env_get_value_index(struct Env* env, int index);
 

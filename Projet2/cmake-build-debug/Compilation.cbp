@@ -84,6 +84,12 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/include/Ast.c">
+			<Option target="build"/>
+		</Unit>
+		<Unit filename="/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/include/Ast.h">
+			<Option target="build"/>
+		</Unit>
 		<Unit filename="/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/include/Env.c">
 			<Option target="build"/>
 		</Unit>
@@ -94,6 +100,18 @@
 			<Option target="build"/>
 		</Unit>
 		<Unit filename="/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/include/Function.h">
+			<Option target="build"/>
+		</Unit>
+		<Unit filename="/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/include/Pascal.c">
+			<Option target="build"/>
+		</Unit>
+		<Unit filename="/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/include/Pascal.h">
+			<Option target="build"/>
+		</Unit>
+		<Unit filename="/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/include/Stack.c">
+			<Option target="build"/>
+		</Unit>
+		<Unit filename="/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/include/Stack.h">
 			<Option target="build"/>
 		</Unit>
 		<Unit filename="/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/include/Variable.c">

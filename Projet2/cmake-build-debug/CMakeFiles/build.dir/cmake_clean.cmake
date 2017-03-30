@@ -3,6 +3,9 @@ file(REMOVE_RECURSE
   "CMakeFiles/build.dir/include/Function.c.o"
   "CMakeFiles/build.dir/include/Variable.c.o"
   "CMakeFiles/build.dir/include/test.c.o"
+  "CMakeFiles/build.dir/include/Stack.c.o"
+  "CMakeFiles/build.dir/include/Ast.c.o"
+  "CMakeFiles/build.dir/include/Pascal.c.o"
   "build.pdb"
   "build"
 )

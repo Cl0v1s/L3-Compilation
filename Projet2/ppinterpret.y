@@ -4,6 +4,7 @@
 	#include "include/Function.h"
 	#include "include/Variable.h"
 	#include "include/Env.h"
+  #include "include/AST.h"
 
 	int yyerror(char *s);
 	int yylex();
@@ -18,20 +19,25 @@
         struct Env* env;
         struct FuncDisclaimer* funcDisc;
         struct Func* function;
+        struct FuncList* functions;
+        struct Ast*  ast;
 	}
 
 	%token<identity>V
 	%token<constant>I
 	%token NFon NPro NewAr Sk T_ar T_boo T_int Def Dep Af True False Se If Th El Var Wh Do Pl Mo Mu And Or Not Lt Eq OPar CPar OBracket CBracket OBrace CBrace Comma Colon SpaceTab
+
 	%start MP
 
 
+  %type<ast> C
   %type<type> TP
-  %type<variable> Argt
-  %type<env> L_vart L_argt L_argtnn
+
+  %type<env> L_argt L_argtnn Argt
   %type<funcDisc> D_entf D_entp
   %type<function> D
-
+  %type<functions> LD
+  %type<ast> E Et C
 
   %left Se
 	%left Pl Mo
@@ -77,33 +83,33 @@ L_args: %empty {}
 L_argsnn: E {}
   | E Comma L_argsnn {}
 
-L_argt: %empty { $$ = VarDisclaimList_init();}
+L_argt: %empty { $$ = Env_init(); }
   | L_argtnn { $$ = $1;}
 
-L_argtnn: Argt { $$ = Env_init();}
-  | L_argtnn Comma Argt { $$ = $1; VarDisclaimList_append($$, $3); }
+L_argtnn: Argt { $$ = $1;}
+  | L_argtnn Comma Argt { $$ = Env_concat($1, $3); }
 
-Argt: V Colon TP { $$ = VarDisclaim_init($1, $3); }
+Argt: V Colon TP { $$ = Env_init(); Env_set_value($$, $1,Variable_init($3)); }
 
 TP: T_boo { $$ = Type_init(BOOL, 0); }
   | T_int  { $$ = Type_init(INT, 0); }
   | T_ar TP { $$ = Type_init(ARRAY, $2); }
 
-L_vart: %empty {  $$ = VarDisclaimList_init(); }
+L_vart: %empty {  $$ = Env_init(); }
   | L_vartnn { $$ = $1;}
 
-L_vartnn: Var Argt { $$ = VarDisclaimList_init(); VarDisclaimList_append($$, $2); }
-  | L_vartnn Comma Var Argt { $$ = $1; VarDisclaimList_append($$, $4); }
+L_vartnn: Var Argt { $$ = $1; }
+  | L_vartnn Comma Var Argt { $$ = Env_concat($1, $4); }
 
-D_entp: Dep NPro OPar L_argt CPar {}
+D_entp: Dep V OPar L_argt CPar { $$ = FuncDisclaimer_init($2, $4, Type_init(VOID, 0)); }
 
-D_entf: Def NFon OPar L_argt CPar Colon TP {}
+D_entf: Def V OPar L_argt CPar Colon TP { $$ = FuncDisclaimer_init($2, $4, $7); }
 
-D: D_entp L_vart C {}
-  | D_entf L_vart C {}
+D: D_entp L_vart C { $$ = Func_init( $1, $2, $3); }
+  | D_entf L_vart C { $$ = Func_init( $1, $2, $3); }
 
-LD: %empty {}
-  | LD D {}
+LD: %empty { $$ = FuncList_init(); }
+  | LD D { $$ = $1; FuncList_append($$, $1); }
 
 %%
 

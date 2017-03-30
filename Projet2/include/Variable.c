@@ -8,7 +8,7 @@ struct Type* Type_init(int type, struct Type* child)
     {
         res->child = 0;
     }
-    else 
+    else
         res->child = child;
     return res;
 }
@@ -66,7 +66,7 @@ void Variable_set(struct Variable* var,int value)
     if(var->value != 0)
         free(var->value);
     var->value = malloc(sizeof(int));
-    *((int*)var->value) = value; 
+    *((int*)var->value) = value;
 }
 
 int Variable_get(struct Variable* var)
@@ -78,7 +78,7 @@ int Variable_get(struct Variable* var)
         printf("Cant call Variable_get on array.\n");
         exit(-1);
     }
-    return *((int*)var->value); 
+    return *((int*)var->value);
 }
 
 void Variable_arraySet(struct Variable* var, int index, struct Variable* value)
@@ -93,16 +93,16 @@ void Variable_arraySet(struct Variable* var, int index, struct Variable* value)
     if(Type_check(var->type->child, value->type) == false)
     {
         printf("Cant insert, wrong var type\n");
-        exit(-1);       
+        exit(-1);
     }
-   	 
-   
-    //Si l'index est inférieur à la taille déjà allouée, on réalloue
+
+
+    //Si l'index est supérieur à la taille déjà allouée, on réalloue
     if(index < var->size)
     {
         ((struct Variable**)var->value)[index] = value;
     }
-    else 
+    else
     {
         struct Variable** tab;
         tab = malloc((index+1)*sizeof(struct Variable*));
@@ -111,23 +111,23 @@ void Variable_arraySet(struct Variable* var, int index, struct Variable* value)
         var->size = index+1;
         tab[index] = value;
         var->value = tab;
-        
+
     }
 }
 
-struct Variable* Variable_arrayGet(struct Variable* var, int index)
+struct Variable* Variable_arrayGet(struct Variable* tab, struct Stack* sta, int index)
 {
-    if(var->type->type != ARRAY)
+    if(tab->type->type != ARRAY)
     {
         printf("Cant call Variable_arrayGet on INT/BOOL.\n");
-        exit(-1);  
+        exit(-1);
     }
-    if(index >= var->size)
+    if(index >= tab->size)
     {
         printf("Index out of range.\n");
-        exit(-1); 
+        exit(-1);
     }
-    return ((struct Variable**)var->value)[index];
+    return ((struct Variable*)sta[tab->value + index];
 }
 
 void Variable_print(struct Variable* var)
@@ -140,14 +140,14 @@ void Variable_print(struct Variable* var)
     {
         printf("[\n");
         struct Variable** tab = (struct Variable**)var->value;
-        
+
         for(int i = 0; i!= var->size; i++)
         {
             if(tab[i] == 0)
                 continue;
             Variable_print(tab[i]);
         }
-        printf("]\n");       
+        printf("]\n");
     }
 }
 
@@ -163,7 +163,7 @@ void Variable_free(struct Variable* var)
         }
 
     }
-    else 
+    else
         free(var->value);
     free(var);
 }
@@ -194,7 +194,7 @@ void Variable_free(struct Variable* var)
     Variable_arraySet(array, 1, var1);
 
     Variable_print(array);
-    
 
-    
+
+
 }*/

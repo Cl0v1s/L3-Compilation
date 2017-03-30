@@ -1,11 +1,12 @@
 #ifndef STACK_H
 #define STACK_H
+#include <stdlib.h>
 
 struct Stack
 {
-    struct Variable* values;
-    int length;
-}
+    struct Variable** vars;
+    int size;
+};
 
 struct Stack* Stack_init();
 

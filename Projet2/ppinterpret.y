@@ -22,16 +22,16 @@
 
 	%token<identity>V
 	%token<constant>I
-	%token NFon NPro NewAr Sk T_ar T_boo T_int Def Dep Af true false Se If Th El Var Wh Do Pl Mo Mu And Or Not Lt Eq OPar CPar OBracket CBracket OBrace CBrace Comma Colon SpaceTab
+	%token NFon NPro NewAr Sk T_ar T_boo T_int Def Dep Af True False Se If Th El Var Wh Do Pl Mo Mu And Or Not Lt Eq OPar CPar OBracket CBracket OBrace CBrace Comma Colon SpaceTab
 	%start MP
 
 
   %type<type> TP
   %type<variable> Argt
-  %type<env> L_argt L_argtnn
+  %type<env> L_vart L_argt L_argtnn
   %type<funcDisc> D_entf D_entp
   %type<function> D
-  
+
 
   %left Se
 	%left Pl Mo
@@ -66,7 +66,7 @@ C: C Se C {}
   | Et Af E {}
   | V Af E {}
   | Sk {}
-  | OBrace C CBrace {} 
+  | OBrace C CBrace {}
   | If E Th C El C {}
   | Wh E Do C {}
   | V OPar L_args CPar {}
@@ -80,7 +80,7 @@ L_argsnn: E {}
 L_argt: %empty { $$ = VarDisclaimList_init();}
   | L_argtnn { $$ = $1;}
 
-L_argtnn: Argt { $$ = VarDisclaimList_init(); VarDisclaimList_append($$, $1);}
+L_argtnn: Argt { $$ = Env_init();}
   | L_argtnn Comma Argt { $$ = $1; VarDisclaimList_append($$, $3); }
 
 Argt: V Colon TP { $$ = VarDisclaim_init($1, $3); }

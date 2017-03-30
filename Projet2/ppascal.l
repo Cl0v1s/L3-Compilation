@@ -16,8 +16,8 @@
 "defun" { return Def; }
 "defpro" { return Dep; }
 ":=" { return Af; }
-"true" { return true; }
-"false" { return false; }
+"true" { return True; }
+"false" { return False; }
 ";" { return Se; }
 "if" { return If; }
 "then" { return Th; }

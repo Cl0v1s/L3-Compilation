@@ -14,12 +14,10 @@
 		char* identity;
 		int constant;
         struct Type* type;
-        struct Arg* arg;
-        struct ArgList* argList;
+        struct Variable* variable;
+        struct Env* env;
         struct FuncDisclaimer* funcDisc;
         struct Func* function;
-        struct Method* method;
-        struct VarDisclaimList* varDiscList; 
 	}
 
 	%token<identity>V
@@ -27,12 +25,13 @@
 	%token NFon NPro NewAr Sk T_ar T_boo T_int Def Dep Af true false Se If Th El Var Wh Do Pl Mo Mu And Or Not Lt Eq OPar CPar OBracket CBracket OBrace CBrace Comma Colon SpaceTab
 	%start MP
 
+
   %type<type> TP
-  %type<varDiscList> L_argt
+  %type<variable> Argt
+  %type<env> L_argt L_argtnn
   %type<funcDisc> D_entf D_entp
   %type<function> D
   
-  %type<arg> Argt
 
   %left Se
 	%left Pl Mo
@@ -54,8 +53,8 @@ E: E Pl E {}
   | OPar E CPar {}
   | I {}
   | V {}
-  | true {}
-  | false {}
+  | True {}
+  | False {}
   | V OPar L_args CPar {}
   | NewAr TP OBracket E CBracket {}
   | Et {}
@@ -78,23 +77,23 @@ L_args: %empty {}
 L_argsnn: E {}
   | E Comma L_argsnn {}
 
-L_argt: %empty {}
-  | L_argtnn {}
+L_argt: %empty { $$ = VarDisclaimList_init();}
+  | L_argtnn { $$ = $1;}
 
-L_argtnn: Argt {}
-  | L_argtnn Comma Argt {}
+L_argtnn: Argt { $$ = VarDisclaimList_init(); VarDisclaimList_append($$, $1);}
+  | L_argtnn Comma Argt { $$ = $1; VarDisclaimList_append($$, $3); }
 
-Argt: V Colon TP { $$ = Arg_init($1, $3); }
+Argt: V Colon TP { $$ = VarDisclaim_init($1, $3); }
 
 TP: T_boo { $$ = Type_init(BOOL, 0); }
   | T_int  { $$ = Type_init(INT, 0); }
   | T_ar TP { $$ = Type_init(ARRAY, $2); }
 
-L_vart: %empty {}
-  | L_vartnn {}
+L_vart: %empty {  $$ = VarDisclaimList_init(); }
+  | L_vartnn { $$ = $1;}
 
-L_vartnn: Var Argt {}
-  | L_vartnn Comma Var Argt {}
+L_vartnn: Var Argt { $$ = VarDisclaimList_init(); VarDisclaimList_append($$, $2); }
+  | L_vartnn Comma Var Argt { $$ = $1; VarDisclaimList_append($$, $4); }
 
 D_entp: Dep NPro OPar L_argt CPar {}
 

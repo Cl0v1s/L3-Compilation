@@ -1,42 +1,64 @@
 #include "Variable.h"
 
-struct Variable* Variable_init(int type)
+struct Type* Type_init(int type, struct Type* child)
 {
-    if( type == 0 || type < BOOL)
+    struct Type* res = malloc(sizeof(struct Type));
+    res->type = type;
+    if(type == INT || type == BOOL)
+    {
+        res->child = 0;
+    }
+    else 
+        res->child = child;
+    return res;
+}
+
+int Type_check(struct Type* type1, struct Type* type2)
+{
+    if(type1 == VOID)
+        return true;
+    if(type1->type != type2->type)
+        return false;
+    if(type1->type == ARRAY)
+        return Type_check(type1->child, type2->child);
+    return true;
+}
+
+
+struct Variable* Variable_init(struct Type* type)
+{
+    if( type == 0 )
     {
         printf("Invalid type or size.\n");
         exit(-1);
     }
 
     struct Variable* var = malloc(sizeof(struct Variable));
-    var->size = type;
-    var->item_type = 0;
-    if(var->size < 0)
+    var->type = type;
+    if(var->type->type == INT || var->type->type == BOOL)
     {
         var->value = malloc(sizeof(int));
         *(int*)var->value = 0;
+        var->size = 0;
     }
     // Si c'est un tableau on initialize le tableau de pointeurs de structures
-    if(var->size > 0)
+    if(var->type->type == ARRAY)
     {
-        var->value = malloc(var->size*sizeof(struct Variable**));
-        for(int i = 0; i != var->size; i++)
-        {
-            ((struct Variable**)var->value)[i] = 0;
-        }
+        var->size = 0;
+        var->value = malloc(var->size*sizeof(struct Variable*));
     }
     return var;
 }
 
-void Variable_arraySetType(struct Variable* var, int type)
+void Variable_arraySetType(struct Variable* var, struct Type* type)
 {
-	var->item_type = type;
+	var->type = type;
 }
 
 void Variable_set(struct Variable* var,int value)
 {
     // Si c'est un int ou un booléen
-    if(var->size <= 0)
+    if(var->type->type == ARRAY)
     {
         printf("Cant call Variable_set on array.\n");
         exit(-1);
@@ -51,7 +73,7 @@ int Variable_get(struct Variable* var)
 {
     //printf("Getting %p -> %p:\n", var, var->value);
     // Si c'est un int ou un booléen
-    if(var->size > 0)
+    if(var->type->type == ARRAY)
     {
         printf("Cant call Variable_get on array.\n");
         exit(-1);
@@ -62,22 +84,17 @@ int Variable_get(struct Variable* var)
 void Variable_arraySet(struct Variable* var, int index, struct Variable* value)
 {
     // Si c'est tableau
-    if(var->size <= 0)
+    if(var->type->type != ARRAY)
     {
         printf("Cant call Variable_arraySet on INT/BOOL.\n");
         exit(-1);
     }
    	//Si le type des elements est réglé, on vérifie le type de la valeur à insérer
-	if(var->item_type < 0 && value->size != var->item_type)
-	{
-		printf("Wrong type for value to insert\n");
-		exit(-1);
-	}
-	if(var->item_type > 0 && value->size <= 0)
-	{
-		printf("Wrong type for value to insert\n");
-		exit(-1);	
-	}
+    if(Type_check(var->type->child, value->type) == false)
+    {
+        printf("Cant insert, wrong var type\n");
+        exit(-1);       
+    }
    	 
    
     //Si l'index est inférieur à la taille déjà allouée, on réalloue
@@ -88,8 +105,8 @@ void Variable_arraySet(struct Variable* var, int index, struct Variable* value)
     else 
     {
         struct Variable** tab;
-        tab = malloc((index+1)*sizeof(struct Variable**));
-        memcpy(tab, var->value, var->size*sizeof(struct Variable**));
+        tab = malloc((index+1)*sizeof(struct Variable*));
+        memcpy(tab, var->value, var->size*sizeof(struct Variable*));
         free(var->value);
         var->size = index+1;
         tab[index] = value;
@@ -100,7 +117,7 @@ void Variable_arraySet(struct Variable* var, int index, struct Variable* value)
 
 struct Variable* Variable_arrayGet(struct Variable* var, int index)
 {
-    if(var->size <= 0)
+    if(var->type->type != ARRAY)
     {
         printf("Cant call Variable_arrayGet on INT/BOOL.\n");
         exit(-1);  

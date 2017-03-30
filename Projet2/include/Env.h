@@ -24,7 +24,7 @@ unsigned long Env_hash(char *str);
 * Initialise un nouvel Environnement
 * env : Environnement à initialiser
 */
-void Env_init(struct Env* env);
+struct Env* Env_init();
 /**
 * Affiche un environnement 
 * env : environnement à afficher
@@ -59,5 +59,13 @@ struct Variable* Env_get_value(struct Env* env, char* key);
 * value: valeur 
 */
 void Env_set_value(struct Env* env, char* key, struct Variable* value);
+
+struct Env* Env_concat(struct Env* env1, struct Env* env2);
+
+unsigned long Env*_get_key_index(struct Env* env, int index);
+
+struct Variable* Env_get_value_index(struct Env* env, int index);
+
+void Env_add_value_hash(struct Env* env, unsigned long hash, struct Variable* value);
 
 #endif

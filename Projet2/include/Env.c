@@ -5,7 +5,7 @@ struct Env* Env_init()
     struct Env* env = malloc(sizeof(struct Env));
     env->keys = malloc(0);
     int size = ARRAY;
-    env->values = Variable_init(size);
+    env->values = malloc(0);
     env->length = 0;
     return env;
 }
@@ -41,13 +41,13 @@ struct Variable* Env_get_value(struct Env* env, char* key)
     {
         if(env->keys[i] == hash)
         {
-            return Variable_arrayGet(env->values, i);
+            return env->values[i];
         }
     }   
     return 0;
 }
 
-unsigned long Env*_get_key_index(struct Env* env, int index)
+unsigned long Env* Env_get_key_index(struct Env* env, int index)
 {
     if(index >= env->length)
         return 0;
@@ -58,7 +58,7 @@ struct Variable* Env_get_value_index(struct Env* env, int index)
 {
     if(index >= env->length)
         return 0;
-    return Variable_arrayGet(env->values, i);
+    return env->values[i];
 }
 
 void Env_add_value_hash(struct Env* env, unsigned long hash, struct Variable* value)
@@ -69,7 +69,11 @@ void Env_add_value_hash(struct Env* env, unsigned long hash, struct Variable* va
     free(env->keys);
     env->keys = keys;
 
-    Variable_arraySet(env->values, env->length, value);
+    struct Variable** values = malloc((env->length+1)*sizeof(struct Variable*));
+    memcpy(values, env->values, (env->length)*sizeof(struct Variable*));
+    values[env->length] = value;
+    free(env->values);
+    env->values = values;
 
     env->length++;
     #ifdef DEBUG
@@ -88,7 +92,11 @@ void Env_add_value(struct Env* env, char* key, struct Variable* value)
     free(env->keys);
     env->keys = keys;
 
-    Variable_arraySet(env->values, env->length, value);
+    struct Variable** values = malloc((env->length+1)*sizeof(struct Variable*));
+    memcpy(values, env->values, (env->length)*sizeof(struct Variable*));
+    values[env->length] = value;
+    free(env->values);
+    env->values = values;
 
     env->length++;
     #ifdef DEBUG
@@ -109,7 +117,7 @@ void Env_set_value(struct Env* env, char*key, struct Variable* value)
     {
         if(env->keys[i] == hash)
         {
-            Variable_arraySet(env->values, i, value);
+            env->values[i] = value;
             #ifdef DEBUG
                 printf("%s : (%lu <- %p)\n",key,  hash, value);
             #endif            
@@ -129,11 +137,29 @@ unsigned long Env_hash(char *str)
     return hash;
 }
 
+void Env_free(struct Env* env)
+{
+    free(env->keys);
+    free(env->values);
+    free(env);
+}
+
 struct Env* Env_concat(struct Env* env1, struct Env* env2)
 {
     struct Env* res = Env_init();
     for(int i = 0; i != env1->length; i++)
     {
-        Env_
+        unsigned long key = Env_get_key_index(env1, i);
+        struct Variable* value = Env_get_value_index(env1, i);
+        Env_add_value_hash(res, key, value);
     }
+    for(int i = 0; i != env1->length; i++)
+    {
+        unsigned long key = Env_get_key_index(env1, i);
+        struct Variable* value = Env_get_value_index(env1, i);
+        Env_add_value_hash(res, key, value);
+    }
+    Env_free(env1);
+    Env_free(env2);
+    return res;
 }

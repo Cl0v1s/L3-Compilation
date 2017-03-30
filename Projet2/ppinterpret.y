@@ -4,6 +4,7 @@
 	#include "include/Function.h"
 	#include "include/Variable.h"
 	#include "include/Env.h"
+  #include "include/AST.h"
 
 	int yyerror(char *s);
 	int yylex();
@@ -34,6 +35,7 @@
   %type<funcDisc> D_entf D_entp
   %type<function> D
   %type<functions> LD
+  %type<ast> E Et C
 
   
 

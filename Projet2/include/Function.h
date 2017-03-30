@@ -25,8 +25,16 @@ struct Func
     struct Ast* ast;
 };
 
+struct FuncList
+{
+	struct Func** list;
+	int length;
+}
 
 
+struct FuncList* FuncList_init();
+
+void FuncList_append(struct FuncList* funcs, struct Func* func);
 
 struct FuncDisclaimer* FuncDisclaimer_init(char* name, struct Env* args, struct Type* type);
 

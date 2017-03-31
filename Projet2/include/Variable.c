@@ -135,7 +135,25 @@ void Variable_arraySet(struct Variable* var, int index, struct Variable* value)
 }
 
 // TODO : La version que je pense, après à toi de voir ?
-void Variable_arraySet2(struct Variable* array, struct Variable* values, struct Stack* stack, int index){
+void Variable_arraySet2(struct Variable* array, struct Variable* value, struct Stack* stack, int index){
+    // S'il s'agit d'un tableau
+    if(array->type->type != ARRAY){
+        printf("Can't call Variable_arraySet on INT/BOOL.\n");
+    }
+
+    // Si l'on veut set un élément de type correct
+    if(Type_check(array->type->child, value->type) == false){
+        printf("Can't set, wrong var type.\n");
+        exit(-1);
+    }
+    else {
+        // L'allocation doit être effectuée au moment du push, pas d'allocation dynamique dans le tas pour un tableau spécifique, trop compliqué
+        Stack_setVariable(stack, value, *(int*)array->value + index);
+    }
+}
+
+// TODO : On aura besoin de push un tableau vide de values dans le stack du coup
+void Variable_arrayInit(struct Variable* array, struct Variable* values, struct Stack* stack){
     // Si c'est un tableau
     if(array->type->type != ARRAY){
         printf("Can't call Variable_arraySet on INT/BOOL.\n");
@@ -151,14 +169,16 @@ void Variable_arraySet2(struct Variable* array, struct Variable* values, struct 
     array->value = (void*)Stack_push(stack, values);
 }
 
-// TODO : J'ai modifie un peu la fonction get du coup pour utiliser
+// TODO : J'ai modifie un peu la fonction get du coup
 struct Variable* Variable_arrayGet(struct Variable* tab, struct Stack* stack, int index)
 {
+    // S'il s'agit d'un tableau
     if(tab->type->type != ARRAY)
     {
         printf("Cant call Variable_arrayGet on INT/BOOL.\n");
         exit(-1);
     }
+    // Si l'index est correct
     if(index >= tab->size)
     {
         printf("Index out of range.\n");

@@ -99,8 +99,8 @@
           <file leaf-file-name="Variable.h" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/include/Variable.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="647">
-                  <caret line="56" column="78" lean-forward="false" selection-start-line="56" selection-start-column="78" selection-end-line="56" selection-end-column="78" />
+                <state relative-caret-position="611">
+                  <caret line="54" column="76" lean-forward="true" selection-start-line="54" selection-start-column="76" selection-end-line="54" selection-end-column="76" />
                   <folding>
                     <element signature="e#39#58#0" expanded="true" />
                   </folding>
@@ -111,8 +111,8 @@
           <file leaf-file-name="Variable.c" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/include/Variable.c">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="737">
-                  <caret line="147" column="17" lean-forward="true" selection-start-line="147" selection-start-column="17" selection-end-line="147" selection-end-column="17" />
+                <state relative-caret-position="3114">
+                  <caret line="173" column="1" lean-forward="false" selection-start-line="173" selection-start-column="1" selection-end-line="173" selection-end-column="1" />
                   <folding />
                 </state>
               </provider>
@@ -137,8 +137,8 @@
           <file leaf-file-name="Stack.c" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/include/Stack.c">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="288">
-                  <caret line="16" column="22" lean-forward="true" selection-start-line="16" selection-start-column="22" selection-end-line="16" selection-end-column="22" />
+                <state relative-caret-position="432">
+                  <caret line="24" column="3" lean-forward="true" selection-start-line="24" selection-start-column="3" selection-end-line="24" selection-end-column="3" />
                   <folding />
                 </state>
               </provider>
@@ -170,9 +170,9 @@
         <option value="$PROJECT_DIR$/ppinterpret.y" />
         <option value="$PROJECT_DIR$/include/Pascal.h" />
         <option value="$PROJECT_DIR$/include/Pascal.c" />
-        <option value="$PROJECT_DIR$/include/Variable.h" />
         <option value="$PROJECT_DIR$/include/Stack.h" />
         <option value="$PROJECT_DIR$/include/Stack.c" />
+        <option value="$PROJECT_DIR$/include/Variable.h" />
         <option value="$PROJECT_DIR$/include/Variable.c" />
       </list>
     </option>
@@ -449,12 +449,12 @@
       <updated>1490454935468</updated>
       <workItem from="1490454940569" duration="4733000" />
       <workItem from="1490902494815" duration="6927000" />
-      <workItem from="1490948630024" duration="4453000" />
+      <workItem from="1490948630024" duration="6196000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="16113000" />
+    <option name="totallyTimeSpent" value="17856000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -516,7 +516,9 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager />
+    <breakpoint-manager>
+      <option name="time" value="1" />
+    </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
@@ -722,16 +724,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/include/Variable.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="647">
-          <caret line="56" column="78" lean-forward="false" selection-start-line="56" selection-start-column="78" selection-end-line="56" selection-end-column="78" />
-          <folding>
-            <element signature="e#39#58#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/include/Stack.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="252">
@@ -742,18 +734,28 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/include/Stack.c">
+    <entry file="file://$PROJECT_DIR$/include/Variable.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="16" column="22" lean-forward="true" selection-start-line="16" selection-start-column="22" selection-end-line="16" selection-end-column="22" />
-          <folding />
+        <state relative-caret-position="611">
+          <caret line="54" column="76" lean-forward="true" selection-start-line="54" selection-start-column="76" selection-end-line="54" selection-end-column="76" />
+          <folding>
+            <element signature="e#39#58#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/include/Variable.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="737">
-          <caret line="147" column="17" lean-forward="true" selection-start-line="147" selection-start-column="17" selection-end-line="147" selection-end-column="17" />
+        <state relative-caret-position="3114">
+          <caret line="173" column="1" lean-forward="false" selection-start-line="173" selection-start-column="1" selection-end-line="173" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/Stack.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="24" column="3" lean-forward="true" selection-start-line="24" selection-start-column="3" selection-end-line="24" selection-end-column="3" />
           <folding />
         </state>
       </provider>

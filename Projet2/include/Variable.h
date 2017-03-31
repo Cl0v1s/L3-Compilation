@@ -54,7 +54,8 @@ void Variable_set(struct Variable* var, int value);
 
 void Variable_arraySet(struct Variable* var, int index, struct Type* value);
 
-void Variable_arraySet2(struct Variable* var, struct Stack* stack, int index);
+void Variable_arraySet2(struct Variable* array, struct Variable* value, struct Stack* stack, int index){
+
 int Variable_get(struct Variable* var);
 
 struct Variable* Variable_arrayGet(struct Variable* var, struct Stack* stack, int index);

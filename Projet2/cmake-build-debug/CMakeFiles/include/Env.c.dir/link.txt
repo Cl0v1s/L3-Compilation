@@ -1,1 +1,0 @@
-/usr/bin/cc  -g   CMakeFiles/include/Env.c.dir/include/Function.c.o CMakeFiles/include/Env.c.dir/include/Variable.c.o CMakeFiles/include/Env.c.dir/include/test.c.o  -o include/Env.c -rdynamic 

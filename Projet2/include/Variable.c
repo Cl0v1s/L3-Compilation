@@ -1,5 +1,21 @@
 #include "Variable.h"
 
+
+void TypeSystem_init()
+{
+    Type_BOOL = Type_init(BOOL, 0);
+    Type_INT = Type_init(INT, 0);
+    Type_VOID = Type_init(VOID, 0);
+
+}
+
+char TypeSystem_isInit()
+{
+    if(Type_BOOL == 0 || Type_INT == 0 || Type_VOID == 0)
+        return false;
+    return true;
+}
+
 struct Type* Type_init(int type, struct Type* child)
 {
     struct Type* res = malloc(sizeof(struct Type));
@@ -170,9 +186,19 @@ void Variable_print(struct Variable* var)
     }
 }
 
+void Type_free(struct Type* type)
+{
+    if(type->type != ARRAY)
+    {
+        return;
+    }
+    Type_free(type->child);
+    free(type);
+}
+
 void Variable_free(struct Variable* var)
 {
-    if(var->size > 0)
+    if(var->type->type == ARRAY)
     {
         struct Variable* value = (struct Variable*)var->value;
         for(int i = 0; i != var->size; i++)

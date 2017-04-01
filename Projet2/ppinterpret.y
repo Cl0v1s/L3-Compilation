@@ -84,8 +84,8 @@ C: C Se C { $$ = Ast_init('C', Se, $1, $3);}
 L_args: %empty { $$ = Ast_init('L', 0, 0, 0); }
   | L_argsnn { $$ = $1;}
 
-L_argsnn: E { $$ = $1; }
-  | E Comma L_argsnn { $$ = Ast_init('L', 0, $1, $3); }
+L_argsnn: E { $$ = Ast_init('L', 0, 0, $1); }
+  | E Comma L_argsnn { $$ = Ast_init('L', 0, $3, $1); }
 
 L_argt: %empty { $$ = Env_init(); }
   | L_argtnn { $$ = $1;}

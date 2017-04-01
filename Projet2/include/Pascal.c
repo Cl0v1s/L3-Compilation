@@ -5,8 +5,10 @@
 #include "Pascal.h"
 
 
-int Pascal_run(struct Env* env, struct FuncList* functions, struct Ast* ast)
+struct Variable* Pascal_run(struct Env* env, struct FuncList* functions, struct Ast* ast)
 {
+    if(TypeSystem_isInit() == false)
+        TypeSystem_init();
     char nodeType = ast->nodetype;
     if(nodeType == 'C') // commandes
     {
@@ -17,36 +19,75 @@ int Pascal_run(struct Env* env, struct FuncList* functions, struct Ast* ast)
     {
         int ope = *(int*)ast->value;
         int tmp;
-        int tmp1;
-        int tmp2;
+        struct Variable* tmp1;
+        struct Variable* tmp2;
         switch(ope)
         {
             case Pl:
-                return Pascal_run(env, functions, ast->left) + Pascal_run(env, functions, ast->right);
+                tmp1 = Pascal_run(env, functions, ast->left);
+                tmp2 = Pascal_run(env, functions, ast->right);
+                tmp = Variable_get(tmp1) + Variable_get(tmp2);
+                tmp1 = Variable_init(Type_INT);
+                Variable_set(tmp1, tmp);
+                return tmp1;
             case Mo:
-                return Pascal_run(env, functions, ast->left) - Pascal_run(env, functions, ast->right);
+                tmp1 = Pascal_run(env, functions, ast->left);
+                tmp2 = Pascal_run(env, functions, ast->right);
+                tmp = Variable_get(tmp1) - Variable_get(tmp2);
+                tmp1 = Variable_init(Type_INT);
+                Variable_set(tmp1, tmp);
+                return tmp1;
             case Mu:
-                return Pascal_run(env, functions, ast->left) * Pascal_run(env, functions, ast->right);
+                tmp1 = Pascal_run(env, functions, ast->left);
+                tmp2 = Pascal_run(env, functions, ast->right);
+                tmp = Variable_get(tmp1) * Variable_get(tmp2);
+                tmp1 = Variable_init(Type_INT);
+                Variable_set(tmp1, tmp);
+                return tmp1;
             case Or:
-                if(Pascal_run(env, functions, ast->left) == true || Pascal_run(env, functions, ast->right) == true)
-                    return true;
-                return false;
+                tmp1 = Pascal_run(env, functions, ast->left);
+                tmp2 = Pascal_run(env, functions, ast->right);
+                tmp = false;
+                if(Variable_get(tmp1) == true || Variable_get(tmp2) == true)
+                    tmp = true;
+                tmp1 = Variable_init(Type_BOOL);
+                Variable_set(tmp1, tmp);
+                return tmp1;
             case Lt:
-                if(Pascal_run(env, functions, ast->left) < Pascal_run(env, functions, ast->right))
-                    return true;
-                return false;
+                tmp1 = Pascal_run(env, functions, ast->left);
+                tmp2 = Pascal_run(env, functions, ast->right);
+                tmp = false;
+                if(Variable_get(tmp1) < Variable_get(tmp2))
+                    tmp = true;
+                tmp1 = Variable_init(Type_BOOL);
+                Variable_set(tmp1, tmp);
+                return tmp1;
             case Eq:
-                if(Pascal_run(env, functions, ast->left) == Pascal_run(env, functions, ast->right))
-                    return true;
-                return false;
+                tmp1 = Pascal_run(env, functions, ast->left);
+                tmp2 = Pascal_run(env, functions, ast->right);
+                tmp = false;
+                if(Variable_get(tmp1) == Variable_get(tmp2))
+                    tmp = true;
+                tmp1 = Variable_init(Type_BOOL);
+                Variable_set(tmp1, tmp);
+                return tmp1;
             case And:
-                if(Pascal_run(env, functions, ast->left) == true &&  Pascal_run(env, functions, ast->right) == true)
-                    return true;
-                return false;
+                tmp1 = Pascal_run(env, functions, ast->left);
+                tmp2 = Pascal_run(env, functions, ast->right);
+                tmp = false;
+                if(Variable_get(tmp1) == true && Variable_get(tmp2) == true)
+                    tmp = true;
+                tmp1 = Variable_init(Type_BOOL);
+                Variable_set(tmp1, tmp);
+                return tmp1;
             case Not:
-                if(Pascal_run(env, functions, ast->left) == true)
-                    return false;
-                return true;
+                tmp1 = Pascal_run(env, functions, ast->left);
+                tmp = !Variable_get(tmp1);
+                tmp1 = Variable_init(Type_BOOL);
+                Variable_set(tmp1, tmp);
+                return tmp1;
+            case NewAr:
+                tmp1 = Variable_init()
 
         }
     }

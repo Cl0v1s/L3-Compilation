@@ -20,6 +20,10 @@ struct Type
 	struct Type* child;
 };
 
+struct Type* Type_INT = 0;
+struct Type* Type_BOOL = 0;
+struct Type* Type_VOID = 0;
+
 struct Variable
 {
     int size;
@@ -33,9 +37,15 @@ struct VariableList
 	struct Variable** list;
 };
 
+void TypeSystem_init();
+
+char TypeSystem_isInit();
+
 struct Type* Type_init(int type, struct Type* child);
 
 int Type_check(struct Type* type1, struct Type* type2);
+
+void Type_free(struct Type* type);
 
 
 struct VariableList* VariableList_init();

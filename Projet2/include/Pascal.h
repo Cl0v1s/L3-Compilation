@@ -5,6 +5,7 @@
 #ifndef COMPILATION_PASCAL_H
 #define COMPILATION_PASCAL_H
 
+#include "Variable.h"
 #include "Function.h"
 #include "Env.h"
 #include "Ast.h"
@@ -14,6 +15,6 @@
 #define callFUNC -2
 
 
-int Pascal_run(struct Env* global, struct FuncList* functions, struct Ast* ast);
+struct Variable* Pascal_run(struct Env* global, struct FuncList* functions, struct Ast* ast);
 
 #endif //COMPILATION_PASCAL_H

@@ -35,7 +35,7 @@
   %type<ast> C
   %type<type> TP
 
-  %type<env> L_argt L_argtnn Argt
+  %type<env> L_argt L_argtnn Argt L_vartnn L_vart
   %type<funcDisc> D_entf D_entp
   %type<function> D
   %type<functions> LD

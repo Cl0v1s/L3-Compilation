@@ -14,7 +14,7 @@ struct Stack* Stack_init();
 
 int Stack_push(struct Stack* _stack, int size);
 
-void Stack_remove(struct Stack* _stack, int size);
+void Stack_remove(struct Stack* _stack, int start, int size);
 
 struct Variable* Stack_getVariable(struct Stack* _stack, int index);
 

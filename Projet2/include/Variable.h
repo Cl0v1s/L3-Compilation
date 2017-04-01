@@ -48,6 +48,8 @@ int Type_check(struct Type* type1, struct Type* type2);
 
 void Type_free(struct Type* type);
 
+struct Type* Type_copy(struct Type* src);
+
 
 struct VariableList* VariableList_init();
 void VariableList_append(struct VariableList* vlist, struct Variable* var);
@@ -67,6 +69,8 @@ void Variable_arraySet(struct Variable* array, struct Stack* stack, struct Varia
 int Variable_get(struct Variable* var);
 
 struct Variable* Variable_arrayGet(struct Variable* var, struct Stack* stack, int index);
+
+void Variable_arrayCopy(struct Stack* stack, struct Variable* dest, struct Variable* src);
 
 void Variable_print(struct Variable* var);
 

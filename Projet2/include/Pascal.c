@@ -12,7 +12,65 @@ struct Variable* Pascal_run( struct Stack* stack, struct Env* env, struct FuncLi
     char nodeType = ast->nodetype;
     if(nodeType == 'C') // commandes
     {
-
+        int ope = *(int*)ast->value;
+        int tmp;
+        struct Variable* tmp1;
+        struct Variable* tmp2;
+        struct Type* tmp3;
+        switch(ope) {
+            case Se:
+                Pascal_run(stack, env, functions, ast->left);
+                Pascal_run(stack, env, functions, ast->right);
+                break;
+            case Af:
+                tmp1 = Pascal_run(stack, env, functions, ast->left);
+                tmp2 = Pascal_run(stack, env, functions, ast->right);
+                if(Type_check(tmp1->type, tmp2->type) == false)
+                {
+                    printf("Cant affect non-identical types.\n");
+                    exit(-1);
+                }
+                if(tmp1->type != ARRAY)
+                    Variable_set(tmp1, Variable_get(tmp2));
+                else
+                    Variable_arrayCopy(stack, tmp1, tmp2);
+                break;
+            case Sk:
+                break;
+            case If:
+                tmp1 = Pascal_run(stack, env, functions, ast->left);
+                if(tmp1->type->type == ARRAY)
+                {
+                    printf("Array variable cant be checked as boolean.\n");
+                    exit(-1);
+                }
+                if(Variable_get(tmp1) == true)
+                {
+                    Pascal_run(stack, env, functions, ast->right->left);
+                } else
+                {
+                    Pascal_run(stack, env, functions, ast->right->right);
+                }
+                break;
+            case Wh:
+                tmp1 = Pascal_run(stack, env, functions, ast->left);
+                if(tmp1->type->type == ARRAY)
+                {
+                    printf("Array variable cant be checked as boolean.\n");
+                    exit(-1);
+                }
+                while(Variable_get(tmp1) == true)
+                {
+                    Pascal_run(stack, env, functions, ast->right);
+                    tmp1 = Pascal_run(stack, env, functions, ast->left);
+                    if(tmp1->type->type == ARRAY)
+                    {
+                        printf("Array variable cant be checked as boolean.\n");
+                        exit(-1);
+                    }
+                }
+                break;
+        }
         return 0;
     }
     else if(nodeType == 'E') // expressions

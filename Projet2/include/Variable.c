@@ -149,6 +149,7 @@ void Variable_free(struct Variable* var)
             Variable_free(value);
             value++;
         }
+        Type_free(var->type);
 
     }
     else
@@ -208,4 +209,39 @@ struct Variable* Variable_arrayGet(struct Variable* array, struct Stack* stack, 
         exit(-1);
     }
     Stack_getVariable(stack, *(int*)array->value+index);
+}
+
+struct Type* Type_copy(struct Type* src)
+{
+    if(src->type == ARRAY) {
+        struct Type *type = malloc(sizeof(struct Type));
+        type->type = src->type;
+        type->child = Type_copy(src->child);
+        return type;
+    }
+    switch(src->type)
+    {
+        case VOID:
+            return Type_VOID;
+        case INT:
+            return Type_INT;
+        case BOOL:
+            return Type_BOOL;
+    }
+
+}
+
+void Variable_arrayCopy(struct Stack* stack, struct Variable* dest, struct Variable* src)
+{
+    Type_free(dest->type);
+    Stack_remove(stack, *(int*)dest->value, dest->size);
+    dest->type = Type_copy(src->type);
+    (*(int*)dest->value) = Stack_push(stack, src->size);
+    dest->size = src->size;
+    int src_index = (*(int*)src->value);
+    int dest_index = (*(int*)dest->value);
+    for(int i = 0; i!= dest->size; i++)
+    {
+        Stack_setVariable(stack, Stack_getVariable(stack, src_index+i), dest_index+i);
+    }
 }

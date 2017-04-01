@@ -42,7 +42,7 @@ void Stack_setVariable(struct Stack* stack, struct Variable* var, int index){
   }
 }
 
-void Stack_remove(struct Stack* _stack, struct Variable* tab){
+void Stack_remove(struct Stack* _stack, int start, int size){
   //TODO : Recoller proprement un peu complexe, j'y reflechis. (supprimer le tableau, recoller le suivant, lui dire qu'il pointe maintenant sur le nouvel index..)
 }
 

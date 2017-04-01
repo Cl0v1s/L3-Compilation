@@ -1,1 +1,0 @@
-/usr/bin/cc  -g   CMakeFiles/test/test.dir/include/Env.c.o CMakeFiles/test/test.dir/include/Function.c.o CMakeFiles/test/test.dir/include/Variable.c.o CMakeFiles/test/test.dir/include/test.c.o  -o test/test -rdynamic 

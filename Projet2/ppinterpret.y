@@ -6,6 +6,7 @@
 	#include "include/Env.h"
     #include "include/AST.h"
     #include "include/Pascal.h"
+    #include "include/Stack.h"
 
 	int yyerror(char *s);
 	int yylex();
@@ -49,7 +50,7 @@
 
 
 MP: L_vart LD C {
-    Pascal_run($1, $2, $3);
+    Pascal_run(Stack_init(), $1, $2, $3);
 }
 
 E: E Pl E { $$ = Ast_init('E', Pl, $1, $3); }
@@ -65,12 +66,12 @@ E: E Pl E { $$ = Ast_init('E', Pl, $1, $3); }
   | V { $$ = Ast_init_leaf('V', $1); }
   | True { $$ = Ast_init_leaf('B', true); }
   | False { $$ = Ast_init_leaf('B', false); }
-  | V OPar L_args CPar { $$ = Ast_init('E', callFUNC, Ast_init_leaf('V', $1), $3); }
+  | V OPar L_args CPar { $$ = Ast_init('E', CallFUNC, Ast_init_leaf('V', $1), $3); }
   | NewAr TP OBracket E CBracket { $$ = Ast_init('E', NewAr, Ast_init_leaf('T', $2), $4); }
   | Et { $$=$1; }
 
-Et: V OBracket E CBracket { $$ = Ast_init('E', getARR, Ast_init_leaf('V', $1), $3); }
-  | Et OBracket E CBracket { $$ = Ast_init('E', getARR, $1, $3); }
+Et: V OBracket E CBracket { $$ = Ast_init('E', GetARR, Ast_init_leaf('V', $1), $3); }
+  | Et OBracket E CBracket { $$ = Ast_init('E', GetARR, $1, $3); }
 
 C: C Se C { $$ = Ast_init('C', Se, $1, $3);}
   | Et Af E { $$ = Ast_init('C', Af, $1, $3); }

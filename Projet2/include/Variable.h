@@ -58,13 +58,11 @@ void VariableList_append(struct VariableList* vlist, struct Variable* var);
 **/
 struct Variable* Variable_init(struct Type* type);
 
-void Variable_arraySetType(struct Variable* var, struct Type* type);
+struct Variable* Variable_arrayInit(struct Type* type, struct Stack* stack, int length);
 
 void Variable_set(struct Variable* var, int value);
 
-void Variable_arraySet(struct Variable* var, int index, struct Type* value);
-
-void Variable_arraySet2(struct Variable* array, struct Variable* value, struct Stack* stack, int index){
+void Variable_arraySet(struct Variable* array, struct Stack* stack, struct Variable* value, int index );
 
 int Variable_get(struct Variable* var);
 

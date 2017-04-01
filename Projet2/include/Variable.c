@@ -70,20 +70,28 @@ struct Variable* Variable_init(struct Type* type)
 
     struct Variable* var = malloc(sizeof(struct Variable));
     var->type = type;
-    if(var->type->type == INT || var->type->type == BOOL)
+    if(var->type->type == INT || var->type->type == BOOL || var->type->type == VOID)
     {
         var->value = malloc(sizeof(int));
         *(int*)var->value = 0;
         var->size = 0;
     }
     // Si c'est un tableau on initialize le tableau de pointeurs de structures
-    if(var->type->type == ARRAY)
+    // Ca va va pas, Va voir Variable_arrayInit
+    /*if(var->type->type == ARRAY)
     {
         var->size = 0;
         var->value = malloc(var->size*sizeof(struct Variable*));
-    }
+    }*/
     return var;
 }
+
+struct Variable* Variable_arrayInit(struct Type* type, struct Stack* stack, int length)
+{
+    // TU devrais comprendre avec cette signature
+    return 0;
+}
+
 
 void Variable_arraySetType(struct Variable* var, struct Type* type)
 {

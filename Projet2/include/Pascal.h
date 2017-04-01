@@ -11,10 +11,10 @@
 #include "Ast.h"
 #include "./../ppinterpret.tab.h"
 
-#define getARR -1
-#define callFUNC -2
+#define GetARR -1
+#define CallFUNC -2
 
 
-struct Variable* Pascal_run(struct Env* global, struct FuncList* functions, struct Ast* ast);
+struct Variable* Pascal_run(struct Stack* stack, struct Env* global, struct FuncList* functions, struct Ast* ast);
 
 #endif //COMPILATION_PASCAL_H

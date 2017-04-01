@@ -5,7 +5,7 @@
 #include "Pascal.h"
 
 
-struct Variable* Pascal_run(struct Env* env, struct FuncList* functions, struct Ast* ast)
+struct Variable* Pascal_run( struct Stack* stack, struct Env* env, struct FuncList* functions, struct Ast* ast)
 {
     if(TypeSystem_isInit() == false)
         TypeSystem_init();
@@ -21,32 +21,33 @@ struct Variable* Pascal_run(struct Env* env, struct FuncList* functions, struct 
         int tmp;
         struct Variable* tmp1;
         struct Variable* tmp2;
+        struct Type* tmp3;
         switch(ope)
         {
             case Pl:
-                tmp1 = Pascal_run(env, functions, ast->left);
-                tmp2 = Pascal_run(env, functions, ast->right);
+                tmp1 = Pascal_run(stack, env, functions, ast->left);
+                tmp2 = Pascal_run(stack, env, functions, ast->right);
                 tmp = Variable_get(tmp1) + Variable_get(tmp2);
                 tmp1 = Variable_init(Type_INT);
                 Variable_set(tmp1, tmp);
                 return tmp1;
             case Mo:
-                tmp1 = Pascal_run(env, functions, ast->left);
-                tmp2 = Pascal_run(env, functions, ast->right);
+                tmp1 = Pascal_run(stack, env, functions, ast->left);
+                tmp2 = Pascal_run(stack, env, functions, ast->right);
                 tmp = Variable_get(tmp1) - Variable_get(tmp2);
                 tmp1 = Variable_init(Type_INT);
                 Variable_set(tmp1, tmp);
                 return tmp1;
             case Mu:
-                tmp1 = Pascal_run(env, functions, ast->left);
-                tmp2 = Pascal_run(env, functions, ast->right);
+                tmp1 = Pascal_run(stack, env, functions, ast->left);
+                tmp2 = Pascal_run(stack, env, functions, ast->right);
                 tmp = Variable_get(tmp1) * Variable_get(tmp2);
                 tmp1 = Variable_init(Type_INT);
                 Variable_set(tmp1, tmp);
                 return tmp1;
             case Or:
-                tmp1 = Pascal_run(env, functions, ast->left);
-                tmp2 = Pascal_run(env, functions, ast->right);
+                tmp1 = Pascal_run(stack, env, functions, ast->left);
+                tmp2 = Pascal_run(stack, env, functions, ast->right);
                 tmp = false;
                 if(Variable_get(tmp1) == true || Variable_get(tmp2) == true)
                     tmp = true;
@@ -54,8 +55,8 @@ struct Variable* Pascal_run(struct Env* env, struct FuncList* functions, struct 
                 Variable_set(tmp1, tmp);
                 return tmp1;
             case Lt:
-                tmp1 = Pascal_run(env, functions, ast->left);
-                tmp2 = Pascal_run(env, functions, ast->right);
+                tmp1 = Pascal_run(stack, env, functions, ast->left);
+                tmp2 = Pascal_run(stack, env, functions, ast->right);
                 tmp = false;
                 if(Variable_get(tmp1) < Variable_get(tmp2))
                     tmp = true;
@@ -63,8 +64,8 @@ struct Variable* Pascal_run(struct Env* env, struct FuncList* functions, struct 
                 Variable_set(tmp1, tmp);
                 return tmp1;
             case Eq:
-                tmp1 = Pascal_run(env, functions, ast->left);
-                tmp2 = Pascal_run(env, functions, ast->right);
+                tmp1 = Pascal_run(stack, env, functions, ast->left);
+                tmp2 = Pascal_run(stack, env, functions, ast->right);
                 tmp = false;
                 if(Variable_get(tmp1) == Variable_get(tmp2))
                     tmp = true;
@@ -72,8 +73,8 @@ struct Variable* Pascal_run(struct Env* env, struct FuncList* functions, struct 
                 Variable_set(tmp1, tmp);
                 return tmp1;
             case And:
-                tmp1 = Pascal_run(env, functions, ast->left);
-                tmp2 = Pascal_run(env, functions, ast->right);
+                tmp1 = Pascal_run(stack, env, functions, ast->left);
+                tmp2 = Pascal_run(stack, env, functions, ast->right);
                 tmp = false;
                 if(Variable_get(tmp1) == true && Variable_get(tmp2) == true)
                     tmp = true;
@@ -81,29 +82,55 @@ struct Variable* Pascal_run(struct Env* env, struct FuncList* functions, struct 
                 Variable_set(tmp1, tmp);
                 return tmp1;
             case Not:
-                tmp1 = Pascal_run(env, functions, ast->left);
+                tmp1 = Pascal_run(stack, env, functions, ast->left);
                 tmp = !Variable_get(tmp1);
                 tmp1 = Variable_init(Type_BOOL);
                 Variable_set(tmp1, tmp);
                 return tmp1;
             case NewAr:
-                tmp1 = Variable_init()
+                tmp3 = (struct Type*)ast->left->value;
+                if(tmp3 < 0)
+                {
+                    printf("Cant create array of negative size.\n");
+                    exit(-1);
+                }
+                return Variable_arrayInit(tmp3, stack, Variable_get(Pascal_run(stack, env, functions, ast->right)));
+            case GetARR:
+                tmp1 = Pascal_run(stack, env, functions, ast->left);
+                if(tmp1->type->type != ARRAY)
+                {
+                    printf("Invalid operation on non-array variable.\n");
+                    exit(-1);
+                }
+                tmp2 = Pascal_run(stack, env, functions, ast->right);
+                if(tmp1->type->type == ARRAY)
+                {
+                    printf("Index array must be numeric.\n");
+                    exit(-1);
+                }
+                return Variable_arrayGet(tmp1, stack, Variable_get(tmp2));
+
+
 
         }
     }
-    else if(nodeType == 'I' || nodeType == 'B') // constantes
+    else if(nodeType == 'I') // constantes
     {
-        return (int)ast->value;
+        int tmp = (int)ast->value;
+        struct Variable* tmp1 = Variable_init(Type_INT);
+        Variable_set(tmp1, tmp);
+        return tmp1;
     }
-    else if(nodeType == 'V') // variables
+    else if(nodeType == 'B') // constantes
     {
-        struct Variable* v = Env_get_value(env, (char*)ast->value);
-        if(v == 0)
-        {
-            printf("Variable %s must be declared first !\n", (char*)ast->value);
-            exit(-1);
-        }
-        return Variable_get(v);
+        int tmp = (int)ast->value;
+        struct Variable* tmp1 = Variable_init(Type_BOOL);
+        Variable_set(tmp1, tmp);
+        return tmp1;
+    }
+    else if(nodeType == 'V')
+    {
+        return Env_get_value(env, (char*)ast->value);
     }
 }
 

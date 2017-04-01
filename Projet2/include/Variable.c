@@ -76,27 +76,10 @@ struct Variable* Variable_init(struct Type* type)
         *(int*)var->value = 0;
         var->size = 0;
     }
-    // Si c'est un tableau on initialize le tableau de pointeurs de structures
-    // Ca va va pas, Va voir Variable_arrayInit
-    /*if(var->type->type == ARRAY)
-    {
-        var->size = 0;
-        var->value = malloc(var->size*sizeof(struct Variable*));
-    }*/
     return var;
 }
 
-struct Variable* Variable_arrayInit(struct Type* type, struct Stack* stack, int length)
-{
-    // TU devrais comprendre avec cette signature
-    return 0;
-}
 
-
-void Variable_arraySetType(struct Variable* var, struct Type* type)
-{
-	var->type = type;
-}
 
 void Variable_set(struct Variable* var,int value)
 {
@@ -124,93 +107,6 @@ int Variable_get(struct Variable* var)
     return *((int*)var->value);
 }
 
-void Variable_arraySet(struct Variable* var, int index, struct Variable* value)
-{
-    // Si c'est tableau
-    if(var->type->type != ARRAY)
-    {
-        printf("Cant call Variable_arraySet on INT/BOOL.\n");
-        exit(-1);
-    }
-   	//Si le type des elements est réglé, on vérifie le type de la valeur à insérer
-    if(Type_check(var->type->child, value->type) == false)
-    {
-        printf("Cant insert, wrong var type\n");
-        exit(-1);
-    }
-
-
-    //Si l'index est inférieur à la taille déjà allouée, on réalloue
-    if(index < var->size)
-    {
-        ((struct Variable**)var->value)[index] = value;
-    }
-    else
-    {
-        struct Variable** tab;
-        tab = malloc((index+1)*sizeof(struct Variable*));
-        memcpy(tab, var->value, var->size*sizeof(struct Variable*));
-        free(var->value);
-        var->size = index+1;
-        tab[index] = value;
-        var->value = tab;
-
-    }
-}
-
-// TODO : La version que je pense, après à toi de voir ?
-void Variable_arraySet2(struct Variable* array, struct Variable* value, struct Stack* stack, int index){
-    // S'il s'agit d'un tableau
-    if(array->type->type != ARRAY){
-        printf("Can't call Variable_arraySet on INT/BOOL.\n");
-    }
-
-    // Si l'on veut set un élément de type correct
-    if(Type_check(array->type->child, value->type) == false){
-        printf("Can't set, wrong var type.\n");
-        exit(-1);
-    }
-    else {
-        // L'allocation doit être effectuée au moment du push, pas d'allocation dynamique dans le tas pour un tableau spécifique, trop compliqué
-        Stack_setVariable(stack, value, *(int*)array->value + index);
-    }
-}
-
-// TODO : On aura besoin de push un tableau vide de values dans le stack du coup
-void Variable_arrayInit(struct Variable* array, struct Variable* values, struct Stack* stack){
-    // Si c'est un tableau
-    if(array->type->type != ARRAY){
-        printf("Can't call Variable_arraySet on INT/BOOL.\n");
-        exit(-1);
-    }
-    //Si le type des elements est réglé, on vérifie le type de la valeur à insérer
-    if(Type_check(array->type->child, values->type) == false)
-    {
-        printf("Cant insert, wrong var type\n");
-        exit(-1);
-    }
-    // Setting array first index in stack and pushing values to stack
-    array->value = (void*)Stack_push(stack, values);
-}
-
-// TODO : J'ai modifie un peu la fonction get du coup
-struct Variable* Variable_arrayGet(struct Variable* tab, struct Stack* stack, int index)
-{
-    // S'il s'agit d'un tableau
-    if(tab->type->type != ARRAY)
-    {
-        printf("Cant call Variable_arrayGet on INT/BOOL.\n");
-        exit(-1);
-    }
-    // Si l'index est correct
-    if(index >= tab->size)
-    {
-        printf("Index out of range.\n");
-        exit(-1);
-    }
-    // Tab->value est l'index de début de tableau dans le stack, index est le décalage
-    return Stack_getVariable(stack, *(int*)tab->value + index);
-}
 
 void Variable_print(struct Variable* var)
 {
@@ -260,33 +156,56 @@ void Variable_free(struct Variable* var)
     free(var);
 }
 
-/*int main()
+struct Variable* Variable_arrayInit(struct Type* type, struct Stack* stack, int length)
 {
-    struct Variable* var = Variable_init(INT);
-    int a = 10;
-    Variable_set(var, &a);
-    Variable_print(var);
+    if(type->type != ARRAY)
+    {
+        printf("Cant call that on array.\n");
+        exit(-1);
+    }
 
-    struct Variable* var2 = Variable_init(INT);
-    a = 100;
-    Variable_set(var2, &a);
-    Variable_print(var2);
-
-    int size = ARRAY(1);
-    struct Variable* var1 = Variable_init(size);
-    Variable_arraySet(var1, 0, var);
-    Variable_arraySet(var1, 1, var2);
-    Variable_arraySet(var1, 1, var2);
-    Variable_print(var1);
-
-    size = ARRAY(1);
-    printf("size: %d\n", size);
-    struct Variable* array = Variable_init(size);
-    Variable_arraySet(array, 0, var);
-    Variable_arraySet(array, 1, var1);
-
-    Variable_print(array);
+    struct Variable* var = malloc(sizeof(struct Variable));
+    var->type = type;
+    var->size = length;
+    *(int*)var->value = Stack_push(stack, length);
+    return var;
+}
 
 
+void Variable_arraySet(struct Variable* array, struct Stack* stack, struct Variable* value, int index )
+{
+    // Si c'est tableau
+    if(array->type->type != ARRAY)
+    {
+        printf("Cant call Variable_arraySet on non-Array.\n");
+        exit(-1);
+    }
+    if(index >= array->size)
+    {
+        printf("Index out of range.\n");
+        exit(-1);
+    }
+    if(array->type->child->type != value->type->type)
+    {
+        printf("Cant insert wrong type object.\n");
+        exit(-1);
+    }
+    Stack_setVariable(stack, value, *(int*)array->value+index);
+}
 
-}*/
+
+struct Variable* Variable_arrayGet(struct Variable* array, struct Stack* stack, int index)
+{
+    // Si c'est tableau
+    if(array->type->type != ARRAY)
+    {
+        printf("Cant call Variable_arraySet on non-Array.\n");
+        exit(-1);
+    }
+    if(index >= array->size)
+    {
+        printf("Index out of range.\n");
+        exit(-1);
+    }
+    Stack_getVariable(stack, *(int*)array->value+index);
+}

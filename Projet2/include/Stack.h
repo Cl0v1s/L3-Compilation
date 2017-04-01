@@ -12,9 +12,9 @@ struct Stack
 
 struct Stack* Stack_init();
 
-int Stack_push(struct Stack* _stack, struct Variable* tab);
+int Stack_push(struct Stack* _stack, int size);
 
-void Stack_remove(struct Stack* _stack, struct Variable* tab);
+void Stack_remove(struct Stack* _stack, int size);
 
 struct Variable* Stack_getVariable(struct Stack* _stack, int index);
 

@@ -3,38 +3,42 @@
 struct Stack* Stack_init(){
   struct Stack* _stack = malloc(sizeof(struct Stack));
   _stack->size = 0;
-  _stack->vars = malloc(_stack->size * sizeof(struct Variable*));
+  _stack->vars = malloc(0);
+    return _stack;
 }
 
-int Stack_push(struct Stack* _stack, struct Variable* tab){
-  int size = _stack->size + tab->size;
-  int returnedIndex = _stack->size;
-  struct Variable** newVars = malloc(size*sizeof(struct Variable*));
-  memcpy(newVars, _stack->vars, _stack->size*sizeof(struct Variable*));
-  newVars[_stack->size] = tab;
-  free(_stack->vars);
-  _stack->vars = newVars;
-  _stack->size = size;
-  return returnedIndex;
+int Stack_push(struct Stack* stack, int size){
+
+    struct Variable** vars = malloc((stack->size+size)*sizeof(struct Variable*));
+    memcpy(vars, stack->vars, stack->size*sizeof(struct Variable*));
+    for(int i = stack->size; i != stack->size+size; i++)
+    {
+        vars[i] = 0;
+    }
+    free(stack->vars);
+    stack->vars = vars;
+    int index = stack->size;
+    stack->size = stack->size + size;
+    return index;
 }
 
-struct Variable* Stack_getVariable(struct Stack* _stack, int index){
-  if(index >= _stack->size){
+struct Variable* Stack_getVariable(struct Stack* stack, int index){
+  if(index >= stack->size){
     printf("Index out of stack range.\n");
     exit(-1);
   }
   else {
-    return _stack->vars[index];
+    return stack->vars[index];
   }
 }
 
-void Stack_setVariable(struct Stack* _stack, struct Variable* var, int index){
-  if(index >= _stack->size){
+void Stack_setVariable(struct Stack* stack, struct Variable* var, int index){
+  if(index >= stack->size){
     printf("Index out stack range.\n");
     exit(-1);
   }
   else {
-    _stack->vars[index] = var;
+      stack->vars[index] = var;
   }
 }
 

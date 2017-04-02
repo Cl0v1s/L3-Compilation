@@ -21,9 +21,9 @@ struct Type
 	struct Type* child;
 };
 
-struct Type* Type_INT = 0;
-struct Type* Type_BOOL = 0;
-struct Type* Type_VOID = 0;
+extern struct Type* Type_INT;
+extern struct Type* Type_BOOL;
+extern struct Type* Type_VOID;
 
 struct Variable
 {

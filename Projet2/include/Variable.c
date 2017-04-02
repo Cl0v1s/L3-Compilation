@@ -1,5 +1,8 @@
 #include "Variable.h"
 
+struct Type* Type_INT = 0;
+struct Type* Type_BOOL = 0;
+struct Type* Type_VOID = 0;
 
 void TypeSystem_init()
 {

@@ -1,6 +1,7 @@
 #include "Variable.h"
 #include "Env.h"
 
+/*
 int main()
 {
     struct Variable* var = Variable_init(INT);
@@ -25,4 +26,4 @@ int main()
     res = Env_get_value(&env, "test3");
     Variable_print(res);
 
-}
+}*/

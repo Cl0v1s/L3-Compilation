@@ -57,8 +57,8 @@ extern int yydebug;
     Def = 267,
     Dep = 268,
     Af = 269,
-    true = 270,
-    false = 271,
+    True = 270,
+    False = 271,
     Se = 272,
     If = 273,
     Th = 274,
@@ -91,17 +91,17 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 13 "ppinterpret.y" /* yacc.c:1909  */
+#line 16 "ppinterpret.y" /* yacc.c:1909  */
 
 		char* identity;
 		int constant;
         struct Type* type;
-        struct Arg* arg;
-        struct ArgList* argList;
+        struct Variable* variable;
+        struct Env* env;
         struct FuncDisclaimer* funcDisc;
         struct Func* function;
-        struct Method* method;
-        struct VarDisclaimList* varDiscList; 
+        struct FuncList* functions;
+        struct Ast*  ast;
 	
 
 #line 108 "ppinterpret.tab.h" /* yacc.c:1909  */

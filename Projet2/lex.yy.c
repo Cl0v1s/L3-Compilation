@@ -876,12 +876,12 @@ YY_RULE_SETUP
 case 7:
 YY_RULE_SETUP
 #line 19 "ppascal.l"
-{ return true; }
+{ return True; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
 #line 20 "ppascal.l"
-{ return false; }
+{ return False; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP

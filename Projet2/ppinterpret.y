@@ -4,7 +4,7 @@
 	#include "include/Function.h"
 	#include "include/Variable.h"
 	#include "include/Env.h"
-    #include "include/AST.h"
+    #include "include/Ast.h"
     #include "include/Pascal.h"
     #include "include/Stack.h"
 
@@ -31,8 +31,6 @@
 
 	%start MP
 
-
-  %type<ast> C
   %type<type> TP
 
   %type<env> L_argt L_argtnn Argt L_vartnn L_vart
@@ -60,7 +58,7 @@ E: E Pl E { $$ = Ast_init('E', Pl, $1, $3); }
   | E Lt E { $$ = Ast_init('E', Lt, $1, $3); }
   | E Eq E { $$ = Ast_init('E', Eq, $1, $3); }
   | E And E { $$ = Ast_init('E', And, $1, $3); }
-  | Not E { $$ = Ast_init('E', Not, $3, 0); }
+  | Not E { $$ = Ast_init('E', Not, $2, 0); }
   | OPar E CPar { $$ = $2; }
   | I { $$ = Ast_init_leaf('I', $1); }
   | V { $$ = Ast_init_leaf('V', $1); }
@@ -78,9 +76,9 @@ C: C Se C { $$ = Ast_init('C', Se, $1, $3);}
   | V Af E { $$ = Ast_init('C', Af, $1, $3); }
   | Sk { $$ = Ast_init('C', Sk, 0,0); }
   | OBrace C CBrace { $$ = $2; }
-  | If E Th C El C { $$ = Ast_init('C', If, $1, Ast_init('C', El, $4, $6));}
-  | Wh E Do C { $$ = Ast_init('C', Wh, $2, $3); }
-  | V OPar L_args CPar { $$ = Ast_init('C', callFUNC, Ast_init_leaf('V', $1), $3); }
+  | If E Th C El C { $$ = Ast_init('C', If, $2, Ast_init('C', El, $4, $6));}
+  | Wh E Do C { $$ = Ast_init('C', Wh, $2, $4); }
+  | V OPar L_args CPar { $$ = Ast_init('C', CallFUNC, Ast_init_leaf('V', $1), $3); }
 
 L_args: %empty { $$ = Ast_init('L', 0, 0, 0); }
   | L_argsnn { $$ = $1;}
@@ -103,7 +101,7 @@ TP: T_boo { $$ = Type_init(BOOL, 0); }
 L_vart: %empty {  $$ = Env_init(); }
   | L_vartnn { $$ = $1;}
 
-L_vartnn: Var Argt { $$ = $1; }
+L_vartnn: Var Argt { $$ = $2; }
   | L_vartnn Comma Var Argt { $$ = Env_concat($1, $4); }
 
 D_entp: Dep V OPar L_argt CPar { $$ = FuncDisclaimer_init($2, $4, Type_init(VOID, 0)); }

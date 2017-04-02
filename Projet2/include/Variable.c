@@ -208,7 +208,7 @@ struct Variable* Variable_arrayGet(struct Variable* array, struct Stack* stack, 
         printf("Index out of range.\n");
         exit(-1);
     }
-    Stack_getVariable(stack, *(int*)array->value+index);
+    return Stack_getVariable(stack, *(int*)array->value+index);
 }
 
 struct Type* Type_copy(struct Type* src)

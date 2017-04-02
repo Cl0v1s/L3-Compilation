@@ -28,8 +28,9 @@ struct Env* Env_init();
 /**
 * Affiche un environnement 
 * env : environnement à afficher
+* stack : tas rattaché à l'environnement à afficher
 **/
-void Env_print(struct Env* env);
+void Env_print(struct Env* env, struct Stack* stack);
 /**
 * Test si la clef key existe 
 * env : environnement à tester 

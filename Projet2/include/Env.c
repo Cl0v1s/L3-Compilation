@@ -10,11 +10,12 @@ struct Env* Env_init()
     return env;
 }
 
-void Env_print(struct Env* env)
+void Env_print(struct Env* env, struct Stack* stack)
 {
     for(int i = 0; i < env->length; i++)
     {
-        printf("(%lu:%p) ", env->keys[i], Variable_arrayGet(env->values, i));
+        // TODO : appeler Variable_get ou Variable_arrayGet correctement
+//        printf("(%lu:%p) ", env->keys[i], Variable_arrayGet(env->values, stack, i));
     } 
     printf("\n"); 
 } 
@@ -77,7 +78,9 @@ void Env_add_value_hash(struct Env* env, unsigned long hash, struct Variable* va
 
     env->length++;
     #ifdef DEBUG
-        printf("Creating value %s : (%lu <- %p)\n", key, hash, value);
+    // TODO : Je sais pas ce par quoi key doit être remplacé ici (j'ai pensé à keys[env->length] pour la clé rajouté
+    //          présentement mais ça ferait redondance avec hash ? m'enfin à toi de voir ! :)
+    //        printf("Creating value %s : (%lu <- %p)\n", key, hash, value);
     #endif
 }
 

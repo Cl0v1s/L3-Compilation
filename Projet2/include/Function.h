@@ -29,7 +29,7 @@ struct FuncList
 {
 	struct Func** list;
 	int length;
-}
+};
 
 
 struct FuncList* FuncList_init();

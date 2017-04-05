@@ -8,3 +8,10 @@ int_pp: ppascal.l ppinterpret.y
 
 test: include/Variable.c include/Env.c include/Function.c include/test.c
 	cc -o test/test include/*.c -DDEBUG
+
+
+testStack: include/Variable.c include/Stack.c include/Env.c include/Function.c include/testStack.c
+	cc -o test/stack include/*.c --DEBUG
+
+
+

@@ -40,4 +40,4 @@ struct FuncDisclaimer* FuncDisclaimer_init(char* name, struct Env* args, struct 
 
 struct Func* Func_init(struct FuncDisclaimer* disclaimer, struct Env* vars, struct Ast* ast);
 
-#endif 
+#endif

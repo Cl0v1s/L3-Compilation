@@ -21,7 +21,7 @@
         struct Env* env;
         struct FuncDisclaimer* funcDisc;
         struct Func* function;
-        struct FuncList* functions;
+        struct FuncList* funcList;
         struct Ast*  ast;
 	}
 
@@ -35,8 +35,8 @@
 
   %type<env> L_argt L_argtnn Argt L_vartnn L_vart
   %type<funcDisc> D_entf D_entp
-  %type<function> D
-  %type<functions> LD
+  %type<funcList> LD
+   %type<function> D
   %type<ast> E Et C L_argsnn L_args
 
 
@@ -48,6 +48,7 @@
 
 
 MP: L_vart LD C {
+    printf("C parti\n");
     Pascal_run(Stack_init(), $1, $2, $3);
 }
 
@@ -60,10 +61,10 @@ E: E Pl E { $$ = Ast_init('E', Pl, $1, $3); }
   | E And E { $$ = Ast_init('E', And, $1, $3); }
   | Not E { $$ = Ast_init('E', Not, $2, 0); }
   | OPar E CPar { $$ = $2; }
-  | I { $$ = Ast_init_leaf('I', $1); }
+  | I { $$ = Pascal_Ast_init_leaf('I', $1); }
   | V { $$ = Ast_init_leaf('V', $1); }
-  | True { $$ = Ast_init_leaf('B', true); }
-  | False { $$ = Ast_init_leaf('B', false); }
+  | True { $$ = Pascal_Ast_init_leaf('B', true); }
+  | False { $$ = Pascal_Ast_init_leaf('B', false); }
   | V OPar L_args CPar { $$ = Ast_init('E', CallFUNC, Ast_init_leaf('V', $1), $3); }
   | NewAr TP OBracket E CBracket { $$ = Ast_init('E', NewAr, Ast_init_leaf('T', $2), $4); }
   | Et { $$=$1; }
@@ -72,8 +73,9 @@ Et: V OBracket E CBracket { $$ = Ast_init('E', GetARR, Ast_init_leaf('V', $1), $
   | Et OBracket E CBracket { $$ = Ast_init('E', GetARR, $1, $3); }
 
 C: C Se C { $$ = Ast_init('C', Se, $1, $3);}
+  | C Se { $$ = Ast_init('C', Se, $1, 0);}
   | Et Af E { $$ = Ast_init('C', Af, $1, $3); }
-  | V Af E { $$ = Ast_init('C', Af, $1, $3); }
+  | V Af E { $$ = Ast_init('C', Af, Ast_init_leaf('V', $1), $3); }
   | Sk { $$ = Ast_init('C', Sk, 0,0); }
   | OBrace C CBrace { $$ = $2; }
   | If E Th C El C { $$ = Ast_init('C', If, $2, Ast_init('C', El, $4, $6));}
@@ -92,7 +94,7 @@ L_argt: %empty { $$ = Env_init(); }
 L_argtnn: Argt { $$ = $1;}
   | L_argtnn Comma Argt { $$ = Env_concat($1, $3);free($1); free($3); }
 
-Argt: V Colon TP { $$ = Env_init(); Env_set_value($$, $1,Variable_init($3)); }
+Argt: V Colon TP { printf("Adding %s\n", $1); $$ = Env_init(); Env_set_value($$, $1,Variable_init($3)); }
 
 TP: T_boo { $$ = Type_init(BOOL, 0); }
   | T_int  { $$ = Type_init(INT, 0); }
@@ -112,7 +114,7 @@ D: D_entp L_vart C { $$ = Func_init( $1, $2, $3); }
   | D_entf L_vart C { $$ = Func_init( $1, $2, $3); }
 
 LD: %empty { $$ = FuncList_init(); }
-  | LD D { $$ = $1; FuncList_append($$, $1); }
+  | LD D { FuncList_append($1, $2); }
 
 %%
 

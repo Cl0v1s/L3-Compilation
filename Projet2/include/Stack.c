@@ -72,10 +72,10 @@ void Stack_remove(struct Stack* _stack, int index, int size){
 void Stack_removeArray(struct Stack* _stack, struct Variable* start){
   //TODO : Recoller proprement dans un tel contexte où on ne connaît que start n'est pas possible si start n'est pas également le dernier du tas
     // Plage de suppression invalide
-    if((int)start->value >= _stack->size || (int)(start->value + start->size) >= _stack->size){
-        printf("Suppression range invalid. [%i:%i]>[%i]\n", *(int *)start->value, *(int *)start->value+start->size, *(int *)_stack->size);
+    if(*(int*)start->value >= _stack->size || *(int*)(start->value + start->size) >= _stack->size){
+        printf("Suppression range invalid. [%i:%i]>[%i]\n", *(int *)start->value, *(int *)start->value+start->size, _stack->size);
     }
-    struct Variable* startVar = _stack->vars[(int)start->value];
+    struct Variable* startVar = _stack->vars[*(int*)start->value];
 
     // Remove one
 }

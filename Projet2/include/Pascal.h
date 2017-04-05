@@ -14,6 +14,7 @@
 #define GetARR -1
 #define CallFUNC -2
 
+struct Ast* Pascal_Ast_init_leaf(int nodetype, int value);
 
 struct Variable* Pascal_run(struct Stack* stack, struct Env* global, struct FuncList* functions, struct Ast* ast);
 

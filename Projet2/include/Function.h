@@ -31,6 +31,8 @@ struct FuncList
 	int length;
 };
 
+struct Func* Func_init(struct FuncDisclaimer* disclaimer, struct Env* vars, struct Ast* ast);
+
 
 struct FuncList* FuncList_init();
 
@@ -40,6 +42,5 @@ struct FuncDisclaimer* FuncDisclaimer_init(char* name, struct Env* args, struct 
 
 struct Func* FuncList_search(struct FuncList* funcs, char* name);
 
-struct Func* Func_init(struct FuncDisclaimer* disclaimer, struct Env* vars, struct Ast* ast);
 
 #endif

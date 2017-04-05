@@ -2,6 +2,15 @@
 
 
 
+struct Func* Func_init(struct FuncDisclaimer* disclaimer, struct Env* vars, struct Ast* ast)
+{
+    struct Func* res = malloc(sizeof(struct Func));
+    res->disclaimer = disclaimer;
+    res->vars = vars;
+    res->ast = ast;
+    return res;
+}
+
 struct FuncDisclaimer* FuncDisclaimer_init(char* name, struct Env* list, struct Type* type)
 {
     struct FuncDisclaimer* res = malloc(sizeof(struct FuncDisclaimer));
@@ -11,14 +20,7 @@ struct FuncDisclaimer* FuncDisclaimer_init(char* name, struct Env* list, struct 
     return res;
 }
 
-struct Func* Func_init(struct FuncDisclaimer* disclaimer, struct Env* vars, struct Ast* ast)
-{
-    struct Func* res = malloc(sizeof(struct Func));
-    res->disclaimer = disclaimer;
-    res->vars = list;
-    res->ast = ast;
-    return res;
-}
+
 
 struct FuncList* FuncList_init()
 {

@@ -95,7 +95,11 @@ void Variable_set(struct Variable* var,int value)
     if(var->value != 0)
         free(var->value);
     var->value = malloc(sizeof(int));
+
     *((int*)var->value) = value;
+#ifdef DEBUG
+    //printf("Variable_set := %d\n", value);
+#endif
 }
 
 int Variable_get(struct Variable* var)
@@ -107,6 +111,9 @@ int Variable_get(struct Variable* var)
         printf("Cant call Variable_get on array.\n");
         exit(-1);
     }
+#ifdef DEBUG
+    //printf("Variable_get := %d\n", *((int*)var->value));
+#endif
     return *((int*)var->value);
 }
 
@@ -164,14 +171,17 @@ struct Variable* Variable_arrayInit(struct Type* type, struct Stack* stack, int 
 {
     if(type->type != ARRAY)
     {
-        printf("Cant call that on array.\n");
+        printf("Cant call that on non-array.\n");
         exit(-1);
     }
 
     struct Variable* var = malloc(sizeof(struct Variable));
     var->type = type;
     var->size = length;
+    printf("djkdlqs\n");
+    var->value = malloc(sizeof(int));
     *(int*)var->value = Stack_push(stack, length);
+    printf("caca\n");
     return var;
 }
 
@@ -236,6 +246,7 @@ struct Type* Type_copy(struct Type* src)
 
 void Variable_arrayCopy(struct Stack* stack, struct Variable* dest, struct Variable* src)
 {
+    printf("Copying array.\n");
     Type_free(dest->type);
     Stack_remove(stack, *(int*)dest->value, dest->size);
     dest->type = Type_copy(src->type);

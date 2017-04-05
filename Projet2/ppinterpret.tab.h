@@ -100,7 +100,7 @@ union YYSTYPE
         struct Env* env;
         struct FuncDisclaimer* funcDisc;
         struct Func* function;
-        struct FuncList* functions;
+        struct FuncList* funcList;
         struct Ast*  ast;
 	
 

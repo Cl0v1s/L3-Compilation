@@ -10,9 +10,10 @@
 
 %%
 
-"new array of" { return NewAr; }
+"new" { return NewAr; }
 "array of" { return T_ar; }
 "integer" { return T_int; }
+"boolean" { return T_boo; }
 "defun" { return Def; }
 "defpro" { return Dep; }
 ":=" { return Af; }

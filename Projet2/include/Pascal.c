@@ -4,9 +4,25 @@
 
 #include "Pascal.h"
 
+struct Ast* Pascal_Ast_init_leaf(int nodetype, int value)
+{
+    struct Ast* ast = malloc(sizeof(struct Ast));
+    //printf("%p Leaf %c: ", ast, nodetype);
+    ast->nodetype = nodetype;
+    ast->left = 0;
+    ast->right = 0;
+    int* tmp = malloc(sizeof(int));
+    *tmp = value;
+    ast->value=tmp;
+    //printf("\n");
+    return ast;
+}
+
 
 struct Variable* Pascal_run( struct Stack* stack, struct Env* env, struct FuncList* functions, struct Ast* ast)
 {
+    if(ast == 0)
+        return 0;
     if(TypeSystem_isInit() == false)
         TypeSystem_init();
     char nodeType = ast->nodetype;
@@ -27,17 +43,23 @@ struct Variable* Pascal_run( struct Stack* stack, struct Env* env, struct FuncLi
                 Pascal_run(stack, env, functions, ast->right);
                 break;
             case Af:
+                printf("Affect\n");
                 tmp1 = Pascal_run(stack, env, functions, ast->left);
                 tmp2 = Pascal_run(stack, env, functions, ast->right);
+                printf("Done running\n");
                 if(Type_check(tmp1->type, tmp2->type) == false)
                 {
                     printf("Cant affect non-identical types.\n");
                     exit(-1);
                 }
-                if(tmp1->type != ARRAY)
+                if(tmp1->type->type != ARRAY) {
+                    printf("%s <- %d\n", (char*)ast->left->value,  Variable_get(tmp2));
                     Variable_set(tmp1, Variable_get(tmp2));
-                else
+                }
+                else {
+                    printf("Affecting array\n");
                     Variable_arrayCopy(stack, tmp1, tmp2);
+                }
                 break;
             case Sk:
                 break;
@@ -93,7 +115,7 @@ struct Variable* Pascal_run( struct Stack* stack, struct Env* env, struct FuncLi
                         exit(-1);
                     }
                     tmp1 = Pascal_run(stack, env, functions, tmp6->right);
-                    if(Type_check(tmp1->type, Env_get_value_index(tmp4->disclaimer->args, i)) == false)
+                    if(Type_check(tmp1->type, Env_get_value_index(tmp4->disclaimer->args, i)->type) == false)
                     {
                         printf("Type mismatch.\n");
                         exit(-1);
@@ -197,6 +219,8 @@ struct Variable* Pascal_run( struct Stack* stack, struct Env* env, struct FuncLi
                     printf("Cant create array of negative size.\n");
                     exit(-1);
                 }
+                printf("Creating new array.\n");
+                printf("%d\n", tmp3->type);
                 return Variable_arrayInit(tmp3, stack, Variable_get(Pascal_run(stack, env, functions, ast->right)));
             case GetARR:
                 tmp1 = Pascal_run(stack, env, functions, ast->left);
@@ -231,7 +255,7 @@ struct Variable* Pascal_run( struct Stack* stack, struct Env* env, struct FuncLi
                         exit(-1);
                     }
                     tmp1 = Pascal_run(stack, env, functions, tmp6->right);
-                    if(Type_check(tmp1->type, Env_get_value_index(tmp4->disclaimer->args, i)) == false)
+                    if(Type_check(tmp1->type, Env_get_value_index(tmp4->disclaimer->args, i)->type) == false)
                     {
                         printf("Type mismatch.\n");
                         exit(-1);
@@ -261,14 +285,14 @@ struct Variable* Pascal_run( struct Stack* stack, struct Env* env, struct FuncLi
     }
     else if(nodeType == 'I') // constantes
     {
-        int tmp = (int)ast->value;
+        int tmp = *(int*)ast->value;
         struct Variable* tmp1 = Variable_init(Type_INT);
         Variable_set(tmp1, tmp);
         return tmp1;
     }
     else if(nodeType == 'B') // constantes
     {
-        int tmp = (int)ast->value;
+        int tmp = *(int*)ast->value;
         struct Variable* tmp1 = Variable_init(Type_BOOL);
         Variable_set(tmp1, tmp);
         return tmp1;

@@ -42,4 +42,4 @@ struct Func* FuncList_search(struct FuncList* funcs, char* name);
 
 struct Func* Func_init(struct FuncDisclaimer* disclaimer, struct Env* vars, struct Ast* ast);
 
-#endif 
+#endif

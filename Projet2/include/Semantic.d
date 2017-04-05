@@ -94,12 +94,12 @@ struct Variable* Pascal_Semantic_Analysis( struct Stack* stack, struct Env* env,
             case Mu:
                 tp1 = Pascal_Semantic_Analysis(stack, env, functions, ast->left)->type;
                 tp2 = Pascal_Semantic_Analysis(stack, env, functions, ast->right)->type;
-                if(Type_check(tp1, tp2)){
+                if(Type_check(tp1, Type_INT) && Type_check(tp2, Type_INT)){
                   tmp1 = Variable_init(Type_INT);
                   return tmp1;
                 }
                 else {
-                  printf("SEMANTIC : Operation "ope" on different types [ %s ] [ %s ].\n", tp1->type, tp2->type);
+                  printf("SEMANTIC : Operation "ope" on non-integer [ %d ] [ %d ].\n", tp1->type, tp2->type);
                   exit(-1);
                 }
             // Or
@@ -111,7 +111,7 @@ struct Variable* Pascal_Semantic_Analysis( struct Stack* stack, struct Env* env,
                   return tmp1;
                 }
                 else {
-                  printf("SEMANTIC : Operator Or on a non-boolean [ %s ] [ %s ].\n", tp1->type, tp2->type);
+                  printf("SEMANTIC : Operator Or on a non-boolean [ %d ] [ %d ].\n", tp1->type, tp2->type);
                   exit(-1);
                 }
             case Lt:
@@ -122,7 +122,7 @@ struct Variable* Pascal_Semantic_Analysis( struct Stack* stack, struct Env* env,
                   return tmp1;
                 }
                 else {
-                  printf("SEMANTIC : Operator Lt on different types [ %s ] [ %s ].\n", tp1->type, tp2->type);
+                  printf("SEMANTIC : Operator Lt on different types [ %d ] [ %d ].\n", tp1->type, tp2->type);
                   exit(-1);
                 }
             case Eq:
@@ -133,7 +133,7 @@ struct Variable* Pascal_Semantic_Analysis( struct Stack* stack, struct Env* env,
                   return tmp1;
                 }
                 else {
-                  printf("SEMANTIC : Operator Eq on different types [ %s ] [ %s ].\n", tp1->type, tp2->type);
+                  printf("SEMANTIC : Operator Eq on different types [ %d ] [ %ds ].\n", tp1->type, tp2->type);
                   exit(-1);
                 }
             case And:
@@ -144,7 +144,7 @@ struct Variable* Pascal_Semantic_Analysis( struct Stack* stack, struct Env* env,
                   return tmp1;
                 }
                 else {
-                  printf("SEMANTIC : Operator And on different types [ %s ] [ %s ].\n", tp1->type, tp2->type);
+                  printf("SEMANTIC : Operator And on different types [ %d ] [ %d ].\n", tp1->type, tp2->type);
                   exit(-1);
                 }
             case Not:
@@ -154,7 +154,7 @@ struct Variable* Pascal_Semantic_Analysis( struct Stack* stack, struct Env* env,
                   return tmp1;
                 }
                 else {
-                  printf("SEMANTIC : Operator Not on a non-boolean [ %s ].\n", tp1->type);
+                  printf("SEMANTIC : Operator Not on a non-boolean [ %d ].\n", tp1->type);
                 }
             case NewAr:
                 tmp3 = (struct Type*)ast->left->value;

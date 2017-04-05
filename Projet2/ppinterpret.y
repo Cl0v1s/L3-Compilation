@@ -90,7 +90,7 @@ L_argt: %empty { $$ = Env_init(); }
   | L_argtnn { $$ = $1;}
 
 L_argtnn: Argt { $$ = $1;}
-  | L_argtnn Comma Argt { $$ = Env_concat($1, $3); }
+  | L_argtnn Comma Argt { $$ = Env_concat($1, $3);free($1); free($3); }
 
 Argt: V Colon TP { $$ = Env_init(); Env_set_value($$, $1,Variable_init($3)); }
 
@@ -102,7 +102,7 @@ L_vart: %empty {  $$ = Env_init(); }
   | L_vartnn { $$ = $1;}
 
 L_vartnn: Var Argt { $$ = $2; }
-  | L_vartnn Comma Var Argt { $$ = Env_concat($1, $4); }
+  | L_vartnn Comma Var Argt { $$ = Env_concat($1, $4); free($1); free($4); }
 
 D_entp: Dep V OPar L_argt CPar { $$ = FuncDisclaimer_init($2, $4, Type_init(VOID, 0)); }
 

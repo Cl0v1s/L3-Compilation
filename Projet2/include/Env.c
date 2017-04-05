@@ -129,6 +129,14 @@ void Env_set_value(struct Env* env, char*key, struct Variable* value)
     }
 }
 
+void Env_set_value_index(struct Env* env, int index, struct Variable* value)
+{
+    if(index >= env->length)
+        return;
+
+    env->values[index] = value;
+}
+
 unsigned long Env_hash(char *str)
 {
     unsigned long hash = 5381;
@@ -156,13 +164,13 @@ struct Env* Env_concat(struct Env* env1, struct Env* env2)
         struct Variable* value = Env_get_value_index(env1, i);
         Env_add_value_hash(res, key, value);
     }
-    for(int i = 0; i != env1->length; i++)
+    if(env2 == 0)
+        return res;
+    for(int i = 0; i != env2->length; i++)
     {
-        unsigned long key = Env_get_key_index(env1, i);
-        struct Variable* value = Env_get_value_index(env1, i);
+        unsigned long key = Env_get_key_index(env2, i);
+        struct Variable* value = Env_get_value_index(env2, i);
         Env_add_value_hash(res, key, value);
     }
-    Env_free(env1);
-    Env_free(env2);
     return res;
 }

@@ -17,6 +17,10 @@ struct Variable* Pascal_run( struct Stack* stack, struct Env* env, struct FuncLi
         struct Variable* tmp1;
         struct Variable* tmp2;
         struct Type* tmp3;
+        struct Func* tmp4;
+        struct Env* tmp5;
+        struct Env* tmp7;
+        struct Ast* tmp6;
         switch(ope) {
             case Se:
                 Pascal_run(stack, env, functions, ast->left);
@@ -70,7 +74,43 @@ struct Variable* Pascal_run( struct Stack* stack, struct Env* env, struct FuncLi
                     }
                 }
                 break;
-
+            case CallFUNC:
+                tmp4 = FuncList_search(functions, ((char*)ast->left->value));
+                if(tmp4 == 0)
+                {
+                    printf("Function not declared.\n");
+                    exit(-1);
+                }
+                // création de l'environnement local
+                tmp7 = Env_concat(env, 0);
+                tmp5 = Env_concat(tmp7, tmp4->disclaimer->args);
+                tmp6 = ast->right;
+                for(int i = 0; i < tmp4->disclaimer->args->length; i++)
+                {
+                    if(tmp6->right == 0)
+                    {
+                        printf("Too few arguments.\n");
+                        exit(-1);
+                    }
+                    tmp1 = Pascal_run(stack, env, functions, tmp6->right);
+                    if(Type_check(tmp1->type, Env_get_value_index(tmp4->disclaimer->args, i)) == false)
+                    {
+                        printf("Type mismatch.\n");
+                        exit(-1);
+                    }
+                    Env_set_value_index(tmp5, env->length + i, tmp1);
+                    tmp6 = tmp6->left;
+                }
+                // execution de la fonction
+                Pascal_run(stack, tmp5, functions, tmp4->ast);
+                // copie des variables globales de l'environnement locale
+                for(int i = 0; i < env->length; i++)
+                {
+                    Env_set_value_index(env, i, Env_get_value_index(tmp5, i));
+                }
+                free(tmp5);
+                free(tmp7);
+                break;
         }
         return 0;
     }
@@ -81,6 +121,10 @@ struct Variable* Pascal_run( struct Stack* stack, struct Env* env, struct FuncLi
         struct Variable* tmp1;
         struct Variable* tmp2;
         struct Type* tmp3;
+        struct Func* tmp4;
+        struct Env* tmp5;
+        struct Env* tmp7;
+        struct Ast* tmp6;
         switch(ope)
         {
             case Pl:
@@ -168,6 +212,48 @@ struct Variable* Pascal_run( struct Stack* stack, struct Env* env, struct FuncLi
                     exit(-1);
                 }
                 return Variable_arrayGet(tmp1, stack, Variable_get(tmp2));
+            case CallFUNC:
+                tmp4 = FuncList_search(functions, ((char*)ast->left->value));
+                if(tmp4 == 0)
+                {
+                    printf("Function not declared.\n");
+                    exit(-1);
+                }
+                // création de l'environnement local
+                tmp7 = Env_concat(env, 0);
+                tmp5 = Env_concat(tmp7, tmp4->disclaimer->args);
+                tmp6 = ast->right;
+                for(int i = 0; i < tmp4->disclaimer->args->length; i++)
+                {
+                    if(tmp6->right == 0)
+                    {
+                        printf("Too few arguments.\n");
+                        exit(-1);
+                    }
+                    tmp1 = Pascal_run(stack, env, functions, tmp6->right);
+                    if(Type_check(tmp1->type, Env_get_value_index(tmp4->disclaimer->args, i)) == false)
+                    {
+                        printf("Type mismatch.\n");
+                        exit(-1);
+                    }
+                    Env_set_value_index(tmp5, env->length + i, tmp1);
+                    tmp6 = tmp6->left;
+                }
+                // execution de la fonction
+                tmp1 = Pascal_run(stack, tmp5, functions, tmp4->ast);
+                if(Type_check(tmp1->type, tmp4->disclaimer->type) == false)
+                {
+                    printf("Wrong return type.\n");
+                    exit(-1);
+                }
+                // copie des variables globales de l'environnement locale
+                for(int i = 0; i < env->length; i++)
+                {
+                    Env_set_value_index(env, i, Env_get_value_index(tmp5, i));
+                }
+                free(tmp5);
+                free(tmp7);
+                break;
 
 
 

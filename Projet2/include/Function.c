@@ -11,7 +11,7 @@ struct FuncDisclaimer* FuncDisclaimer_init(char* name, struct Env* list, struct 
     return res;
 }
 
-struct Func* Func_init(struct FuncDisclaimer* disclaimer, struct Env* list, struct Ast* ast)
+struct Func* Func_init(struct FuncDisclaimer* disclaimer, struct Env* vars, struct Ast* ast)
 {
     struct Func* res = malloc(sizeof(struct Func));
     res->disclaimer = disclaimer;
@@ -37,6 +37,19 @@ void FuncList_append(struct FuncList* funcs, struct Func* func)
     funcs->list = list;
     funcs->length = funcs->length + 1;
 }
+
+struct Func* FuncList_search(struct FuncList* funcs, char* name)
+{
+    struct Func* current;
+    for(int i = 0; i < funcs->length; i++)
+    {
+        current = funcs->list[i];
+        if(strcmp(current->disclaimer->name, name) == 0)
+            return current;
+    }
+    return 0;
+}
+
 
 void FuncList_append(struct FuncList* funcs, struct Func* func);
 

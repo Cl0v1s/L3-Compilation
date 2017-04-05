@@ -8,20 +8,22 @@ struct Variable* Pascal_Semantic_Analysis( struct Stack* stack, struct Env* env,
     char nodeType = ast->nodetype;
 
     /** Commands **/
-    if(nodeType == 'C')
+    if(nodeType == 'C') // commandes
     {
         int ope = *(int*)ast->value;
         int tmp;
         struct Variable* tmp1;
         struct Variable* tmp2;
         struct Type* tmp3;
+        struct Func* tmp4;
+        struct Env* tmp5;
+        struct Env* tmp7;
+        struct Ast* tmp6;
         switch(ope) {
-            // Separator
             case Se:
                 Pascal_run(stack, env, functions, ast->left);
                 Pascal_run(stack, env, functions, ast->right);
                 break;
-            // Affectation
             case Af:
                 tmp1 = Pascal_run(stack, env, functions, ast->left);
                 tmp2 = Pascal_run(stack, env, functions, ast->right);
@@ -35,10 +37,8 @@ struct Variable* Pascal_Semantic_Analysis( struct Stack* stack, struct Env* env,
                 else
                     Variable_arrayCopy(stack, tmp1, tmp2);
                 break;
-            // Skip
             case Sk:
                 break;
-            // If
             case If:
                 tmp1 = Pascal_run(stack, env, functions, ast->left);
                 if(tmp1->type->type == ARRAY)
@@ -72,6 +72,43 @@ struct Variable* Pascal_Semantic_Analysis( struct Stack* stack, struct Env* env,
                     }
                 }
                 break;
+            case CallFUNC:
+                tmp4 = FuncList_search(functions, ((char*)ast->left->value));
+                if(tmp4 == 0)
+                {
+                    printf("Function not declared.\n");
+                    exit(-1);
+                }
+                // création de l'environnement local
+                tmp7 = Env_concat(env, 0);
+                tmp5 = Env_concat(tmp7, tmp4->disclaimer->args);
+                tmp6 = ast->right;
+                for(int i = 0; i < tmp4->disclaimer->args->length; i++)
+                {
+                    if(tmp6->right == 0)
+                    {
+                        printf("Too few arguments.\n");
+                        exit(-1);
+                    }
+                    tmp1 = Pascal_run(stack, env, functions, tmp6->right);
+                    if(Type_check(tmp1->type, Env_get_value_index(tmp4->disclaimer->args, i)) == false)
+                    {
+                        printf("Type mismatch.\n");
+                        exit(-1);
+                    }
+                    Env_set_value_index(tmp5, env->length + i, tmp1);
+                    tmp6 = tmp6->left;
+                }
+                // execution de la fonction
+                Pascal_run(stack, tmp5, functions, tmp4->ast);
+                // copie des variables globales de l'environnement locale
+                for(int i = 0; i < env->length; i++)
+                {
+                    Env_set_value_index(env, i, Env_get_value_index(tmp5, i));
+                }
+                free(tmp5);
+                free(tmp7);
+                break;
         }
         return 0;
     }
@@ -84,6 +121,10 @@ struct Variable* Pascal_Semantic_Analysis( struct Stack* stack, struct Env* env,
         struct Variable* tmp1;
         struct Variable* tmp2;
         struct Type* tmp3;
+        struct Func* tmp4;
+        struct Env* tmp5;
+        struct Env* tmp7;
+        struct Ast* tmp6;
         switch(ope)
         {
             // Add
@@ -168,16 +209,59 @@ struct Variable* Pascal_Semantic_Analysis( struct Stack* stack, struct Env* env,
                 tmp1 = Pascal_run(stack, env, functions, ast->left);
                 if(tmp1->type->type != ARRAY)
                 {
-                    printf("Invalid operation on non-array variable.\n");
+                    printf("SEMANTIC : Acessing array value on non-array variable.\n");
                     exit(-1);
                 }
                 tmp2 = Pascal_run(stack, env, functions, ast->right);
                 if(tmp1->type->type == ARRAY)
                 {
-                    printf("Index array must be numeric.\n");
+                    printf("SEMANTIC : Index array must be numeric.\n");
                     exit(-1);
                 }
                 return Variable_arrayGet(tmp1, stack, Variable_get(tmp2));
+            case CallFUNC:
+                // Vérification de l'existance de la fonction
+                tmp4 = FuncList_search(functions, ((char*)ast->left->value));
+                if(tmp4 == 0)
+                {
+                    printf("SEMANTIC : Function not declared [%s].\n", (char*)ast->left->value));
+                    exit(-1);
+                }
+                // création de l'environnement local
+                tmp7 = Env_concat(env, 0);
+                tmp5 = Env_concat(tmp7, tmp4->disclaimer->args);
+                tmp6 = ast->right;
+                for(int i = 0; i < tmp4->disclaimer->args->length; i++)
+                {
+                    if(tmp6->right == 0)
+                    {
+                        printf("Too few arguments.\n");
+                        exit(-1);
+                    }
+                    tmp1 = Pascal_run(stack, env, functions, tmp6->right);
+                    if(Type_check(tmp1->type, Env_get_value_index(tmp4->disclaimer->args, i)) == false)
+                    {
+                        printf("Type mismatch.\n");
+                        exit(-1);
+                    }
+                    Env_set_value_index(tmp5, env->length + i, tmp1);
+                    tmp6 = tmp6->left;
+                }
+                // execution de la fonction
+                tmp1 = Pascal_run(stack, tmp5, functions, tmp4->ast);
+                if(Type_check(tmp1->type, tmp4->disclaimer->type) == false)
+                {
+                    printf("Wrong return type.\n");
+                    exit(-1);
+                }
+                // copie des variables globales de l'environnement locale
+                for(int i = 0; i < env->length; i++)
+                {
+                    Env_set_value_index(env, i, Env_get_value_index(tmp5, i));
+                }
+                free(tmp5);
+                free(tmp7);
+                break;
 
 
 

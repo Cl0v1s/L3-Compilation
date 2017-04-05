@@ -94,12 +94,12 @@ struct Variable* Pascal_Semantic_Analysis( struct Stack* stack, struct Env* env,
             case Mu:
                 tp1 = Pascal_Semantic_Analysis(stack, env, functions, ast->left)->type;
                 tp2 = Pascal_Semantic_Analysis(stack, env, functions, ast->right)->type;
-                if(Type_check(tp1, tp2)){
+                if(Type_check(tp1, Type_INT) && Type_check(tp2, Type_INT)){
                   tmp1 = Variable_init(Type_INT);
                   return tmp1;
                 }
                 else {
-                  printf("SEMANTIC : Operation "ope" on different types [ %s ] [ %s ].\n", tp1->type, tp2->type);
+                  printf("SEMANTIC : Operation "ope" on non-integer [ %s ] [ %s ].\n", tp1->type, tp2->type);
                   exit(-1);
                 }
             // Or

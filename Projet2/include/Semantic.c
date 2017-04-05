@@ -92,56 +92,70 @@ struct Variable* Pascal_Semantic_Analysis( struct Stack* stack, struct Env* env,
             case Mo:
             // Multiply
             case Mu:
-                if(Type_check(tp1 = Pascal_Semantic_Analysis(stack, env, functions, ast->left)->type, tp2 = Pascal_Semantic_Analysis(stack, env, functions, ast->right)->type ) == true){
+                tp1 = Pascal_Semantic_Analysis(stack, env, functions, ast->left)->type;
+                tp2 = Pascal_Semantic_Analysis(stack, env, functions, ast->right)->type;
+                if(Type_check(tp1, tp2)){
                   tmp1 = Variable_init(Type_INT);
                   return tmp1;
                 }
                 else {
-                  printf("SEMANTIC : Operation "ope" on different types [ %s ] [ %s ].\n", tp1, tp2);
+                  printf("SEMANTIC : Operation "ope" on different types [ %s ] [ %s ].\n", tp1->type, tp2->type);
                   exit(-1);
                 }
             // Or
             case Or:
-                tp1 = Pascal_Semantic_Analysis(stack, env, function, ast->left)->type;
-                tp2 = Pascal_Semantic_Analysis(stack, env, function, ast->right)->type;
+                tp1 = Pascal_Semantic_Analysis(stack, env, functions, ast->left)->type;
+                tp2 = Pascal_Semantic_Analysis(stack, env, functions, ast->right)->type;
                 if(Type_check(tp1, Type_BOOL) == true && Type_check(tp2, Type_BOOL)){
                   tmp1 = Variable_init(Type_BOOL);
                   return tmp1;
                 }
                 else {
-                  printf("SEMANTIC : Operator Or on non-boolean [ %s ] [ %s ].\n", tp1, tp2);
+                  printf("SEMANTIC : Operator Or on a non-boolean [ %s ] [ %s ].\n", tp1->type, tp2->type);
                   exit(-1);
                 }
             case Lt:
-                tp1 = Pascal_Semantic_Analysis(stack, env, function, ast->left)->type;
-                tp2 = Pascal_Semantic_Analysis(stack, env, function, ast->right)->type;
-                if(Type_check(tp1, tp2) == true){
+                tp1 = Pascal_Semantic_Analysis(stack, env, functions, ast->left)->type;
+                tp2 = Pascal_Semantic_Analysis(stack, env, functions, ast->right)->type;
+                if(Type_check(tp1, tp2)){
                   tmp1 = Variable_init(Type_BOOL);
                   return tmp1;
+                }
+                else {
+                  printf("SEMANTIC : Operator Lt on different types [ %s ] [ %s ].\n", tp1->type, tp2->type);
+                  exit(-1);
+                }
             case Eq:
-                tmp1 = Pascal_run(stack, env, functions, ast->left);
-                tmp2 = Pascal_run(stack, env, functions, ast->right);
-                tmp = false;
-                if(Variable_get(tmp1) == Variable_get(tmp2))
-                    tmp = true;
-                tmp1 = Variable_init(Type_BOOL);
-                Variable_set(tmp1, tmp);
-                return tmp1;
+                tp1 = Pascal_Semantic_Analysis(stack, env, functions, ast->left)->type;
+                tp2 = Pascal_Semantic_Analysis(stack, env, functions, ast->right)->type;
+                if(Type_check(tp1, tp2)){
+                  tmp1 = Variable_init(Type_BOOL);
+                  return tmp1;
+                }
+                else {
+                  printf("SEMANTIC : Operator Eq on different types [ %s ] [ %s ].\n", tp1->type, tp2->type);
+                  exit(-1);
+                }
             case And:
-                tmp1 = Pascal_run(stack, env, functions, ast->left);
-                tmp2 = Pascal_run(stack, env, functions, ast->right);
-                tmp = false;
-                if(Variable_get(tmp1) == true && Variable_get(tmp2) == true)
-                    tmp = true;
-                tmp1 = Variable_init(Type_BOOL);
-                Variable_set(tmp1, tmp);
-                return tmp1;
+                tp1 = Pascal_Semantic_Analysis(stack, env, functions, ast->left)->type;
+                tp2 = Pascal_Semantic_Analysis(stack, env, functions, ast->right)->type;
+                if(Type_check(tp1, Type_BOOL) && Type_check(tp2, Type_BOOL)){
+                  tmp1 = Variable_init(Type_BOOL);
+                  return tmp1;
+                }
+                else {
+                  printf("SEMANTIC : Operator And on different types [ %s ] [ %s ].\n", tp1->type, tp2->type);
+                  exit(-1);
+                }
             case Not:
-                tmp1 = Pascal_run(stack, env, functions, ast->left);
-                tmp = !Variable_get(tmp1);
-                tmp1 = Variable_init(Type_BOOL);
-                Variable_set(tmp1, tmp);
-                return tmp1;
+                tp1 = Pascal_Semantic_Analysis(stack, env, functions, ast->left)->type;
+                if(Type_check(tp1, Type_BOOL)){
+                  tmp1 = Variable_init(Type_BOOL);
+                  return tmp1;
+                }
+                else {
+                  printf("SEMANTIC : Operator Not on a non-boolean [ %s ].\n", tp1->type);
+                }
             case NewAr:
                 tmp3 = (struct Type*)ast->left->value;
                 if(tmp3 < 0)
@@ -189,6 +203,6 @@ struct Variable* Pascal_Semantic_Analysis( struct Stack* stack, struct Env* env,
     }
 }
 
-bool functionExists(FuncList* functions, Func* func){
-    if()
-}
+// bool functionExists(FuncList* functions, Func* func){
+//     if()
+// }

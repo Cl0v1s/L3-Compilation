@@ -40,9 +40,11 @@
   %type<ast> E Et C L_argsnn L_args
 
 
-  %left Se
-	%left Pl Mo
+    %left Se
+    %left Pl Mo
 	%left Mu
+	%left OPar OBracket
+	%left OBrace
 
 %%
 
@@ -74,7 +76,6 @@ Et: V OBracket E CBracket { $$ = Ast_init('E', GetARR, Ast_init_leaf('V', $1), $
   | Et OBracket E CBracket { $$ = Ast_init('E', GetARR, $1, $3); }
 
 C: C Se C { $$ = Ast_init('C', Se, $1, $3);}
-  | C Se { $$ = Ast_init('C', Se, $1, 0);}
   | Et Af E { $$ = Ast_init('C', Af, $1, $3); }
   | V Af E { $$ = Ast_init('C', Af, Ast_init_leaf('V', $1), $3); }
   | Sk { $$ = Ast_init('C', Sk, 0,0); }

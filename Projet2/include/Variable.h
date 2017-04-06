@@ -44,6 +44,8 @@ char TypeSystem_isInit();
 
 struct Type* Type_init(int type, struct Type* child);
 
+struct Type* Type_getBaseType(struct Type* type);
+
 int Type_check(struct Type* type1, struct Type* type2);
 
 void Type_free(struct Type* type);

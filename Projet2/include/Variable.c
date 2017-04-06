@@ -43,6 +43,13 @@ int Type_check(struct Type* type1, struct Type* type2)
     return true;
 }
 
+struct Type* Type_getBaseType(struct Type* type)
+{
+    if(type->type == ARRAY)
+        return Type_getBaseType(type->child);
+    return type;
+}
+
 struct VariableList* VariableList_init()
 {
     struct VariableList* res = malloc(sizeof(struct VariableList));
@@ -178,10 +185,14 @@ struct Variable* Variable_arrayInit(struct Type* type, struct Stack* stack, int 
     struct Variable* var = malloc(sizeof(struct Variable));
     var->type = type;
     var->size = length;
-    printf("djkdlqs\n");
     var->value = malloc(sizeof(int));
+    struct Type* baseType = Type_getBaseType(type);
     *(int*)var->value = Stack_push(stack, length);
-    printf("caca\n");
+    // Initialisation des valeurs du nouveau tableau
+    for(int i = 0; i < var->size; i++)
+    {
+        Variable_arraySet(var, stack, Variable_init(baseType), i);
+    }
     return var;
 }
 
@@ -221,6 +232,8 @@ struct Variable* Variable_arrayGet(struct Variable* array, struct Stack* stack, 
         printf("Index out of range.\n");
         exit(-1);
     }
+    struct Variable* res = Stack_getVariable(stack, *(int*)array->value+index);
+
     return Stack_getVariable(stack, *(int*)array->value+index);
 }
 
@@ -246,10 +259,13 @@ struct Type* Type_copy(struct Type* src)
 
 void Variable_arrayCopy(struct Stack* stack, struct Variable* dest, struct Variable* src)
 {
-    printf("Copying array.\n");
     Type_free(dest->type);
-    Stack_remove(stack, *(int*)dest->value, dest->size);
+    // TODO: appeler stack remove ici, grosse fuite en vue
+    //Stack_remove(stack, *(int*)dest->value, dest->size);
     dest->type = Type_copy(src->type);
+    if(dest->value != 0)
+        free(dest->value);
+    dest->value = malloc(sizeof(int));
     (*(int*)dest->value) = Stack_push(stack, src->size);
     dest->size = src->size;
     int src_index = (*(int*)src->value);

@@ -6,6 +6,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/build.dir/include/Stack.c.o"
   "CMakeFiles/build.dir/include/Ast.c.o"
   "CMakeFiles/build.dir/include/Pascal.c.o"
+  "CMakeFiles/build.dir/include/CompPascal.c.o"
   "build.pdb"
   "build"
 )

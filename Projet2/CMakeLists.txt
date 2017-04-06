@@ -19,4 +19,4 @@ add_executable(
         include/Stack.c
 
         include/Ast.c
-        include/Pascal.h include/Pascal.c)
+        include/Pascal.h include/Pascal.c include/CompPascal.c include/CompPascal.h)

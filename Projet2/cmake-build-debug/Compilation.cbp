@@ -8,38 +8,38 @@
 		<Option virtualFolders="CMake Files\;"/>
 		<Build>
 			<Target title="all">
-				<Option working_dir="/home/nazruden/Licence/Compilation/Projet/L3-Compilation/Projet2/cmake-build-debug"/>
+				<Option working_dir="/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j6 -f &quot;/home/nazruden/Licence/Compilation/Projet/L3-Compilation/Projet2/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
-					<CompileFile command="/usr/bin/make -j6 -f &quot;/home/nazruden/Licence/Compilation/Projet/L3-Compilation/Projet2/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j6 -f &quot;/home/nazruden/Licence/Compilation/Projet/L3-Compilation/Projet2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j6 -f &quot;/home/nazruden/Licence/Compilation/Projet/L3-Compilation/Projet2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="edit_cache">
-				<Option working_dir="/home/nazruden/Licence/Compilation/Projet/L3-Compilation/Projet2/cmake-build-debug"/>
+				<Option working_dir="/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j6 -f &quot;/home/nazruden/Licence/Compilation/Projet/L3-Compilation/Projet2/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="/usr/bin/make -j6 -f &quot;/home/nazruden/Licence/Compilation/Projet/L3-Compilation/Projet2/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j6 -f &quot;/home/nazruden/Licence/Compilation/Projet/L3-Compilation/Projet2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j6 -f &quot;/home/nazruden/Licence/Compilation/Projet/L3-Compilation/Projet2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="rebuild_cache">
-				<Option working_dir="/home/nazruden/Licence/Compilation/Projet/L3-Compilation/Projet2/cmake-build-debug"/>
+				<Option working_dir="/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j6 -f &quot;/home/nazruden/Licence/Compilation/Projet/L3-Compilation/Projet2/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="/usr/bin/make -j6 -f &quot;/home/nazruden/Licence/Compilation/Projet/L3-Compilation/Projet2/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j6 -f &quot;/home/nazruden/Licence/Compilation/Projet/L3-Compilation/Projet2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j6 -f &quot;/home/nazruden/Licence/Compilation/Projet/L3-Compilation/Projet2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="build">
-				<Option output="/home/nazruden/Licence/Compilation/Projet/L3-Compilation/Projet2/cmake-build-debug/build" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/nazruden/Licence/Compilation/Projet/L3-Compilation/Projet2/cmake-build-debug"/>
+				<Option output="/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/cmake-build-debug/build" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -54,15 +54,15 @@
 					<Add directory="/usr/include/c++/5/backward"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j6 -f &quot;/home/nazruden/Licence/Compilation/Projet/L3-Compilation/Projet2/cmake-build-debug/Makefile&quot;  VERBOSE=1 build"/>
-					<CompileFile command="/usr/bin/make -j6 -f &quot;/home/nazruden/Licence/Compilation/Projet/L3-Compilation/Projet2/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j6 -f &quot;/home/nazruden/Licence/Compilation/Projet/L3-Compilation/Projet2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j6 -f &quot;/home/nazruden/Licence/Compilation/Projet/L3-Compilation/Projet2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/cmake-build-debug/Makefile&quot;  VERBOSE=1 build"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="build/fast">
-				<Option output="/home/nazruden/Licence/Compilation/Projet/L3-Compilation/Projet2/cmake-build-debug/build" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/nazruden/Licence/Compilation/Projet/L3-Compilation/Projet2/cmake-build-debug"/>
+				<Option output="/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/cmake-build-debug/build" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -77,53 +77,59 @@
 					<Add directory="/usr/include/c++/5/backward"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j6 -f &quot;/home/nazruden/Licence/Compilation/Projet/L3-Compilation/Projet2/cmake-build-debug/Makefile&quot;  VERBOSE=1 build/fast"/>
-					<CompileFile command="/usr/bin/make -j6 -f &quot;/home/nazruden/Licence/Compilation/Projet/L3-Compilation/Projet2/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j6 -f &quot;/home/nazruden/Licence/Compilation/Projet/L3-Compilation/Projet2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j6 -f &quot;/home/nazruden/Licence/Compilation/Projet/L3-Compilation/Projet2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/cmake-build-debug/Makefile&quot;  VERBOSE=1 build/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/home/nazruden/Licence/Compilation/Projet/L3-Compilation/Projet2/include/Ast.c">
+		<Unit filename="/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/include/Ast.c">
 			<Option target="build"/>
 		</Unit>
-		<Unit filename="/home/nazruden/Licence/Compilation/Projet/L3-Compilation/Projet2/include/Ast.h">
+		<Unit filename="/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/include/Ast.h">
 			<Option target="build"/>
 		</Unit>
-		<Unit filename="/home/nazruden/Licence/Compilation/Projet/L3-Compilation/Projet2/include/Env.c">
+		<Unit filename="/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/include/CompPascal.c">
 			<Option target="build"/>
 		</Unit>
-		<Unit filename="/home/nazruden/Licence/Compilation/Projet/L3-Compilation/Projet2/include/Env.h">
+		<Unit filename="/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/include/CompPascal.h">
 			<Option target="build"/>
 		</Unit>
-		<Unit filename="/home/nazruden/Licence/Compilation/Projet/L3-Compilation/Projet2/include/Function.c">
+		<Unit filename="/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/include/Env.c">
 			<Option target="build"/>
 		</Unit>
-		<Unit filename="/home/nazruden/Licence/Compilation/Projet/L3-Compilation/Projet2/include/Function.h">
+		<Unit filename="/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/include/Env.h">
 			<Option target="build"/>
 		</Unit>
-		<Unit filename="/home/nazruden/Licence/Compilation/Projet/L3-Compilation/Projet2/include/Pascal.c">
+		<Unit filename="/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/include/Function.c">
 			<Option target="build"/>
 		</Unit>
-		<Unit filename="/home/nazruden/Licence/Compilation/Projet/L3-Compilation/Projet2/include/Pascal.h">
+		<Unit filename="/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/include/Function.h">
 			<Option target="build"/>
 		</Unit>
-		<Unit filename="/home/nazruden/Licence/Compilation/Projet/L3-Compilation/Projet2/include/Stack.c">
+		<Unit filename="/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/include/Pascal.c">
 			<Option target="build"/>
 		</Unit>
-		<Unit filename="/home/nazruden/Licence/Compilation/Projet/L3-Compilation/Projet2/include/Stack.h">
+		<Unit filename="/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/include/Pascal.h">
 			<Option target="build"/>
 		</Unit>
-		<Unit filename="/home/nazruden/Licence/Compilation/Projet/L3-Compilation/Projet2/include/Variable.c">
+		<Unit filename="/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/include/Stack.c">
 			<Option target="build"/>
 		</Unit>
-		<Unit filename="/home/nazruden/Licence/Compilation/Projet/L3-Compilation/Projet2/include/Variable.h">
+		<Unit filename="/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/include/Stack.h">
 			<Option target="build"/>
 		</Unit>
-		<Unit filename="/home/nazruden/Licence/Compilation/Projet/L3-Compilation/Projet2/include/test.c">
+		<Unit filename="/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/include/Variable.c">
 			<Option target="build"/>
 		</Unit>
-		<Unit filename="/home/nazruden/Licence/Compilation/Projet/L3-Compilation/Projet2/CMakeLists.txt">
+		<Unit filename="/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/include/Variable.h">
+			<Option target="build"/>
+		</Unit>
+		<Unit filename="/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/include/test.c">
+			<Option target="build"/>
+		</Unit>
+		<Unit filename="/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
 	</Project>

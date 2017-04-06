@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 
+
 struct Stack
 {
     struct Variable** vars;

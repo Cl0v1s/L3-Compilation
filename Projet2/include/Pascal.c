@@ -43,15 +43,15 @@ struct Variable* Pascal_run( struct Stack* stack, struct Env* env, struct FuncLi
                 Pascal_run(stack, env, functions, ast->right);
                 break;
             case Af:
-                printf("Affect\n");
                 tmp1 = Pascal_run(stack, env, functions, ast->left);
                 tmp2 = Pascal_run(stack, env, functions, ast->right);
-                printf("Done running\n");
+
                 if(Type_check(tmp1->type, tmp2->type) == false)
                 {
                     printf("Cant affect non-identical types.\n");
                     exit(-1);
                 }
+                printf("Done running\n");
                 if(tmp1->type->type != ARRAY) {
                     printf("%s <- %d\n", (char*)ast->left->value,  Variable_get(tmp2));
                     Variable_set(tmp1, Variable_get(tmp2));
@@ -219,8 +219,6 @@ struct Variable* Pascal_run( struct Stack* stack, struct Env* env, struct FuncLi
                     printf("Cant create array of negative size.\n");
                     exit(-1);
                 }
-                printf("Creating new array.\n");
-                printf("%d\n", tmp3->type);
                 return Variable_arrayInit(tmp3, stack, Variable_get(Pascal_run(stack, env, functions, ast->right)));
             case GetARR:
                 tmp1 = Pascal_run(stack, env, functions, ast->left);
@@ -230,7 +228,7 @@ struct Variable* Pascal_run( struct Stack* stack, struct Env* env, struct FuncLi
                     exit(-1);
                 }
                 tmp2 = Pascal_run(stack, env, functions, ast->right);
-                if(tmp1->type->type == ARRAY)
+                if(tmp2->type->type == ARRAY)
                 {
                     printf("Index array must be numeric.\n");
                     exit(-1);

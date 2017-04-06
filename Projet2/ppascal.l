@@ -32,7 +32,7 @@
 "and" { return And; }
 "or" { return Or; }
 "not" { return Not; }
-"<=" { return Lt; }
+"<" { return Lt; }
 "=" { return Eq; }
 "(" { return OPar; }
 ")" { return CPar; }
@@ -42,12 +42,11 @@
 "}" { return CBrace; }
 "," { return Comma; }
 ":" { return Colon; }
-"    " { return SpaceTab; }
 
 ([1-9][0-9]*)|0 { yylval.constant = atoi(yytext); return I; }
 [a-zA-Z_][a-zA-Z0-9_]* { yylval.identity = strdup(yytext); return V; }
 
-[ \t] {;} //Ignore
+[ \t\n] {;} //Ignore
 
 . {;}
 

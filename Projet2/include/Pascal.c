@@ -30,6 +30,7 @@ struct Variable* Pascal_run( struct Stack* stack, struct Env* env, struct FuncLi
     if(TypeSystem_isInit() == false)
         TypeSystem_init();
     char nodeType = ast->nodetype;
+
     if(nodeType == 'C') // commandes
     {
         int ope = *(int*)ast->value;
@@ -45,17 +46,23 @@ struct Variable* Pascal_run( struct Stack* stack, struct Env* env, struct FuncLi
             case Se:
                 Pascal_run(stack, env, functions, ast->left);
                 Pascal_run(stack, env, functions, ast->right);
+                printf("SE done\n");
                 break;
             case Af:
+                printf("get var %s\n", (char*)ast->left->value);
                 tmp1 = Pascal_run(stack, env, functions, ast->left);
 
                 tmp2 = Pascal_run(stack, env, functions, ast->right);
+                printf("Done running... Affecting... %p %p \n", tmp1, tmp2);
 
                 if(Type_check(tmp1->type, tmp2->type) == false)
                 {
                     printf("Cant affect non-identical types.\n");
                     exit(-1);
                 }
+
+                printf("Done running... Affecting...\n");
+
                 if(tmp1->type->type != ARRAY) {
                     printf("%s <- %d\n", (char*)ast->left->value,  Variable_get(tmp2));
                     Variable_set(tmp1, Variable_get(tmp2));
@@ -64,6 +71,7 @@ struct Variable* Pascal_run( struct Stack* stack, struct Env* env, struct FuncLi
                     printf("Affecting array\n");
                     Variable_arrayCopy(stack, tmp1, tmp2);
                 }
+                printf("AF done\n");
                 break;
             case Sk:
                 break;
@@ -101,6 +109,7 @@ struct Variable* Pascal_run( struct Stack* stack, struct Env* env, struct FuncLi
                 }
                 break;
             case CallFUNC:
+                printf("Searching to call %s\n", (char*)ast->left->value);
                 tmp4 = FuncList_search(functions, ((char*)ast->left->value));
                 if(tmp4 == 0)
                 {
@@ -109,8 +118,20 @@ struct Variable* Pascal_run( struct Stack* stack, struct Env* env, struct FuncLi
                 }
                 // création de l'environnement local
                 tmp7 = Env_concat(env, 0);
+                // Ajout des variables arguments
                 tmp5 = Env_concat(tmp7, tmp4->disclaimer->args);
+                free(tmp7);
+                // Ajout des variables locales à la fonction
+                tmp7 = Env_concat(tmp5, tmp4->vars);
+                free(tmp5);
+                tmp5 = tmp7;
+                if(Env_key_exists(tmp5, (char*)ast->left->value) == true) // on vérfie que la variable réservée portant le nom de la fonction n'est pas redéclarée par l'user
+                {
+                    printf("You cant declare variable with same name that proc.\n");
+                    exit(-1);
+                }
                 tmp6 = ast->right;
+                // Copie des valeurs des arguments dans le nouvel environnement
                 for(int i = 0; i < tmp4->disclaimer->args->length; i++)
                 {
                     if(tmp6->right == 0)
@@ -128,15 +149,16 @@ struct Variable* Pascal_run( struct Stack* stack, struct Env* env, struct FuncLi
                     tmp6 = tmp6->left;
                 }
                 // execution de la fonction
+                printf("Calling... %p\n", tmp4->ast);
                 Pascal_run(stack, tmp5, functions, tmp4->ast);
-                // copie des variables globales de l'environnement locale
+                printf("Done\n");
+                // copie des variables globales de l'environnement local
                 for(int i = 0; i < env->length; i++)
                 {
                     Env_set_value_index(env, i, Env_get_value_index(tmp5, i));
                 }
                 free(tmp5);
-                free(tmp7);
-                break;
+                return tmp1;
         }
         return 0;
     }
@@ -243,6 +265,7 @@ struct Variable* Pascal_run( struct Stack* stack, struct Env* env, struct FuncLi
 
                 return Variable_arrayGet(tmp1, stack, Variable_get(tmp2));
             case CallFUNC:
+                printf("Searching to call %s\n", (char*)ast->left->value);
                 tmp4 = FuncList_search(functions, ((char*)ast->left->value));
                 if(tmp4 == 0)
                 {
@@ -251,8 +274,20 @@ struct Variable* Pascal_run( struct Stack* stack, struct Env* env, struct FuncLi
                 }
                 // création de l'environnement local
                 tmp7 = Env_concat(env, 0);
+                // Ajout des variables arguments
                 tmp5 = Env_concat(tmp7, tmp4->disclaimer->args);
+                free(tmp7);
+                // Ajout des variables locales à la fonction
+                tmp7 = Env_concat(tmp5, tmp4->vars);
+                free(tmp5);
+                tmp5 = tmp7;
+                if(Env_key_exists(tmp5, (char*)ast->left->value) == true) // on vérfie que la variable réservée portant le nom de la fonction n'est pas redéclarée par l'user
+                {
+                    printf("You cant declare variable with same name that function.\n");
+                    exit(-1);
+                }
                 tmp6 = ast->right;
+                // Copie des valeurs des arguments dans le nouvel environnement
                 for(int i = 0; i < tmp4->disclaimer->args->length; i++)
                 {
                     if(tmp6->right == 0)
@@ -269,21 +304,22 @@ struct Variable* Pascal_run( struct Stack* stack, struct Env* env, struct FuncLi
                     Env_set_value_index(tmp5, env->length + i, tmp1);
                     tmp6 = tmp6->left;
                 }
+                // Ajout d'une variable portant le nom de la fonction faisant office de return
+                Env_add_value(tmp5, (char*)ast->left->value, Variable_init(tmp4->disclaimer->type));
                 // execution de la fonction
-                tmp1 = Pascal_run(stack, tmp5, functions, tmp4->ast);
-                if(Type_check(tmp1->type, tmp4->disclaimer->type) == false)
-                {
-                    printf("Wrong return type.\n");
-                    exit(-1);
-                }
-                // copie des variables globales de l'environnement locale
+                printf("Calling... %p\n", tmp4->ast);
+                Pascal_run(stack, tmp5, functions, tmp4->ast);
+                printf("Done\n");
+                // copie des variables globales de l'environnement local
                 for(int i = 0; i < env->length; i++)
                 {
                     Env_set_value_index(env, i, Env_get_value_index(tmp5, i));
                 }
+                // Récupération de la variable faisant office de return
+                tmp1 = Env_get_value(tmp5, (char*)ast->left->value);
+                printf("Returning value %d\n", Variable_get(tmp1));
                 free(tmp5);
-                free(tmp7);
-                break;
+                return tmp1;
 
 
 
@@ -294,6 +330,7 @@ struct Variable* Pascal_run( struct Stack* stack, struct Env* env, struct FuncLi
         int tmp = *(int*)ast->value;
         struct Variable* tmp1 = Variable_init(Type_INT);
         Variable_set(tmp1, tmp);
+        printf("I Done\n");
         return tmp1;
     }
     else if(nodeType == 'B') // constantes
@@ -305,6 +342,7 @@ struct Variable* Pascal_run( struct Stack* stack, struct Env* env, struct FuncLi
     }
     else if(nodeType == 'V')
     {
+        printf("V Done\n");
         return Env_get_value(env, (char*)ast->value);
     }
 }

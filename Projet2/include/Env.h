@@ -38,6 +38,8 @@ void Env_print(struct Env* env, struct Stack* stack);
 */
 char Env_key_exists(struct Env* env, char* key);
 
+char Env_hash_exists(struct Env* env, unsigned long hash);
+
 /**
 * Ajoute une nouvelle entrée dans l'environnement
 * env : environnement dans lequel ajouter 

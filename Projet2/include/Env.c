@@ -34,6 +34,19 @@ char Env_key_exists(struct Env* env, char* key)
     return false;
 }
 
+char Env_hash_exists(struct Env* env, unsigned long hash)
+{
+
+    for(int i = 0; i < env->length; i++)
+    {
+        if(env->keys[i] == hash)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 struct Variable* Env_get_value(struct Env* env, char* key)
 {
     unsigned long hash = Env_hash(key);
@@ -64,6 +77,13 @@ struct Variable* Env_get_value_index(struct Env* env, int index)
 
 void Env_add_value_hash(struct Env* env, unsigned long hash, struct Variable* value)
 {
+    if(Env_hash_exists(env, hash) == true)
+    {
+        printf("Cant add hash, already exists.\n");
+        exit(-1);
+    }
+
+
     unsigned long *keys = malloc((env->length+1)*sizeof(unsigned long));
     memcpy(keys, env->keys, (env->length)*sizeof(unsigned long));
     keys[env->length] = hash;

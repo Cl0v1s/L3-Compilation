@@ -2,7 +2,7 @@ var X1 : integer,
 var X2 : integer,
 var Y  : boolean
 
-Y := false;
+Y := true;
 if Y
     then X2 := X1 
     else X2 := X1+1

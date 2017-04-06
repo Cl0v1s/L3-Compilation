@@ -43,7 +43,7 @@ struct Variable* Stack_getVariable(struct Stack* stack, int index){
     exit(-1);
   }
   else {
-    return stack->vars[index];
+      return stack->vars[index];
   }
 }
 

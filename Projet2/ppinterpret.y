@@ -62,6 +62,7 @@ E: E Pl E { $$ = Ast_init('E', Pl, $1, $3); }
   | Not E { $$ = Ast_init('E', Not, $2, 0); }
   | OPar E CPar { $$ = $2; }
   | I { $$ = Pascal_Ast_init_leaf('I', $1); }
+  | Mo I { $2 = $2 * -1; $$ = Pascal_Ast_init_leaf('I', $2); }
   | V { $$ = Ast_init_leaf('V', $1); }
   | True { $$ = Pascal_Ast_init_leaf('B', true); }
   | False { $$ = Pascal_Ast_init_leaf('B', false); }

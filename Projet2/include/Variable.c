@@ -209,9 +209,14 @@ void Variable_arraySet(struct Variable* array, struct Stack* stack, struct Varia
         printf("Cant call Variable_arraySet on non-Array.\n");
         exit(-1);
     }
-    if(index >= array->size)
+    if(index < 0 || index >= array->size)
     {
         printf("Index out of range.\n");
+        exit(-1);
+    }
+    if(array->value == 0)
+    {
+        printf("Array must be initialized.\n");
         exit(-1);
     }
     if(array->type->child->type != value->type->type)
@@ -225,17 +230,24 @@ void Variable_arraySet(struct Variable* array, struct Stack* stack, struct Varia
 
 struct Variable* Variable_arrayGet(struct Variable* array, struct Stack* stack, int index)
 {
+
     // Si c'est tableau
     if(array->type->type != ARRAY)
     {
         printf("Cant call Variable_arraySet on non-Array.\n");
         exit(-1);
     }
-    if(index >= array->size)
+    if(index < 0 || index >= array->size)
     {
         printf("Index out of range.\n");
         exit(-1);
     }
+    if(array->value == 0)
+    {
+        printf("Array must be initialized.\n");
+        exit(-1);
+    }
+
     struct Variable* res = Stack_getVariable(stack, *(int*)array->value+index);
 
     return Stack_getVariable(stack, *(int*)array->value+index);

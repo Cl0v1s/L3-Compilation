@@ -7,7 +7,11 @@
 struct Ast* Pascal_Ast_init_leaf(int nodetype, int value)
 {
     struct Ast* ast = malloc(sizeof(struct Ast));
-    //printf("%p Leaf %c: ", ast, nodetype);
+#ifdef DEBUG
+    printf("%p Leaf %c: ", ast, nodetype);
+    if(nodetype == 'I')
+        printf("constante %d\n", value);
+#endif
     ast->nodetype = nodetype;
     ast->left = 0;
     ast->right = 0;
@@ -44,6 +48,7 @@ struct Variable* Pascal_run( struct Stack* stack, struct Env* env, struct FuncLi
                 break;
             case Af:
                 tmp1 = Pascal_run(stack, env, functions, ast->left);
+
                 tmp2 = Pascal_run(stack, env, functions, ast->right);
 
                 if(Type_check(tmp1->type, tmp2->type) == false)
@@ -51,7 +56,6 @@ struct Variable* Pascal_run( struct Stack* stack, struct Env* env, struct FuncLi
                     printf("Cant affect non-identical types.\n");
                     exit(-1);
                 }
-                printf("Done running\n");
                 if(tmp1->type->type != ARRAY) {
                     printf("%s <- %d\n", (char*)ast->left->value,  Variable_get(tmp2));
                     Variable_set(tmp1, Variable_get(tmp2));
@@ -222,17 +226,21 @@ struct Variable* Pascal_run( struct Stack* stack, struct Env* env, struct FuncLi
                 return Variable_arrayInit(tmp3, stack, Variable_get(Pascal_run(stack, env, functions, ast->right)));
             case GetARR:
                 tmp1 = Pascal_run(stack, env, functions, ast->left);
+
                 if(tmp1->type->type != ARRAY)
                 {
                     printf("Invalid operation on non-array variable.\n");
                     exit(-1);
                 }
+
                 tmp2 = Pascal_run(stack, env, functions, ast->right);
+
                 if(tmp2->type->type == ARRAY)
                 {
                     printf("Index array must be numeric.\n");
                     exit(-1);
                 }
+
                 return Variable_arrayGet(tmp1, stack, Variable_get(tmp2));
             case CallFUNC:
                 tmp4 = FuncList_search(functions, ((char*)ast->left->value));

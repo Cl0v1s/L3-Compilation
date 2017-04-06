@@ -34,7 +34,9 @@ struct Type* Type_init(int type, struct Type* child)
 
 int Type_check(struct Type* type1, struct Type* type2)
 {
-    if(type1 == VOID)
+    if(type1->type == VOID)
+        return true;
+    if( (type1->type == INT && type2->type == BOOL) ||  (type1->type == BOOL && type2->type == INT))
         return true;
     if(type1->type != type2->type)
         return false;
@@ -101,6 +103,9 @@ void Variable_set(struct Variable* var,int value)
     }
     if(var->value != 0)
         free(var->value);
+
+    if(var->type->type == BOOL && value != false)
+        value = true;
     var->value = malloc(sizeof(int));
 
     *((int*)var->value) = value;
@@ -186,12 +191,11 @@ struct Variable* Variable_arrayInit(struct Type* type, struct Stack* stack, int 
     var->type = type;
     var->size = length;
     var->value = malloc(sizeof(int));
-    struct Type* baseType = Type_getBaseType(type);
     *(int*)var->value = Stack_push(stack, length);
     // Initialisation des valeurs du nouveau tableau
     for(int i = 0; i < var->size; i++)
     {
-        Variable_arraySet(var, stack, Variable_init(baseType), i);
+        Variable_arraySet(var, stack, Variable_init(type->child), i);
     }
     return var;
 }

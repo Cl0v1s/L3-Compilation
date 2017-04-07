@@ -51,7 +51,7 @@
 
 MP: L_vart LD C {
     printf("C parti\n");
-    Pascal_run(Stack_init(), $1, $2, $3);
+    Pascal_run(Stack_init(), $1, $2, $3, 0);
 }
 
 E: E Pl E { $$ = Ast_init('E', Pl, $1, $3); }

@@ -8,19 +8,18 @@ defpro proo(X : integer, Y : boolean)
     
 defun foo(X : integer, Y : boolean):integer
     var T : integer, var U : integer
+    X := X + 0;
     T := 20;
     if Y
        then foo := X + T
        else foo := X - T
 
-X2 := 10;
-if false then
+X2 := 100;
+if true then
 {
     proo(X2,true)
 }
 else
 {
     X2 := foo(X2,false)
-};
-X2 := X2 - 1
-
+}

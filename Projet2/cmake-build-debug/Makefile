@@ -39,19 +39,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /home/clovis/clion-2016.3.2/bin/cmake/bin/cmake
+CMAKE_COMMAND = /home/nazruden/Softs/clion-2016.3.2/bin/cmake/bin/cmake
 
 # The command to remove a file.
-RM = /home/clovis/clion-2016.3.2/bin/cmake/bin/cmake -E remove -f
+RM = /home/nazruden/Softs/clion-2016.3.2/bin/cmake/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2
+CMAKE_SOURCE_DIR = /home/nazruden/Licence/Compilation/Projet/L3-Compilation/Projet2
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/cmake-build-debug
+CMAKE_BINARY_DIR = /home/nazruden/Licence/Compilation/Projet/L3-Compilation/Projet2/cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -59,7 +59,7 @@ CMAKE_BINARY_DIR = /home/clovis/Documents/Développement/ASM/L3-Compilation/Proj
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/home/clovis/clion-2016.3.2/bin/cmake/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+	/home/nazruden/Softs/clion-2016.3.2/bin/cmake/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -70,7 +70,7 @@ edit_cache/fast: edit_cache
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/home/clovis/clion-2016.3.2/bin/cmake/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/home/nazruden/Softs/clion-2016.3.2/bin/cmake/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -80,9 +80,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/cmake-build-debug/CMakeFiles /home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/cmake-build-debug/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nazruden/Licence/Compilation/Projet/L3-Compilation/Projet2/cmake-build-debug/CMakeFiles /home/nazruden/Licence/Compilation/Projet/L3-Compilation/Projet2/cmake-build-debug/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nazruden/Licence/Compilation/Projet/L3-Compilation/Projet2/cmake-build-debug/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -123,222 +123,6 @@ build/fast:
 	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/build
 .PHONY : build/fast
 
-include/Ast.o: include/Ast.c.o
-
-.PHONY : include/Ast.o
-
-# target to build an object file
-include/Ast.c.o:
-	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/include/Ast.c.o
-.PHONY : include/Ast.c.o
-
-include/Ast.i: include/Ast.c.i
-
-.PHONY : include/Ast.i
-
-# target to preprocess a source file
-include/Ast.c.i:
-	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/include/Ast.c.i
-.PHONY : include/Ast.c.i
-
-include/Ast.s: include/Ast.c.s
-
-.PHONY : include/Ast.s
-
-# target to generate assembly for a file
-include/Ast.c.s:
-	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/include/Ast.c.s
-.PHONY : include/Ast.c.s
-
-include/CompPascal.o: include/CompPascal.c.o
-
-.PHONY : include/CompPascal.o
-
-# target to build an object file
-include/CompPascal.c.o:
-	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/include/CompPascal.c.o
-.PHONY : include/CompPascal.c.o
-
-include/CompPascal.i: include/CompPascal.c.i
-
-.PHONY : include/CompPascal.i
-
-# target to preprocess a source file
-include/CompPascal.c.i:
-	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/include/CompPascal.c.i
-.PHONY : include/CompPascal.c.i
-
-include/CompPascal.s: include/CompPascal.c.s
-
-.PHONY : include/CompPascal.s
-
-# target to generate assembly for a file
-include/CompPascal.c.s:
-	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/include/CompPascal.c.s
-.PHONY : include/CompPascal.c.s
-
-include/Env.o: include/Env.c.o
-
-.PHONY : include/Env.o
-
-# target to build an object file
-include/Env.c.o:
-	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/include/Env.c.o
-.PHONY : include/Env.c.o
-
-include/Env.i: include/Env.c.i
-
-.PHONY : include/Env.i
-
-# target to preprocess a source file
-include/Env.c.i:
-	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/include/Env.c.i
-.PHONY : include/Env.c.i
-
-include/Env.s: include/Env.c.s
-
-.PHONY : include/Env.s
-
-# target to generate assembly for a file
-include/Env.c.s:
-	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/include/Env.c.s
-.PHONY : include/Env.c.s
-
-include/Function.o: include/Function.c.o
-
-.PHONY : include/Function.o
-
-# target to build an object file
-include/Function.c.o:
-	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/include/Function.c.o
-.PHONY : include/Function.c.o
-
-include/Function.i: include/Function.c.i
-
-.PHONY : include/Function.i
-
-# target to preprocess a source file
-include/Function.c.i:
-	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/include/Function.c.i
-.PHONY : include/Function.c.i
-
-include/Function.s: include/Function.c.s
-
-.PHONY : include/Function.s
-
-# target to generate assembly for a file
-include/Function.c.s:
-	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/include/Function.c.s
-.PHONY : include/Function.c.s
-
-include/Pascal.o: include/Pascal.c.o
-
-.PHONY : include/Pascal.o
-
-# target to build an object file
-include/Pascal.c.o:
-	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/include/Pascal.c.o
-.PHONY : include/Pascal.c.o
-
-include/Pascal.i: include/Pascal.c.i
-
-.PHONY : include/Pascal.i
-
-# target to preprocess a source file
-include/Pascal.c.i:
-	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/include/Pascal.c.i
-.PHONY : include/Pascal.c.i
-
-include/Pascal.s: include/Pascal.c.s
-
-.PHONY : include/Pascal.s
-
-# target to generate assembly for a file
-include/Pascal.c.s:
-	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/include/Pascal.c.s
-.PHONY : include/Pascal.c.s
-
-include/Stack.o: include/Stack.c.o
-
-.PHONY : include/Stack.o
-
-# target to build an object file
-include/Stack.c.o:
-	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/include/Stack.c.o
-.PHONY : include/Stack.c.o
-
-include/Stack.i: include/Stack.c.i
-
-.PHONY : include/Stack.i
-
-# target to preprocess a source file
-include/Stack.c.i:
-	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/include/Stack.c.i
-.PHONY : include/Stack.c.i
-
-include/Stack.s: include/Stack.c.s
-
-.PHONY : include/Stack.s
-
-# target to generate assembly for a file
-include/Stack.c.s:
-	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/include/Stack.c.s
-.PHONY : include/Stack.c.s
-
-include/Variable.o: include/Variable.c.o
-
-.PHONY : include/Variable.o
-
-# target to build an object file
-include/Variable.c.o:
-	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/include/Variable.c.o
-.PHONY : include/Variable.c.o
-
-include/Variable.i: include/Variable.c.i
-
-.PHONY : include/Variable.i
-
-# target to preprocess a source file
-include/Variable.c.i:
-	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/include/Variable.c.i
-.PHONY : include/Variable.c.i
-
-include/Variable.s: include/Variable.c.s
-
-.PHONY : include/Variable.s
-
-# target to generate assembly for a file
-include/Variable.c.s:
-	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/include/Variable.c.s
-.PHONY : include/Variable.c.s
-
-include/test.o: include/test.c.o
-
-.PHONY : include/test.o
-
-# target to build an object file
-include/test.c.o:
-	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/include/test.c.o
-.PHONY : include/test.c.o
-
-include/test.i: include/test.c.i
-
-.PHONY : include/test.i
-
-# target to preprocess a source file
-include/test.c.i:
-	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/include/test.c.i
-.PHONY : include/test.c.i
-
-include/test.s: include/test.c.s
-
-.PHONY : include/test.s
-
-# target to generate assembly for a file
-include/test.c.s:
-	$(MAKE) -f CMakeFiles/build.dir/build.make CMakeFiles/build.dir/include/test.c.s
-.PHONY : include/test.c.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -348,30 +132,6 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... build"
-	@echo "... include/Ast.o"
-	@echo "... include/Ast.i"
-	@echo "... include/Ast.s"
-	@echo "... include/CompPascal.o"
-	@echo "... include/CompPascal.i"
-	@echo "... include/CompPascal.s"
-	@echo "... include/Env.o"
-	@echo "... include/Env.i"
-	@echo "... include/Env.s"
-	@echo "... include/Function.o"
-	@echo "... include/Function.i"
-	@echo "... include/Function.s"
-	@echo "... include/Pascal.o"
-	@echo "... include/Pascal.i"
-	@echo "... include/Pascal.s"
-	@echo "... include/Stack.o"
-	@echo "... include/Stack.i"
-	@echo "... include/Stack.s"
-	@echo "... include/Variable.o"
-	@echo "... include/Variable.i"
-	@echo "... include/Variable.s"
-	@echo "... include/test.o"
-	@echo "... include/test.i"
-	@echo "... include/test.s"
 .PHONY : help
 
 

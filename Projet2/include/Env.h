@@ -75,4 +75,6 @@ void Env_free(struct Env* env);
 
 void Env_add_value_hash(struct Env* env, unsigned long hash, struct Variable* value);
 
+int Env_checkEnvCollision(struct Env* env1, struct Env* env2);
+
 #endif

@@ -1,4 +1,4 @@
-# Install script for directory: /home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2
+# Install script for directory: /home/nazruden/Licence/Compilation/Projet/L3-Compilation/Projet2
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -40,5 +40,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/clovis/Documents/Développement/ASM/L3-Compilation/Projet2/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/nazruden/Licence/Compilation/Projet/L3-Compilation/Projet2/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

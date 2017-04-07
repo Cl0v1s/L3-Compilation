@@ -196,3 +196,19 @@ struct Env* Env_concat(struct Env* env1, struct Env* env2)
     }
     return res;
 }
+
+int Env_checkEnvCollision(struct Env* env1, struct Env* env2){
+    int ok = true;
+    int i = 0;
+    int j = 0;
+    while(ok && i < env1->length){
+        while(ok && j < env2->length) {
+            if (env1->keys[i] == env2->keys[j]) {
+                ok = false;
+            }
+            j++;
+        }
+        i++;
+    }
+    return ok;
+}

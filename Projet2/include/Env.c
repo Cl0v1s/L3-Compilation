@@ -132,6 +132,7 @@ void Env_set_value(struct Env* env, char*key, struct Variable* value)
     if(Env_key_exists(env, key) == false)
     {
         Env_add_value(env, key, value);
+        value->refs = value->refs + 1;
         return;
     }
     unsigned long hash = Env_hash(key);
@@ -141,6 +142,7 @@ void Env_set_value(struct Env* env, char*key, struct Variable* value)
         if(env->keys[i] == hash)
         {
             env->values[i] = value;
+            value->refs = value->refs + 1;
             #ifdef DEBUG
                 printf("%s : (%lu <- %p)\n",key,  hash, value);
             #endif            
@@ -153,7 +155,7 @@ void Env_set_value_index(struct Env* env, int index, struct Variable* value)
 {
     if(index >= env->length)
         return;
-
+    value->refs = value->refs + 1;
     env->values[index] = value;
 }
 

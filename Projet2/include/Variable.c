@@ -1,5 +1,7 @@
 #include "Variable.h"
 
+struct VariableList* Collector = 0;
+
 struct Type* Type_INT = 0;
 struct Type* Type_BOOL = 0;
 struct Type* Type_VOID = 0;
@@ -45,6 +47,20 @@ int Type_check(struct Type* type1, struct Type* type2)
     return true;
 }
 
+void Type_print(struct Type* type)
+{
+    if(type->type == VOID)
+        printf("VOID");
+    else if(type->type == INT)
+        printf("INT");
+    else if(type->type == BOOL)
+        printf("BOOL");
+    else if(type->type == ARRAY) {
+        printf("array of ");
+        Type_print(type->child);
+    }
+}
+
 struct Type* Type_getBaseType(struct Type* type)
 {
     if(type->type == ARRAY)
@@ -70,10 +86,50 @@ void VariableList_append(struct VariableList* vlist, struct Variable* var)
     vlist->size = size;
 }
 
+void VariableList_remove(struct VariableList* vlist, int index)
+{
+    struct Variable** newVars = malloc((vlist->size-1)*sizeof(struct Variable*));
+    int pos = 0;
+    for(int i = 0; i < vlist->size; i++)
+    {
+        if(i == index)
+            continue;
+        newVars[pos] = vlist->list[i];
+        pos = pos + 1;
+    }
+    free(vlist->list);
+    vlist->list = newVars;
+    vlist->size = vlist->size - 1;
+}
+
+void Collector_clean(struct Stack* stack)
+{
+    for(int i = 0; i < Collector->size; i++)
+    {
+        if(Collector->list[i]->refs > 0)
+            continue;
+#ifdef DEBUG
+      printf("Free: ");
+        Variable_print(Collector->list[i]);
+        printf("\n");
+#endif
+        Variable_free(Collector->list[i], stack);
+        Collector->list[i] = 0;
+        VariableList_remove(Collector, i);
+        i = i - 1;
+    }
+}
+
 
 
 struct Variable* Variable_init(struct Type* type)
 {
+    // initialisation du collector
+    if(Collector == 0)
+    {
+        Collector = VariableList_init();
+    }
+
     if( type == 0 )
     {
         printf("Invalid type or size.\n");
@@ -82,12 +138,15 @@ struct Variable* Variable_init(struct Type* type)
 
     struct Variable* var = malloc(sizeof(struct Variable));
     var->type = type;
+    var->refs = 1;
     if(var->type->type == INT || var->type->type == BOOL || var->type->type == VOID)
     {
         var->value = malloc(sizeof(int));
         *(int*)var->value = 0;
         var->size = 0;
     }
+
+    VariableList_append(Collector, var);
     return var;
 }
 
@@ -132,23 +191,7 @@ int Variable_get(struct Variable* var)
 
 void Variable_print(struct Variable* var)
 {
-    if(var->size == 0)
-    {
-        printf("%d\n", Variable_get(var));
-    }
-    else
-    {
-        printf("[\n");
-        struct Variable** tab = (struct Variable**)var->value;
-
-        for(int i = 0; i!= var->size; i++)
-        {
-            if(tab[i] == 0)
-                continue;
-            Variable_print(tab[i]);
-        }
-        printf("]\n");
-    }
+    Type_print(var->type);
 }
 
 void Type_free(struct Type* type)
@@ -161,18 +204,13 @@ void Type_free(struct Type* type)
     free(type);
 }
 
-void Variable_free(struct Variable* var)
+void Variable_free(struct Variable* var, struct Stack* stack)
 {
     if(var->type->type == ARRAY)
     {
-        struct Variable* value = (struct Variable*)var->value;
-        for(int i = 0; i != var->size; i++)
-        {
-            Variable_free(value);
-            value++;
-        }
+        //TODO: virer une référence de chacunes des variables contenues dans le tableau
+        Stack_removeArray(stack, var);
         Type_free(var->type);
-
     }
     else
         free(var->value);
@@ -187,16 +225,20 @@ struct Variable* Variable_arrayInit(struct Type* type, struct Stack* stack, int 
         exit(-1);
     }
 
+    struct Variable* tmp;
     struct Variable* var = malloc(sizeof(struct Variable));
     var->type = type;
+    var->refs = 1;
     var->size = length;
     var->value = malloc(sizeof(int));
     *(int*)var->value = Stack_push(stack, length);
     // Initialisation des valeurs du nouveau tableau
     for(int i = 0; i < var->size; i++)
     {
-        Variable_arraySet(var, stack, Variable_init(type->child), i);
+        tmp = Variable_init(type->child);
+        Variable_arraySet(var, stack, tmp, i);
     }
+    VariableList_append(Collector, var);
     return var;
 }
 
@@ -224,6 +266,7 @@ void Variable_arraySet(struct Variable* array, struct Stack* stack, struct Varia
         printf("Cant insert wrong type object.\n");
         exit(-1);
     }
+    value->refs = value->refs + 1;
     Stack_setVariable(stack, value, *(int*)array->value+index);
 }
 

@@ -9,13 +9,10 @@ defun foo(X : integer, Y : boolean):integer
     var T : integer
     T := 20;
     if Y
-       then foo := X + T
-       else foo := X - T
+       then foo := true
+       else foo := false
 
 X2 := 10;
-if true
+if false
    then proo(X2,true)
    else X1 := foo(X2,false)
-
-/* test d' erreur de type */
-/* detete a la ligne 7 = lookahead de la reduction de X + T */

@@ -46,7 +46,7 @@ struct Variable* Pascal_run( struct Stack* stack, struct Env* env, struct FuncLi
             case Se:
                 Pascal_run(stack, env, functions, ast->left, local);
                 Pascal_run(stack, env, functions, ast->right, local);
-                printf("SE done\n");
+                Collector_clean(stack);
                 break;
             case Af:
                 printf("get var %s\n", (char*)ast->left->value);
@@ -71,9 +71,10 @@ struct Variable* Pascal_run( struct Stack* stack, struct Env* env, struct FuncLi
                     printf("Affecting array\n");
                     Variable_arrayCopy(stack, tmp1, tmp2);
                 }
-                printf("AF done\n");
+                Collector_clean(stack);
                 break;
             case Sk:
+                Collector_clean(stack);
                 break;
             case If:
                 tmp1 = Pascal_run(stack, env, functions, ast->left, local);
@@ -90,6 +91,7 @@ struct Variable* Pascal_run( struct Stack* stack, struct Env* env, struct FuncLi
                     Pascal_run(stack, env, functions, ast->right->right, local);
                 }
                 break;
+                Collector_clean(stack);
             case Wh:
                 tmp1 = Pascal_run(stack, env, functions, ast->left, local);
                 if(tmp1->type->type == ARRAY)
@@ -107,6 +109,7 @@ struct Variable* Pascal_run( struct Stack* stack, struct Env* env, struct FuncLi
                         exit(-1);
                     }
                 }
+                Collector_clean(stack);
                 break;
             case CallFUNC:
                 printf("Searching to call %s\n", (char*)ast->left->value);
@@ -146,6 +149,7 @@ struct Variable* Pascal_run( struct Stack* stack, struct Env* env, struct FuncLi
                 Pascal_run(stack, env, functions, tmp4->ast, tmp5);
                 printf("Done\n");
                 free(tmp5);
+                Collector_clean(stack);
                 break;
         }
         return 0;
@@ -169,6 +173,7 @@ struct Variable* Pascal_run( struct Stack* stack, struct Env* env, struct FuncLi
                 tmp = Variable_get(tmp1) + Variable_get(tmp2);
                 tmp1 = Variable_init(Type_INT);
                 Variable_set(tmp1, tmp);
+                tmp1->refs = 0;
                 return tmp1;
             case Mo:
                 tmp1 = Pascal_run(stack, env, functions, ast->left, local);
@@ -176,6 +181,7 @@ struct Variable* Pascal_run( struct Stack* stack, struct Env* env, struct FuncLi
                 tmp = Variable_get(tmp1) - Variable_get(tmp2);
                 tmp1 = Variable_init(Type_INT);
                 Variable_set(tmp1, tmp);
+                tmp1->refs = 0;
                 return tmp1;
             case Mu:
                 tmp1 = Pascal_run(stack, env, functions, ast->left, local);
@@ -183,7 +189,8 @@ struct Variable* Pascal_run( struct Stack* stack, struct Env* env, struct FuncLi
                 tmp = Variable_get(tmp1) * Variable_get(tmp2);
                 tmp1 = Variable_init(Type_INT);
                 Variable_set(tmp1, tmp);
-                return tmp1;
+                tmp1->refs = 0;
+               return tmp1;
             case Or:
                 tmp1 = Pascal_run(stack, env, functions, ast->left, local);
                 tmp2 = Pascal_run(stack, env, functions, ast->right, local);
@@ -192,6 +199,8 @@ struct Variable* Pascal_run( struct Stack* stack, struct Env* env, struct FuncLi
                     tmp = true;
                 tmp1 = Variable_init(Type_BOOL);
                 Variable_set(tmp1, tmp);
+                tmp1->refs = 0;
+
                 return tmp1;
             case Lt:
                 tmp1 = Pascal_run(stack, env, functions, ast->left, local);
@@ -201,6 +210,8 @@ struct Variable* Pascal_run( struct Stack* stack, struct Env* env, struct FuncLi
                     tmp = true;
                 tmp1 = Variable_init(Type_BOOL);
                 Variable_set(tmp1, tmp);
+                tmp1->refs = 0;
+
                 return tmp1;
             case Eq:
                 tmp1 = Pascal_run(stack, env, functions, ast->left, local);
@@ -210,6 +221,8 @@ struct Variable* Pascal_run( struct Stack* stack, struct Env* env, struct FuncLi
                     tmp = true;
                 tmp1 = Variable_init(Type_BOOL);
                 Variable_set(tmp1, tmp);
+                tmp1->refs = 0;
+
                 return tmp1;
             case And:
                 tmp1 = Pascal_run(stack, env, functions, ast->left, local);
@@ -219,21 +232,22 @@ struct Variable* Pascal_run( struct Stack* stack, struct Env* env, struct FuncLi
                     tmp = true;
                 tmp1 = Variable_init(Type_BOOL);
                 Variable_set(tmp1, tmp);
+                tmp1->refs = 0;
+
                 return tmp1;
             case Not:
                 tmp1 = Pascal_run(stack, env, functions, ast->left, local);
                 tmp = !Variable_get(tmp1);
                 tmp1 = Variable_init(Type_BOOL);
                 Variable_set(tmp1, tmp);
+                tmp1->refs = 0;
+
                 return tmp1;
             case NewAr:
                 tmp3 = (struct Type*)ast->left->value;
-                if(tmp3 < 0)
-                {
-                    printf("Cant create array of negative size.\n");
-                    exit(-1);
-                }
-                return Variable_arrayInit(tmp3, stack, Variable_get(Pascal_run(stack, env, functions, ast->right, local)));
+                tmp1 = Variable_arrayInit(tmp3, stack, Variable_get(Pascal_run(stack, env, functions, ast->right, local)));
+                tmp1->refs = 0;
+                return tmp1;
             case GetARR:
                 tmp1 = Pascal_run(stack, env, functions, ast->left, local);
 
@@ -293,6 +307,7 @@ struct Variable* Pascal_run( struct Stack* stack, struct Env* env, struct FuncLi
                 tmp1 = Env_get_value(tmp5, (char*)ast->left->value);
                 printf("Returning value %d\n", Variable_get(tmp1));
                 free(tmp5);
+                tmp1->refs = 0;
                 return tmp1;
 
 

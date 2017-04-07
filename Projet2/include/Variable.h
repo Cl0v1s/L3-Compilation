@@ -14,6 +14,7 @@
 #define false 0
 #define true 1
 
+
 // TP
 struct Type
 {
@@ -30,6 +31,7 @@ struct Variable
     int size;
     void* value;
     struct Type* type;
+	int refs;
 };
 
 struct VariableList
@@ -37,6 +39,11 @@ struct VariableList
 	int size;
 	struct Variable** list;
 };
+
+extern struct VariableList* Collector;
+
+void Collector_clean(struct Stack* stack);
+
 
 void TypeSystem_init();
 
@@ -52,9 +59,12 @@ void Type_free(struct Type* type);
 
 struct Type* Type_copy(struct Type* src);
 
+void Type_print(struct Type* type);
+
 
 struct VariableList* VariableList_init();
 void VariableList_append(struct VariableList* vlist, struct Variable* var);
+void VariableList_remove(struct VariableList* vlist, int index);
 
 /**
 * Initialise une nouvelle variable 
@@ -80,5 +90,5 @@ void Variable_print(struct Variable* var);
 * Libère la mémoire associée à une variable 
 * var: variable sur laquelle opérer
 */
-void Variable_free(struct Variable* var);
+void Variable_free(struct Variable* var, struct Stack* stack);
 #endif

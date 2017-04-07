@@ -139,6 +139,8 @@ struct Variable* Pascal_run( struct Stack* stack, struct Env* env, struct FuncLi
                     Env_set_value_index(tmp5, i, tmp1);
                     tmp6 = tmp6->left;
                 }
+                //TODO: tester qu'il n'y a pas plus d'argument pour l'appel
+                //TODO: vérifier que la variable de retour est bien afectée (qu'il y a bien un return)
                 // execution de la fonction
                 printf("Calling... %p\n", tmp4->ast);
                 Pascal_run(stack, env, functions, tmp4->ast, tmp5);

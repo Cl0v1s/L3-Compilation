@@ -42,6 +42,8 @@
 "}" { return CBrace; }
 "," { return Comma; }
 ":" { return Colon; }
+"skip" { return Sk; }
+
 
 ([1-9][0-9]*)|0 { yylval.constant = atoi(yytext); return I; }
 [a-zA-Z_][a-zA-Z0-9_]* { yylval.identity = strdup(yytext); return V; }

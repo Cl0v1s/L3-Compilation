@@ -7,8 +7,9 @@ defun foo1(X : integer, Y : boolean):integer
     
 defun foo2(X : integer):integer
     var T : integer
+    T := 1;
     foo2 := X+T
 
-if true
+if false
    then X1 := foo1(X1,true)
    else X1 := foo2(X2,false)

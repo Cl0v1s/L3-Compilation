@@ -30,7 +30,7 @@ int Stack_C3A_push(struct Stack_C3A* _stack, int size){
     for(int i = _stack->valuesLength; i < _stack->valuesLength + size; i++){
         newValues[i] = 0;
     }
-    
+
     _stack->valuesLength = _stack->valuesLength + size;
     // Free old
     free(_stack->values);
@@ -40,6 +40,8 @@ int Stack_C3A_push(struct Stack_C3A* _stack, int size){
     _stack->size = newSize;
     _stack->adr = newAdr;
     _stack->values = newValues;
+
+    return ind;
 }
 
 int Stack_C3A_getAvailableIndex(struct Stack_C3A* _stack, int size);

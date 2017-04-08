@@ -4,20 +4,23 @@
 
 #include "C3A.h"
 
-void C3A_run(struct QuadList* list, struct Env_C3A* env)
+struct Env_C3A pp;
+
+void C3A_run(struct QuadList* list, struct Env_C3A* global)
 {
+    Env_C3A_init(&pp);
     struct Quad* current = list->start;
     struct Quad* next;
     do
     {
-        current = C3A_eval(current, env, list);
+        current = C3A_eval(current, global, 0, 0, list);
         if( current == 0)
             return;
     }
     while(list->start != list->end && current != 0);
 }
 
-struct Quad* C3A_eval(struct Quad* quad,struct Env_C3A* env, struct QuadList* list)
+struct Quad* C3A_eval(struct Quad* quad, struct Env_C3A* global, struct Env_C3A* local, struct Env_C3A* params, struct QuadList* list)
 {
     int tmp;
     struct Quad* next;
@@ -25,33 +28,33 @@ struct Quad* C3A_eval(struct Quad* quad,struct Env_C3A* env, struct QuadList* li
     switch(quad->operation)
     {
         case Pl:
-            tmp = Value_get(quad->arg1, env) + Value_get(quad->arg2, env);
+            tmp = Value_get(quad->arg1, global) + Value_get(quad->arg2, global);
             //printf("%s <- %d\n", quad->destination, tmp);
-            Env_C3A_set_value(env, quad->destination, tmp);
+            Env_C3A_set_value(global, quad->destination, tmp);
             return quad->next;
         case Mo:
-            tmp = Value_get(quad->arg1, env) - Value_get(quad->arg2, env);
+            tmp = Value_get(quad->arg1, global) - Value_get(quad->arg2, global);
             //printf("%s <- %d\n", quad->destination, tmp);
 
-            Env_C3A_set_value(env, quad->destination, tmp);
+            Env_C3A_set_value(global, quad->destination, tmp);
             return quad->next;
         case Mu:
-            tmp = Value_get(quad->arg1, env) * Value_get(quad->arg2, env);
+            tmp = Value_get(quad->arg1, global) * Value_get(quad->arg2, global);
             //printf("%s <- %d\n", quad->destination, tmp);
 
-            Env_C3A_set_value(env, quad->destination, tmp);
+            Env_C3A_set_value(global, quad->destination, tmp);
             return quad->next;
         case Af:
-            tmp = Value_get(quad->arg2, env);
+            tmp = Value_get(quad->arg2, global);
             //printf("%s <- %d\n", quad->destination, tmp);
 
-            Env_C3A_set_value(env, quad->destination, tmp);
+            Env_C3A_set_value(global, quad->destination, tmp);
             return quad->next;
         case Afc:
-            tmp = Value_get(quad->arg1, env);
+            tmp = Value_get(quad->arg1, global);
             //printf("%s <- %d\n", quad->destination, tmp);
 
-            Env_C3A_set_value(env, quad->destination, tmp);
+            Env_C3A_set_value(global, quad->destination, tmp);
             return quad->next;
         case Jp:
             //printf("Jp %s\n", quad->address);
@@ -64,7 +67,7 @@ struct Quad* C3A_eval(struct Quad* quad,struct Env_C3A* env, struct QuadList* li
             }
             return next;
         case Jz:
-            tmp = Value_get(quad->arg1, env);
+            tmp = Value_get(quad->arg1, global);
             if(tmp != 0)
             {
                 return quad->next;
@@ -82,28 +85,34 @@ struct Quad* C3A_eval(struct Quad* quad,struct Env_C3A* env, struct QuadList* li
             return quad->next;
         case And:
             tmp = false;
-            if( Value_get(quad->arg1, env) != false && Value_get(quad->arg2, env) != false)
+            if( Value_get(quad->arg1, global) != false && Value_get(quad->arg2, global) != false)
                 tmp = true;
-            Env_C3A_set_value(env, quad->destination, tmp);
+            Env_C3A_set_value(global, quad->destination, tmp);
             return quad->next;
         case Or:
             tmp = false;
-            if( Value_get(quad->arg1, env) != false || Value_get(quad->arg2, env) != false)
+            if( Value_get(quad->arg1, global) != false || Value_get(quad->arg2, global) != false)
                 tmp = true;
-            Env_C3A_set_value(env, quad->destination, tmp);
+            Env_C3A_set_value(global, quad->destination, tmp);
             return quad->next;
         case Lt:
             tmp = false;
-            if( Value_get(quad->arg1, env) < Value_get(quad->arg2, env))
+            if( Value_get(quad->arg1, global) < Value_get(quad->arg2, global))
                 tmp = true;
-            Env_C3A_set_value(env, quad->destination, tmp);
+            Env_C3A_set_value(global, quad->destination, tmp);
             return quad->next;
         case Not:
             tmp = true;
-            if( Value_get(quad->arg1, env) != false)
+            if( Value_get(quad->arg1, global) != false)
                 tmp = false;
-            Env_C3A_set_value(env, quad->destination, tmp);
+            Env_C3A_set_value(global, quad->destination, tmp);
             return quad->next;
+        case Param:
+            Env_C3A_set_value(&pp, (char*)quad->arg1->value, Value_get(quad->arg2, global));
+            break;
+        case Call:
+            tmp = Value_get(quad->arg2, 0);
+
         default:
             return 0;
 

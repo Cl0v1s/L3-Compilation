@@ -37,6 +37,8 @@ void Env_C3A_print(struct Env_C3A *env);
 */
 char Env_C3A_key_exists(struct Env_C3A *env, char* key);
 
+
+char Env_C3A_key_exists_hash(struct Env_C3A *env, unsigned long hash);
 /**
 * Ajoute une nouvelle entrée dans l'environnement
 * env : environnement dans lequel ajouter 
@@ -44,6 +46,8 @@ char Env_C3A_key_exists(struct Env_C3A *env, char* key);
 * value : valeur à ajouter 
 */
 void Env_C3A_add_value(struct Env_C3A *env, char* key, int value);
+
+void Env_C3A_add_value_hash(struct Env_C3A *env, unsigned long hash, int value);
 
 /**
 * Récupère une valeur à partir de sa clef 
@@ -59,5 +63,12 @@ int Env_C3A_get_value(struct Env_C3A *env, char* key);
 * value: valeur 
 */
 void Env_C3A_set_value(struct Env_C3A *env, char* key, int value);
+
+void Env_C3A_set_value_hash(struct Env_C3A *env, unsigned long hash, int value);
+
+
+void Env_C3A_free(struct Env_C3A* env);
+
+void Env_C3A_pop(struct Env_C3A* env, unsigned long* hash, int* value);
 
 #endif

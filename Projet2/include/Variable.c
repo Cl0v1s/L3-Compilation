@@ -266,7 +266,7 @@ void Variable_arraySet(struct Variable* array, struct Stack* stack, struct Varia
         printf("Cant insert wrong type object.\n");
         exit(-1);
     }
-    value->refs = value->refs + 1;
+    value->refs = 1;
     Stack_setVariable(stack, value, *(int*)array->value+index);
 }
 

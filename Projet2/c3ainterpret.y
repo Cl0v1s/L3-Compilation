@@ -26,7 +26,7 @@
 	%token Open Close Pl Mo Mu And Or Lt Not Af Afc AfInd Sk Jp Jz St Param Call Ret Ind Sp Se Minus Plus
 	%start prog
 
-	%type<value> F FI
+	%type<value> F FI FF
 	%type<list> C
 	%type<quad> O
 
@@ -34,10 +34,10 @@
 
 /* Un programme est une suite de déclaration (C) composé de déclaration atomique (C0) */
 prog: C	{
-			Env_C3A env;
-			Env_init(&env);
+			struct Env_C3A env;
+			Env_C3A_init(&env);
 			C3A_run($1, &env);
-			Env_print(&env);
+			Env_C3A_print(&env);
 	 	}
     ;
 
@@ -60,13 +60,14 @@ O : Pl Sp F Sp F Sp V { $$ = Quad_create(0,Pl, $3, $5, $7); }
 | Jp Sp Sp Sp V { $$ = Quad_create(0,Jp, 0, 0, $5); }
 | Jz Sp F Sp Sp V { $$ = Quad_create(0,Jz, $3, 0, $6); }
 | St Sp Sp Sp { $$ = Quad_create(0,St, 0, 0, 0); }
-| AfInd Sp V Sp F Sp V { $$ = Quad_create(0,AfInd, $3, $5, $7); }
-| Ind Sp V Sp F Sp V { $$ = Quad_create(0, Ind, $3, $5, $7); }
-| Param Sp V Sp F Sp { $$ = Quad_create(0,Param, $3, $5, 0); }
-| Call Sp V Sp FI Sp { $$ = Quad_create(0,Call, $3, $5, 0); }
+| AfInd Sp FF Sp F Sp V { $$ = Quad_create(0,AfInd, $3, $5, $7); }
+| Ind Sp FF Sp F Sp V { $$ = Quad_create(0, Ind, $3, $5, $7); }
+| Param Sp FF Sp F Sp { $$ = Quad_create(0,Param, $3, $5, 0); }
+| Call Sp FF Sp FI Sp { $$ = Quad_create(0,Call, $3, $5, 0); }
 | Ret Sp Sp Sp { $$ = Quad_create(0,Ret, 0, 0, 0); }
 
 
+FF: V { $$ = Value_create('V', $1);}
 
 
 F: I {$$ = Value_create('I', &$1);}

@@ -20,28 +20,15 @@ struct Value* Value_create(char type, void* value)
     obj->value = value;
 }
 
-int Value_get(struct Value* value,struct Env_C3A* global, struct Env_C3A* local, struct Env_C3A* param)
+int Value_get(struct Value* value,struct Env_C3A* env)
 {
     switch(value->type)
     {
         case 'V':
-            if(param == 0 || Env_C3A_key_exists(param, (char*)value->value) == false)
+            if(Env_C3A_key_exists(env, (char*)value->value) == false)
             {
-                if(local == 0 || Env_C3A_key_exists(local, (char*)value->value) == false){
-                    if(Env_C3A_key_exists(global, (char*)value->value) == false){
-                        printf("Variable '%s' indéfinie.\n", (char*)value->value);
-                        exit(1);
-                    }
-                    else {
-                        return Env_C3A_get_value(global, (char*)value->value);
-                    }
-                }
-                else {
-                    return Env_C3A_get_value(local, (char*)value->value);
-                }
-            }
-            else {
-                return Env_C3A_get_value(param, (char*)value->value);
+                printf("Variable '%s' indéfinie.\n", (char*)value->value);
+                exit(1);
             }
             return Env_C3A_get_value(env, (char*)value->value);
         case 'I':

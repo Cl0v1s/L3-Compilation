@@ -30,9 +30,7 @@ int Stack_C3A_push(struct Stack_C3A* _stack, int size){
     for(int i = _stack->valuesLength; i < _stack->valuesLength + size; i++){
         newValues[i] = 0;
     }
-    // Set size and adr
-    _stack->adr[ind] = _stack->values[_stack->valuesLength];
-    _stack->size[ind] = size;
+
     _stack->valuesLength = _stack->valuesLength + size;
     // Free old
     free(_stack->values);
@@ -46,28 +44,3 @@ int Stack_C3A_push(struct Stack_C3A* _stack, int size){
     return ind;
 }
 
-void Stack_C3A_setValue(struct Stack_C3A* _stack, int indArr, int indVal, int value){
-    if(indArr >= _stack->refsLength){
-        printf("Wrong array index ( > refsLength ) in Stack_C3A_setValue. \n");
-        exit(-1);
-    }
-    if(_stack->size[indArr] + indVal >= _stack->valuesLength) {
-        printf("Wrong index ( > valuesLength ) in Stack_C3A_setValue. \n");
-        exit(-1);
-    }
-
-    _stack->values[_stack->adr[indArr] + indVal] = value;
-}
-
-int Stack_C3A_getValue(struct Stack_C3A* _stack, int indArr, int indVal){
-    if(indArr >= _stack->refsLength){
-        printf("Wrong array index ( > refsLength ) in Stack_C3A_setValue. \n");
-        exit(-1);
-    }
-    if(_stack->size[indArr] + indVal >= _stack->valuesLength) {
-        printf("Wrong index ( > valuesLength ) in Stack_C3A_setValue. \n");
-        exit(-1);
-    }
-
-    return _stack->values[_stack->adr[indArr] + indVal];
-}

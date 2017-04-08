@@ -12,6 +12,11 @@ comp_pp: ppascal.l pptoc3a.y
 	cc -o test/comp_pp ppinterpret.tab.c lex.yy.c include/*.c -lfl -DDEBUG
 	rm *.c;
 
+int_c3a: c3a.l c3ainterpret.y
+	bison -d c3ainterpret.y
+	flex c3a.l
+	cc -o test/int_pp c3ainterpret.tab.c lex.yy.c include/*.c -lfl -DDEBUG
+	rm *.c;
 
 
 test: include/Variable.c include/Env.c include/Function.c include/test.c

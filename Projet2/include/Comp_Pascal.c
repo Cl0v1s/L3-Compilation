@@ -38,7 +38,6 @@ void P_Compile_C3A(struct FuncList* functions, struct Ast* ast)
     switch(ope)
     {
         case NewAr:
-            tmp1 =
             break;
         case Pl:
             P_Compile_C3A(functions, ast->left);

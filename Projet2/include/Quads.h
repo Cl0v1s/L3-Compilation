@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "Env.h"
+#include "Env_C3A.h"
 
 struct Value{
     char type;
@@ -39,7 +39,7 @@ struct Value* Value_create(char type, void* value);
 * value : valeur dans laquel chercher 
 * env :  environnement 
 */
-int Value_get(struct Value* value, Env* env);
+int Value_get(struct Value* value, struct Env_C3A* env);
 
 void Value_delete(struct Value* value);
 

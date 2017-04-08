@@ -7,6 +7,8 @@
 
 #include "Variable.h"
 
+
+
 /**
 * Environnement de variables (Table de Hash)
 L_vart

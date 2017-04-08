@@ -20,17 +20,17 @@ struct Value* Value_create(char type, void* value)
     obj->value = value;
 }
 
-int Value_get(struct Value* value, Env* env)
+int Value_get(struct Value* value,struct Env_C3A* env)
 {
     switch(value->type)
     {
         case 'V':
-            if(Env_key_exists(env, (char*)value->value) == false)
+            if(Env_C3A_key_exists(env, (char*)value->value) == false)
             {
                 printf("Variable '%s' indéfinie.\n", (char*)value->value);
                 exit(1);
             }
-            return Env_get_value(env, (char*)value->value);
+            return Env_C3A_get_value(env, (char*)value->value);
         case 'I':
             return *(int*)value->value;
     }

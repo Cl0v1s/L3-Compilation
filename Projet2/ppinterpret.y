@@ -63,25 +63,25 @@ E: E Pl E { $$ = Ast_init('E', Pl, $1, $3); }
   | E And E { $$ = Ast_init('E', And, $1, $3); }
   | Not E { $$ = Ast_init('E', Not, $2, 0); }
   | OPar E CPar { $$ = $2; }
-  | I { $$ = Pascal_Ast_init_leaf('I', $1); }
-  | Mo I { $2 = $2 * -1; $$ = Pascal_Ast_init_leaf('I', $2); }
-  | V { $$ = Ast_init_leaf('V', $1); }
-  | True { $$ = Pascal_Ast_init_leaf('B', true); }
-  | False { $$ = Pascal_Ast_init_leaf('B', false); }
-  | V OPar L_args CPar { $$ = Ast_init('E', CallFUNC, Ast_init_leaf('V', $1), $3); }
-  | NewAr TP OBracket E CBracket { $$ = Ast_init('E', NewAr, Ast_init_leaf('T', $2), $4); }
+  | I { $$ = Ast_init_leaf_const('I', $1); }
+  | Mo I { $2 = $2 * -1; $$ = Ast_init_leaf_const('I', $2); }
+  | V { $$ = Ast_init_leaf_ptr('V', $1); }
+  | True { $$ = Ast_init_leaf_const('B', true); }
+  | False { $$ = Ast_init_leaf_const('B', false); }
+  | V OPar L_args CPar { $$ = Ast_init('E', CallFUNC, Ast_init_leaf_ptr('V', $1), $3); }
+  | NewAr TP OBracket E CBracket { $$ = Ast_init('E', NewAr, Ast_init_leaf_ptr('T', $2), $4); }
   | Et { $$=$1; }
 
-Et: V OBracket E CBracket { $$ = Ast_init('E', GetARR, Ast_init_leaf('V', $1), $3); }
+Et: V OBracket E CBracket { $$ = Ast_init('E', GetARR, Ast_init_leaf_ptr('V', $1), $3); }
   | Et OBracket E CBracket { $$ = Ast_init('E', GetARR, $1, $3); }
 
 CC: Et Af E { $$ = Ast_init('C', Af, $1, $3); }
-  | V Af E { $$ = Ast_init('C', Af, Ast_init_leaf('V', $1), $3); }
+  | V Af E { $$ = Ast_init('C', Af, Ast_init_leaf_ptr('V', $1), $3); }
   | Sk { $$ = Ast_init('C', Sk, 0,0); }
   | OBrace C CBrace { $$ = $2; }
   | If E Th CC El CC { $$ = Ast_init('C', If, $2, Ast_init('C', El, $4, $6));}
   | Wh E Do CC { $$ = Ast_init('C', Wh, $2, $4); }
-  | V OPar L_args CPar { $$ = Ast_init('C', CallFUNC, Ast_init_leaf('V', $1), $3); }
+  | V OPar L_args CPar { $$ = Ast_init('C', CallFUNC, Ast_init_leaf_ptr('V', $1), $3); }
 
 C :  C Se CC { $$ = Ast_init('C', Se, $1, $3);}
    | CC {$$ = $1;}

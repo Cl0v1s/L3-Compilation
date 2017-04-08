@@ -33,7 +33,7 @@ void Collector_register(struct Variable* var)
     collector.length++;
 }
 
-void Collector_clean()
+void Collector_clean(struct Stack* stack)
 {
     int rm = 0;
     for(int i = 0; i < collector.length; i++)
@@ -48,7 +48,7 @@ void Collector_clean()
     for(int i = 0; i < collector.length; i++)
     {
         if(collector.list[i]->refs == 0) {
-            Variable_free(collector.list[i]);
+            Variable_free(collector.list[i], stack);
             continue;
         }
         list[index] = collector.list[i];
@@ -95,12 +95,27 @@ struct Variable* Variable_arrayInit(struct Stack* stack, struct Type* type, int 
     return var;
 }
 
-void Variable_arraySet(struct Variable* var, int index, int value)
+void Variable_arraySet(struct Variable* var, struct Stack* stack, int index, int value)
 {
-
+    if(index > stack->size[var->value])
+    {
+        printf("VARIABLE: Index out of range.\n");
+        exit(-1);
+    }
+    index = index + stack->adr[var->value];
+    Stack_setValue(stack, index, value);
 }
 
-int Variable_arrayGet(struct Variable* var, int index);
+int Variable_arrayGet(struct Variable* var, struct Stack* stack, int index)
+{
+    if(index > stack->size[var->value])
+    {
+        printf("VARIABLE: Index out of range.\n");
+        exit(-1);
+    }
+    index = index + stack->adr[var->value];
+    return Stack_getValue(stack, index);
+}
 
 void Variable_set(struct Variable* var, int value)
 {
@@ -112,8 +127,12 @@ int Variable_get(struct Variable* var)
     return var->value;
 }
 
-void Variable_free(struct Variable* var)
+void Variable_free(struct Variable* var, struct Stack* stack)
 {
+    if(var->type->desc == ARRAY)
+    {
+        Stack_remove(stack, var->value);
+    }
     Type_free(var->type);
     free(var);
 }

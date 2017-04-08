@@ -32,7 +32,9 @@ struct Ast* Ast_init(int nodetype,int ope, struct Ast* left,struct Ast *right);
 * nodetype : type de noeud 
 * value : valeur de la feuille 
 */
-struct Ast* Ast_init_leaf(int nodetype, void* value);
+struct Ast* Ast_init_leaf_ptr(int nodetype, void* value);
+
+struct Ast* Ast_init_leaf_const(int nodetype, int value);
 
 void Ast_print(struct Ast* ast);
 

@@ -49,7 +49,7 @@ void Collector_init();
 
 void Collector_register(struct Variable* var);
 
-void Collector_clean();
+void Collector_clean(struct Stack* stack);
 
 struct Type* Type_init(int desc, struct Type* child);
 void Type_free(struct Type* type);
@@ -58,14 +58,14 @@ struct Variable* Variable_init(struct Type*);
 
 struct Variable* Variable_arrayInit(struct Stack* stack, struct Type*, int size);
 
-void Variable_arraySet(struct Variable* var, int index, int value);
+void Variable_arraySet(struct Variable* var, struct Stack* stack, int index, int value);
 
-int Variable_arrayGet(struct Variable* var, int index);
+int Variable_arrayGet(struct Variable* var, struct Stack* stack, int index);
 
 void Variable_set(struct Variable* var, int value);
 
 int Variable_get(struct Variable* var);
 
-void Variable_free(struct Variable* var);
+void Variable_free(struct Variable* var, struct Stack* stack);
 
 #endif //L3_COMPILATION_VARIABLE_H

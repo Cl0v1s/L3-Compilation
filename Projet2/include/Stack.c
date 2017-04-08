@@ -62,7 +62,7 @@ void Stack_setValue(struct Stack* _stack, int index, int value)
         printf("STACK: Index out of range.\n");
         exit(-1);
     }
-    _stack->values[i] = value;
+    _stack->values[index] = value;
 }
 
 int Stack_getValue(struct Stack* _stack, int index)
@@ -72,7 +72,7 @@ int Stack_getValue(struct Stack* _stack, int index)
         printf("STACK: Index out of range.\n");
         exit(-1);
     }
-    return _stack->values[i];
+    return _stack->values[index];
 }
 
 void Stack_remove(struct Stack* stack, int index)

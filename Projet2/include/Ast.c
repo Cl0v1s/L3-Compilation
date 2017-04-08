@@ -16,7 +16,7 @@ struct Ast* Ast_init(int nodetype, int ope, struct Ast* left, struct Ast* right)
     return ast;
 }
 
-struct Ast* Ast_init_leaf(int nodetype, void *value)
+struct Ast* Ast_init_leaf_ptr(int nodetype, void *value)
 {
     struct Ast* ast = malloc(sizeof(struct Ast));
 #ifdef DEBUG
@@ -29,6 +29,21 @@ struct Ast* Ast_init_leaf(int nodetype, void *value)
     ast->right = 0;
     ast->value = value;
     //printf("\n");
+    return ast;
+}
+
+struct Ast* Ast_init_leaf_const(int nodetype, int value)
+{
+    struct Ast* ast = malloc(sizeof(struct Ast));
+#ifdef DEBUG
+    printf("%p Leaf %c: ", ast, nodetype);
+    printf("constante %d\n", value);
+#endif
+    ast->nodetype = nodetype;
+    ast->left = 0;
+    ast->right = 0;
+    ast->value = malloc(sizeof(int));
+    *(int*)ast->value = value;
     return ast;
 }
 

@@ -142,7 +142,6 @@ void Env_set_value(struct Env* env, char*key, struct Variable* value)
         if(env->keys[i] == hash)
         {
             env->values[i] = value;
-            value->refs = value->refs + 1;
             #ifdef DEBUG
                 printf("%s : (%lu <- %p)\n",key,  hash, value);
             #endif            

@@ -6,6 +6,7 @@
 #include <string.h>
 
 #include "Variable.h"
+#include "Stack.h"
 
 
 
@@ -28,14 +29,14 @@ unsigned long Env_hash(char *str);
 */
 struct Env* Env_init();
 /**
-* Affiche un environnement 
+* Affiche un environnement
 * env : environnement à afficher
 * stack : tas rattaché à l'environnement à afficher
 **/
 void Env_print(struct Env* env, struct Stack* stack);
 /**
-* Test si la clef key existe 
-* env : environnement à tester 
+* Test si la clef key existe
+* env : environnement à tester
 * key : clef dont il est nécessaire de tester l'existence
 */
 char Env_key_exists(struct Env* env, char* key);
@@ -44,24 +45,24 @@ char Env_hash_exists(struct Env* env, unsigned long hash);
 
 /**
 * Ajoute une nouvelle entrée dans l'environnement
-* env : environnement dans lequel ajouter 
-* key : clef de la valeur à ajouter 
-* value : valeur à ajouter 
+* env : environnement dans lequel ajouter
+* key : clef de la valeur à ajouter
+* value : valeur à ajouter
 */
 void Env_add_value(struct Env* env, char* key, struct Variable* value);
 
 /**
-* Récupère une valeur à partir de sa clef 
-* env : environnement dans lequel récupérer 
+* Récupère une valeur à partir de sa clef
+* env : environnement dans lequel récupérer
 * key : clef de la valeur à récupérer
 */
 struct Variable* Env_get_value(struct Env* env, char* key);
 
 /**
-* Change/ajoute une valeur 
-* env: environnement à modifier 
-* key : clef de la valeur 
-* value: valeur 
+* Change/ajoute une valeur
+* env: environnement à modifier
+* key : clef de la valeur
+* value: valeur
 */
 void Env_set_value(struct Env* env, char* key, struct Variable* value);
 

@@ -1,94 +1,71 @@
-#ifndef VARIABLE_H
-#define VARIABLE_H
+//
+// Created by clovis on 08/04/17.
+//
+
+#ifndef L3_COMPILATION_VARIABLE_H
+#define L3_COMPILATION_VARIABLE_H
 
 #include <stdlib.h>
-#include <stdio.h>
 #include <string.h>
+
 #include "Stack.h"
 
-#define INT -1
-#define BOOL -2
-#define VOID 0
-#define ARRAY 1
+#define BOOL 0
+#define INT 1
+#define ARRAY 2
+#define VOID 3
 
-#define false 0
 #define true 1
-
-
-// TP
-struct Type
-{
-	int type; // BOOL|INT|ARRAY
-	struct Type* child;
-};
+#define false 0
 
 extern struct Type* Type_INT;
 extern struct Type* Type_BOOL;
 extern struct Type* Type_VOID;
 
+struct Type
+{
+    int desc;
+    struct Type* child;
+};
+
 struct Variable
 {
-    int size;
-    void* value;
     struct Type* type;
-	int refs;
+    int value;
+    int refs;
+    int array_set;
 };
 
-struct VariableList
+
+struct Collector
 {
-	int size;
-	struct Variable** list;
+    struct Variable** list;
+    int length;
 };
-
-extern struct VariableList* Collector;
-
-void Collector_clean(struct Stack* stack);
-
 
 void TypeSystem_init();
 
-char TypeSystem_isInit();
+void Collector_init();
 
-struct Type* Type_init(int type, struct Type* child);
+void Collector_register(struct Variable* var);
 
-struct Type* Type_getBaseType(struct Type* type);
+void Collector_clean();
 
-int Type_check(struct Type* type1, struct Type* type2);
-
+struct Type* Type_init(int desc, struct Type* child);
 void Type_free(struct Type* type);
 
-struct Type* Type_copy(struct Type* src);
+struct Variable* Variable_init(struct Type*);
 
-void Type_print(struct Type* type);
+struct Variable* Variable_arrayInit(struct Stack* stack, struct Type*, int size);
 
+void Variable_arraySet(struct Variable* var, int index, int value);
 
-struct VariableList* VariableList_init();
-void VariableList_append(struct VariableList* vlist, struct Variable* var);
-void VariableList_remove(struct VariableList* vlist, int index);
-
-/**
-* Initialise une nouvelle variable 
-* type : Type de la variable INT|BOOL|ARRAY(taille)
-**/
-struct Variable* Variable_init(struct Type* type);
-
-struct Variable* Variable_arrayInit(struct Type* type, struct Stack* stack, int length);
+int Variable_arrayGet(struct Variable* var, int index);
 
 void Variable_set(struct Variable* var, int value);
 
-void Variable_arraySet(struct Variable* array, struct Stack* stack, struct Variable* value, int index );
-
 int Variable_get(struct Variable* var);
 
-struct Variable* Variable_arrayGet(struct Variable* var, struct Stack* stack, int index);
+void Variable_free(struct Variable* var);
 
-void Variable_arrayCopy(struct Stack* stack, struct Variable* dest, struct Variable* src);
-
-void Variable_print(struct Variable* var);
-
-/**
-* Libère la mémoire associée à une variable 
-* var: variable sur laquelle opérer
-*/
-void Variable_free(struct Variable* var, struct Stack* stack);
-#endif
+#endif //L3_COMPILATION_VARIABLE_H

@@ -7,7 +7,6 @@
     #include "include/Ast.h"
     #include "include/Pascal.h"
     #include "include/Stack.h"
-    #include "include/Semantic.h"
 
 	int yyerror(char *s);
 	int yylex();
@@ -52,12 +51,7 @@
 
 
 MP: L_vart LD C {
-    fprintf(stderr, "[ppinterpret.y] -> Pascal_Semantic_Analysis() : BEGIN\n");
-    Pascal_Semantic_Analysis(Stack_init(), $1, $2, $3, 0);
-    fprintf(stderr, "[ppinterpret.y] -> Pascal_Semantic_Analysis() : DONE\n");
-    fprintf(stderr, "[ppinterpret.y] -> Pascal_run() : BEGIN\n");
     Pascal_run(Stack_init(), $1, $2, $3, 0);
-    fprintf(stderr, "[ppinterpret.y] -> Pascal_run() : DONE\n");
 }
 
 E: E Pl E { $$ = Ast_init('E', Pl, $1, $3); }

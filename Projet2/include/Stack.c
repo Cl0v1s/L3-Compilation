@@ -1,157 +1,81 @@
 #include "Stack.h"
-#include "Variable.h"
 
 struct Stack* Stack_init(){
-  struct Stack* _stack = malloc(sizeof(struct Stack));
-  _stack->size = 0;
-  _stack->vars = malloc(0);
+    struct Stack* _stack = malloc(sizeof(struct Stack));
+    _stack->values = malloc(0);
+    _stack->size = malloc(0);
+    _stack->adr = malloc(0);
+    _stack->refsLength = 0;
+    _stack->valuesLength = 0;
     return _stack;
 }
 
-int Stack_push(struct Stack* stack, int size) {
-    // Getting available index in stack if "size" fits
-    int index = Stack_getAvailableIndex(stack, size);
-    // If the index couldn't be defined
-    if(index == 0){
-        struct Variable **vars = malloc((stack->size + size) * sizeof(struct Variable *));
-        memcpy(vars, stack->vars, stack->size * sizeof(struct Variable *));
-        for (int i = stack->size; i != stack->size + size; i++) {
-            vars[i] = 0;
+int Stack_push(struct Stack* _stack, int size){
+
+    for(int i = 0; i < _stack->refsLength; i++)
+    {
+        if(_stack->adr[i] < 0 && _stack->size[i] >= size)
+        {
+            _stack->adr[i] = _stack->adr[i] * -1;
+            _stack->size[i] = size;
+            return i;
         }
-        free(stack->vars);
-        stack->vars = vars;
-        int index = stack->size;
-        stack->size = stack->size + size;
     }
 
-#ifdef DEBUG
-    printf("Pushed to stack at Ind %i for size %i. StackSize : %i\n", index, size, stack->size);
-#endif
+    // Getting returned index ( index of the new entry in adr and size arrays )
+    int ind = _stack->refsLength;
 
-    return index;
-}
+    // Allocating new arrays and copying old ones
+    int* newSize = malloc(_stack->refsLength * sizeof(int));
+    int* newAdr = malloc(_stack->refsLength * sizeof(int));
+    int* newValues = malloc((_stack->valuesLength + size) * sizeof(int));
 
-int Stack_getAvailableIndex(struct Stack* _stack, int size){
-    int notFound = true;
-    int cptRange = 0, i = 0, ind = 0;
+    memcpy(newSize, _stack->size, _stack->refsLength * sizeof(int));
+    memcpy(newAdr, _stack->adr, _stack->refsLength * sizeof(int));
+    memcpy(newValues, _stack->values, _stack->valuesLength * sizeof(int));
 
-    while(notFound && i < _stack->size){
-        if(_stack->vars[i] == 0){
-            cptRange++;
-        }
-        else {
-            cptRange = 0;
-        }
-        if(cptRange == size){
-            ind = i - cptRange;
-            notFound = false;
-        }
-        i++;
+    // Then incrementing size of adr and size arrays
+    _stack->refsLength++;
+
+    // Init
+    for(int i = _stack->valuesLength; i < _stack->valuesLength + size; i++){
+        newValues[i] = 0;
     }
+
+    _stack->valuesLength = _stack->valuesLength + size;
+    // Free old
+    free(_stack->values);
+    free(_stack->size);
+    free(_stack->adr);
+    // Affect
+    _stack->size = newSize;
+    _stack->adr = newAdr;
+    _stack->values = newValues;
 
     return ind;
 }
 
-int Stack_isIndexValid(struct Stack* _stack, int index){
-    if(index >= _stack->size){
-        printf("Index ouf of stack.\n");
+void Stack_setValue(struct Stack* _stack, int index, int value)
+{
+    if(index >= _stack->valuesLength)
+    {
+        printf("STACK: Index out of range.\n");
         exit(-1);
     }
-    else {
-        return 1;
-    }
+    _stack->values[i] = value;
 }
 
-struct Variable* Stack_getVariable(struct Stack* stack, int index){
-  if(index >= stack->size){
-    printf("Index out of stack range.\n");
-    exit(-1);
-  }
-  else {
-      return stack->vars[index];
-  }
-}
-
-void Stack_setVariable(struct Stack* stack, struct Variable* var, int index){
-  if(index >= stack->size){
-    printf("Index out stack range.\n");
-    exit(-1);
-  }
-  else {
-      stack->vars[index] = var;
-  }
-}
-
-// TODO : essayer de modifier les appels à cette fonction. Je sais pas comment redéfinir
-//      les index de début de tableau de ceux impactés si l'on fait un shift de la fin pour
-//      venir se positionner sur la zone supprimée, dans le contexte de cette déclaration
-void Stack_remove(struct Stack* _stack, int index, int size){
-    if(Stack_isIndexValid(_stack, index)){
-        for(int i = index; i < index + size; i++){
-            free(_stack->vars[i]);
-            _stack->vars[i] = NULL;
-        }
-    }
-}
-
-void Stack_removeArray(struct Stack* _stack, struct Variable* tab){
-    int ind = *(int *)tab->value;
-    // Plage de suppression invalide
-    if(ind >= _stack->size || ind + tab->size >= _stack->size){
-        printf("Suppression range invalid. [%i:%i]>[%i]\n", ind, ind + tab->size, _stack->size);
-    }
-    for(ind; ind < ind + tab->size; ind++){
-        _stack->vars[ind]->refs = 0;
-        _stack->vars[ind] = 0;
-    }
-}
-
-int Stack_rangeValid(struct Stack* _stack, struct Variable* var){
-    if(*(int*)var->value < _stack->size && *(int*)var->value + var->size < _stack->size){
-        return 1;
-    }
-    else {
-        return 0;
-    }
-}
-
-// TODO : Sans doute la seule utilisation réellement propre puisque l'on est sensé free en (attention abus de langage) dépilant le contexte ? J'imagine
-void Stack_trunk(struct Stack* _stack, struct Variable* last){
-    if(Stack_rangeValid(_stack, last)){
-        int newSize = *(int*)last->value + last->size;
-        struct Variable** newVars = malloc(newSize * sizeof(struct Variable *));
-        memcpy(newVars, _stack->vars, newSize * sizeof(struct Variable *));
-        free(_stack->vars);
-        _stack->vars = newVars;
-        _stack->size = newSize;
-    }
-    else {
-        printf("Invalid trunk.\n");
+int Stack_getValue(struct Stack* _stack, int index)
+{
+    if(index >= _stack->valuesLength)
+    {
+        printf("STACK: Index out of range.\n");
         exit(-1);
     }
+    return _stack->values[i];
 }
 
-void Stack_safeDeleteRange(struct Stack* _stack, struct Variable* start, struct Variable* end){
-    if(Stack_rangeValid(_stack, start) && Stack_rangeValid(_stack, end) && *(int*)end->value != *(int*)start->value){
-        int firstBound = *(int*)(start->value + start->size);
-        int lastBound = *(int*)(end->value);
-        int newSize = _stack->size - (lastBound - firstBound);
-        struct Variable** newVars = malloc( newSize * sizeof(struct Variable *));
-        // Copying elements between beginning of the stack and firstbound to newVars
-        memcpy(newVars, _stack->vars, firstBound * sizeof(struct Variable *));
-        // Concat elements between lastbound and the end of the stack with the beginning of newVars
-        memmove(newVars + firstBound, _stack->vars + lastBound, (_stack->size - lastBound) * sizeof(struct Variable *));
-        // Freeing old stack vars
-        free(_stack->vars);
-        // Affecting new one
-        _stack->vars = newVars;
-        _stack->size = newSize;
-        // Updating the beginning index of the array pointed by end in the stack
-        *(int*)end->value = firstBound;
-    }
-    else {
-        printf("Invalid delete range. \n");
-        exit(-1);
-    }
+void Stack_remove(struct Stack* stack, int index)
+{
+    stack->adr[index] = stack->adr[index] * -1;
 }
-

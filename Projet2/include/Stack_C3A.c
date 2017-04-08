@@ -68,6 +68,6 @@ int Stack_C3A_getValue(struct Stack_C3A* _stack, int indArr, int indVal){
         printf("Wrong index ( > valuesLength ) in Stack_C3A_setValue. \n");
         exit(-1);
     }
-    
+
     return _stack->values[_stack->adr[indArr] + indVal];
 }

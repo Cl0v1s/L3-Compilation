@@ -31,7 +31,7 @@ int Stack_C3A_push(struct Stack_C3A* _stack, int size){
         newValues[i] = 0;
     }
     // Set size and adr
-    _stack->adr[ind] = _stack->values[valuesLength];
+    _stack->adr[ind] = _stack->values[_stack->valuesLength];
     _stack->size[ind] = size;
     _stack->valuesLength = _stack->valuesLength + size;
     // Free old

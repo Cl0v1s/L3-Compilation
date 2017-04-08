@@ -18,9 +18,9 @@ struct Stack_C3A* Stack_C3A_init();
 
 int Stack_C3A_push(struct Stack_C3A* _stack, int size);
 
-void Stack_C3A_setValue(struct Stack_C3A* _stack, int index, int value);
+void Stack_C3A_setValue(struct Stack_C3A* _stack, int indArr, int indVal, int value);
 
-int Stack_C3A_getValue(struct Stack_C3A* _stack, int index);
+int Stack_C3A_getValue(struct Stack_C3A* _stack, int indArr, int indVal);
 
 
 

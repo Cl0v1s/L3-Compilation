@@ -4,11 +4,11 @@
 
 #include "C3A.h"
 
-struct Env_C3A pp;
+struct Env_C3A* pp;
 
 void C3A_run(struct QuadList* list, struct Env_C3A* global)
 {
-    Env_C3A_init(&pp);
+    pp = Env_C3A_init();
     struct Quad* current = list->start;
     struct Quad* next;
     do
@@ -23,7 +23,13 @@ void C3A_run(struct QuadList* list, struct Env_C3A* global)
 struct Quad* C3A_eval(struct Quad* quad, struct Env_C3A* global, struct Env_C3A* local, struct Env_C3A* params, struct QuadList* list)
 {
     int tmp;
+    unsigned long tmp1;
+    int tmp2;
+    int tmp3;
     struct Quad* next;
+    struct Env_C3A* plprim;
+    struct Env_C3A* ppprim;
+
     //printf("Eval node %p %s | %p %p\n",quad,  quad->address, list->start, list->start->address);
     switch(quad->operation)
     {
@@ -108,10 +114,14 @@ struct Quad* C3A_eval(struct Quad* quad, struct Env_C3A* global, struct Env_C3A*
             Env_C3A_set_value(global, quad->destination, tmp);
             return quad->next;
         case Param:
-            Env_C3A_set_value(&pp, (char*)quad->arg1->value, Value_get(quad->arg2, global));
+            Env_C3A_set_value(pp, (char*)quad->arg1->value, Value_get(quad->arg2, global));
             break;
         case Call:
             tmp = Value_get(quad->arg2, 0);
+            for(tmp3 = 0; tmp3 < tmp; tmp3++)
+            {
+                Env_C3A_pop(pp, &tmp1, &tmp2);
+            }
 
         default:
             return 0;

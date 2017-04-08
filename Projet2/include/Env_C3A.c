@@ -1,10 +1,12 @@
 #include "Env_C3A.h"
 
-void Env_C3A_init(struct Env_C3A *env)
+struct Env_C3A* Env_C3A_init()
 {
+    struct Env_C3A* env = malloc(sizeof(struct Env_C3A));
     env->keys = malloc(0);
     env->values = malloc(0);
     env->length = 0;
+    return env;
 }
 
 void Env_C3A_print(struct Env_C3A *env)
@@ -138,4 +140,34 @@ void Env_C3A_pop(struct Env_C3A* env, unsigned long* hash, int* value)
     env->values = values;
 
     env->length--;
+}
+
+unsigned long Env_C3A_get_key_index(struct Env_C3A *env, int index)
+{
+    return env->keys[index];
+}
+
+int Env_C3A_get_value_index(struct Env_C3A *env, int index)
+{
+    return env->values[index];
+}
+
+struct Env_C3A* Env_C3A_concat(struct Env_C3A* env1, struct Env_C3A* env2)
+{
+    struct Env_C3A* res = Env_C3A_init();
+    for(int i = 0; i != env1->length; i++)
+    {
+        unsigned long key = Env_C3A_get_key_index(env1, i);
+        int value = Env_C3A_get_value_index(env1, i);
+        Env_C3A_add_value_hash(res, key, value);
+    }
+    if(env2 == 0)
+        return res;
+    for(int i = 0; i != env2->length; i++)
+    {
+        unsigned long key = Env_C3A_get_key_index(env2, i);
+        int value = Env_C3A_get_value_index(env2, i);
+        Env_C3A_add_value_hash(res, key, value);
+    }
+    return res;
 }

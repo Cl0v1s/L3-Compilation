@@ -24,7 +24,7 @@ unsigned long Env_C3A_hash(char *str);
 * Initialise un nouvel Env_C3Aironnement
 * env : Env_C3Aironnement à initialiser
 */
-void Env_C3A_init(struct Env_C3A *env);
+struct Env_C3A* Env_C3A_init();
 /**
 * Affiche un environnement 
 * env : environnement à afficher
@@ -66,6 +66,11 @@ void Env_C3A_set_value(struct Env_C3A *env, char* key, int value);
 
 void Env_C3A_set_value_hash(struct Env_C3A *env, unsigned long hash, int value);
 
+unsigned long Env_C3A_get_key_index(struct Env_C3A *env, int index);
+
+int Env_C3A_get_value_index(struct Env_C3A *env, int index);
+
+struct Env_C3A* Env_C3A_concat(struct Env_C3A* env1, struct Env_C3A* env2);
 
 void Env_C3A_free(struct Env_C3A* env);
 

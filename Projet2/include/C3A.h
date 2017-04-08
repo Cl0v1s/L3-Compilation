@@ -11,5 +11,5 @@
 #define L3_COMPILATION_C3A_H
 
 void C3A_run(struct QuadList* quads, struct Env_C3A* env);
-struct Quad* C3A_eval(struct Quad* quad, struct Env_C3A* env, struct QuadList* list);
+struct Quad* C3A_eval(struct Quad* quad, struct Env_C3A* global, struct Env_C3A* local,struct Env_C3A* params, struct QuadList* list);
 #endif //L3_COMPILATION_C3A_H

@@ -1,10 +1,12 @@
 #include "Env_C3A.h"
 
-void Env_C3A_init(struct Env_C3A *env)
+struct Env_C3A * Env_C3A_init()
 {
+    struct Env_C3A* env = malloc(sizeof(struct Env_C3A));
     env->keys = malloc(0);
     env->values = malloc(0);
     env->length = 0;
+    return env;
 }
 
 void Env_C3A_print(struct Env_C3A *env)

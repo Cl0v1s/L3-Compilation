@@ -51,8 +51,12 @@
 
 
 MP: L_vart LD C {
-    printf("C parti\n");
+    fprintf(stderr, "[ppinterpret.y] -> Pascal_Semantic_Analysis() : BEGIN\n");
+    Pascal_Semantic_Analysis(Stack_init(), $1, $2, $3, 0);
+    fprintf(stderr, "[ppinterpret.y] -> Pascal_Semantic_Analysis() : DONE\n");
+    fprintf(stderr, "[ppinterpret.y] -> Pascal_run() : BEGIN\n");
     Pascal_run(Stack_init(), $1, $2, $3, 0);
+    fprintf(stderr, "[ppinterpret.y] -> Pascal_run() : DONE\n");
 }
 
 E: E Pl E { $$ = Ast_init('E', Pl, $1, $3); }

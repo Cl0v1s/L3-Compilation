@@ -53,9 +53,12 @@
 
 
 MP: L_vart LD C {
-    printf("C parti\n");
-    //TODO: ajouter analyse sémantique
+    fprintf(stderr, "[pptoc3a.y] -> Pascal_Semantic_Analysis() : BEGIN\n");
+    Pascal_Semantic_Analysis(Stack_init(), $1, $2, $3, 0);
+    fprintf(stderr, "[pptoc3a.y] -> Pascal_Semantic_Analysis() : DONE\n");
+    fprintf(stderr, "[pptoc3a.y] -> P_Compile_C3A() : BEGIN\n");
     P_Compile_C3A($2, $3);
+    fprintf(stderr, "[pptoc3a.y] -> P_Compile_C3A() : DONE\n");
 }
 
 E: E Pl E { $$ = Ast_init('E', Pl, $1, $3); }

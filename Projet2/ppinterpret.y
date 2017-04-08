@@ -7,6 +7,7 @@
     #include "include/Ast.h"
     #include "include/Pascal.h"
     #include "include/Stack.h"
+    #include "include/Semantic.h"
 
 	int yyerror(char *s);
 	int yylex();

@@ -4,7 +4,7 @@
 
 #include "C3A.h"
 
-void C3A_run(struct QuadList* quads, struct Env_C3A* env)
+void C3A_run(struct QuadList* list, struct Env_C3A* env)
 {
     struct Quad* current = list->start;
     struct Quad* next;
@@ -17,7 +17,7 @@ void C3A_run(struct QuadList* quads, struct Env_C3A* env)
     while(list->start != list->end && current != 0);
 }
 
-struct Quad* C3A_eval(struct Quad* quad, Env* env, struct QuadList* list)
+struct Quad* C3A_eval(struct Quad* quad,struct Env_C3A* env, struct QuadList* list)
 {
     int tmp;
     struct Quad* next;

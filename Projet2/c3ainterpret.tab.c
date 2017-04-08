@@ -69,12 +69,14 @@
 	#include "include/Quads.h"
 	#include "include/C3A.h"
 	#include "include/Env_C3A.h"
+	#include "include/Stack_C3A.h"
+
 
 	int yyerror(char *s);
 	int yylex();
 	int yylineno;
 
-#line 78 "c3ainterpret.tab.c" /* yacc.c:339  */
+#line 80 "c3ainterpret.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -143,7 +145,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 13 "c3ainterpret.y" /* yacc.c:355  */
+#line 15 "c3ainterpret.y" /* yacc.c:355  */
 
 	    char* identity;
         int constant;
@@ -153,7 +155,7 @@ union YYSTYPE
 		struct QuadList* list;
 	
 
-#line 157 "c3ainterpret.tab.c" /* yacc.c:355  */
+#line 159 "c3ainterpret.tab.c" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -170,7 +172,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 174 "c3ainterpret.tab.c" /* yacc.c:358  */
+#line 176 "c3ainterpret.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -470,10 +472,10 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    34,    34,    43,    44,    45,    46,    48,    49,    50,
-      51,    52,    53,    54,    55,    56,    57,    58,    59,    60,
-      61,    62,    63,    64,    65,    70,    71,    72,    73,    75,
-      76,    77
+       0,    36,    36,    45,    46,    47,    48,    50,    51,    52,
+      53,    54,    55,    56,    57,    58,    59,    60,    61,    62,
+      63,    64,    65,    66,    67,    72,    73,    74,    75,    77,
+      78,    79
 };
 #endif
 
@@ -1312,192 +1314,192 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 34 "c3ainterpret.y" /* yacc.c:1646  */
+#line 36 "c3ainterpret.y" /* yacc.c:1646  */
     {
 			Env_C3A env;
 			Env_init(&env);
 			C3A_run((yyvsp[0].list), &env);
 			Env_print(&env);
 	 	}
-#line 1323 "c3ainterpret.tab.c" /* yacc.c:1646  */
+#line 1325 "c3ainterpret.tab.c" /* yacc.c:1646  */
     break;
 
   case 3:
-#line 43 "c3ainterpret.y" /* yacc.c:1646  */
+#line 45 "c3ainterpret.y" /* yacc.c:1646  */
     { (yyvsp[0].quad)->address = (yyvsp[-2].identity); (yyval.list) = QuadList_create((yyvsp[0].quad));}
-#line 1329 "c3ainterpret.tab.c" /* yacc.c:1646  */
+#line 1331 "c3ainterpret.tab.c" /* yacc.c:1646  */
     break;
 
   case 4:
-#line 44 "c3ainterpret.y" /* yacc.c:1646  */
+#line 46 "c3ainterpret.y" /* yacc.c:1646  */
     {(yyvsp[0].quad)->address = 0; (yyval.list) = QuadList_create((yyvsp[0].quad));}
-#line 1335 "c3ainterpret.tab.c" /* yacc.c:1646  */
+#line 1337 "c3ainterpret.tab.c" /* yacc.c:1646  */
     break;
 
   case 5:
-#line 45 "c3ainterpret.y" /* yacc.c:1646  */
+#line 47 "c3ainterpret.y" /* yacc.c:1646  */
     { (yyval.list) = QuadList_concat((yyvsp[-2].list), (yyvsp[0].list));}
-#line 1341 "c3ainterpret.tab.c" /* yacc.c:1646  */
+#line 1343 "c3ainterpret.tab.c" /* yacc.c:1646  */
     break;
 
   case 6:
-#line 46 "c3ainterpret.y" /* yacc.c:1646  */
+#line 48 "c3ainterpret.y" /* yacc.c:1646  */
     {(yyval.list) = (yyvsp[-1].list);}
-#line 1347 "c3ainterpret.tab.c" /* yacc.c:1646  */
+#line 1349 "c3ainterpret.tab.c" /* yacc.c:1646  */
     break;
 
   case 7:
-#line 48 "c3ainterpret.y" /* yacc.c:1646  */
+#line 50 "c3ainterpret.y" /* yacc.c:1646  */
     { (yyval.quad) = Quad_create(0,Pl, (yyvsp[-4].value), (yyvsp[-2].value), (yyvsp[0].identity)); }
-#line 1353 "c3ainterpret.tab.c" /* yacc.c:1646  */
+#line 1355 "c3ainterpret.tab.c" /* yacc.c:1646  */
     break;
 
   case 8:
-#line 49 "c3ainterpret.y" /* yacc.c:1646  */
+#line 51 "c3ainterpret.y" /* yacc.c:1646  */
     { (yyval.quad) = Quad_create(0,Mo, (yyvsp[-4].value), (yyvsp[-2].value), (yyvsp[0].identity)); }
-#line 1359 "c3ainterpret.tab.c" /* yacc.c:1646  */
+#line 1361 "c3ainterpret.tab.c" /* yacc.c:1646  */
     break;
 
   case 9:
-#line 50 "c3ainterpret.y" /* yacc.c:1646  */
+#line 52 "c3ainterpret.y" /* yacc.c:1646  */
     { (yyval.quad) = Quad_create(0,And, (yyvsp[-4].value), (yyvsp[-2].value), (yyvsp[0].identity)); }
-#line 1365 "c3ainterpret.tab.c" /* yacc.c:1646  */
+#line 1367 "c3ainterpret.tab.c" /* yacc.c:1646  */
     break;
 
   case 10:
-#line 51 "c3ainterpret.y" /* yacc.c:1646  */
+#line 53 "c3ainterpret.y" /* yacc.c:1646  */
     { (yyval.quad) = Quad_create(0,Lt, (yyvsp[-4].value), (yyvsp[-2].value), (yyvsp[0].identity)); }
-#line 1371 "c3ainterpret.tab.c" /* yacc.c:1646  */
+#line 1373 "c3ainterpret.tab.c" /* yacc.c:1646  */
     break;
 
   case 11:
-#line 52 "c3ainterpret.y" /* yacc.c:1646  */
+#line 54 "c3ainterpret.y" /* yacc.c:1646  */
     { (yyval.quad) = Quad_create(0,Or, (yyvsp[-4].value), (yyvsp[-2].value), (yyvsp[0].identity)); }
-#line 1377 "c3ainterpret.tab.c" /* yacc.c:1646  */
+#line 1379 "c3ainterpret.tab.c" /* yacc.c:1646  */
     break;
 
   case 12:
-#line 53 "c3ainterpret.y" /* yacc.c:1646  */
+#line 55 "c3ainterpret.y" /* yacc.c:1646  */
     { (yyval.quad) = Quad_create(0, Not, (yyvsp[-3].value), 0, (yyvsp[0].identity)); }
-#line 1383 "c3ainterpret.tab.c" /* yacc.c:1646  */
+#line 1385 "c3ainterpret.tab.c" /* yacc.c:1646  */
     break;
 
   case 13:
-#line 54 "c3ainterpret.y" /* yacc.c:1646  */
+#line 56 "c3ainterpret.y" /* yacc.c:1646  */
     { (yyval.quad) = Quad_create(0,Mu, (yyvsp[-4].value), (yyvsp[-2].value), (yyvsp[0].identity)); }
-#line 1389 "c3ainterpret.tab.c" /* yacc.c:1646  */
+#line 1391 "c3ainterpret.tab.c" /* yacc.c:1646  */
     break;
 
   case 14:
-#line 55 "c3ainterpret.y" /* yacc.c:1646  */
+#line 57 "c3ainterpret.y" /* yacc.c:1646  */
     { (yyval.quad) = Quad_create(0,Af, 0, (yyvsp[-1].value), (yyvsp[-3].identity)); }
-#line 1395 "c3ainterpret.tab.c" /* yacc.c:1646  */
+#line 1397 "c3ainterpret.tab.c" /* yacc.c:1646  */
     break;
 
   case 15:
-#line 56 "c3ainterpret.y" /* yacc.c:1646  */
+#line 58 "c3ainterpret.y" /* yacc.c:1646  */
     { (yyval.quad) = Quad_create(0,Afc, (yyvsp[-3].value), 0, (yyvsp[0].identity)); }
-#line 1401 "c3ainterpret.tab.c" /* yacc.c:1646  */
+#line 1403 "c3ainterpret.tab.c" /* yacc.c:1646  */
     break;
 
   case 16:
-#line 57 "c3ainterpret.y" /* yacc.c:1646  */
+#line 59 "c3ainterpret.y" /* yacc.c:1646  */
     { (yyval.quad) = Quad_create(0,Sk, 0, 0, 0); }
-#line 1407 "c3ainterpret.tab.c" /* yacc.c:1646  */
+#line 1409 "c3ainterpret.tab.c" /* yacc.c:1646  */
     break;
 
   case 17:
-#line 58 "c3ainterpret.y" /* yacc.c:1646  */
+#line 60 "c3ainterpret.y" /* yacc.c:1646  */
     { (yyval.quad) = Quad_create(0,Jp, 0, 0, (yyvsp[0].identity)); }
-#line 1413 "c3ainterpret.tab.c" /* yacc.c:1646  */
+#line 1415 "c3ainterpret.tab.c" /* yacc.c:1646  */
     break;
 
   case 18:
-#line 59 "c3ainterpret.y" /* yacc.c:1646  */
+#line 61 "c3ainterpret.y" /* yacc.c:1646  */
     { (yyval.quad) = Quad_create(0,Jz, (yyvsp[-3].value), 0, (yyvsp[0].identity)); }
-#line 1419 "c3ainterpret.tab.c" /* yacc.c:1646  */
+#line 1421 "c3ainterpret.tab.c" /* yacc.c:1646  */
     break;
 
   case 19:
-#line 60 "c3ainterpret.y" /* yacc.c:1646  */
+#line 62 "c3ainterpret.y" /* yacc.c:1646  */
     { (yyval.quad) = Quad_create(0,St, 0, 0, 0); }
-#line 1425 "c3ainterpret.tab.c" /* yacc.c:1646  */
+#line 1427 "c3ainterpret.tab.c" /* yacc.c:1646  */
     break;
 
   case 20:
-#line 61 "c3ainterpret.y" /* yacc.c:1646  */
+#line 63 "c3ainterpret.y" /* yacc.c:1646  */
     { (yyval.quad) = Quad_create(0,AfInd, (yyvsp[-4].identity), (yyvsp[-2].value), (yyvsp[0].identity)); }
-#line 1431 "c3ainterpret.tab.c" /* yacc.c:1646  */
+#line 1433 "c3ainterpret.tab.c" /* yacc.c:1646  */
     break;
 
   case 21:
-#line 62 "c3ainterpret.y" /* yacc.c:1646  */
+#line 64 "c3ainterpret.y" /* yacc.c:1646  */
     { (yyval.quad) = Quad_create(0, Ind, (yyvsp[-4].identity), (yyvsp[-2].value), (yyvsp[0].identity)); }
-#line 1437 "c3ainterpret.tab.c" /* yacc.c:1646  */
+#line 1439 "c3ainterpret.tab.c" /* yacc.c:1646  */
     break;
 
   case 22:
-#line 63 "c3ainterpret.y" /* yacc.c:1646  */
+#line 65 "c3ainterpret.y" /* yacc.c:1646  */
     { (yyval.quad) = Quad_create(0,Param, (yyvsp[-3].identity), (yyvsp[-1].value), 0); }
-#line 1443 "c3ainterpret.tab.c" /* yacc.c:1646  */
+#line 1445 "c3ainterpret.tab.c" /* yacc.c:1646  */
     break;
 
   case 23:
-#line 64 "c3ainterpret.y" /* yacc.c:1646  */
+#line 66 "c3ainterpret.y" /* yacc.c:1646  */
     { (yyval.quad) = Quad_create(0,Call, (yyvsp[-3].identity), (yyvsp[-1].value), 0); }
-#line 1449 "c3ainterpret.tab.c" /* yacc.c:1646  */
+#line 1451 "c3ainterpret.tab.c" /* yacc.c:1646  */
     break;
 
   case 24:
-#line 65 "c3ainterpret.y" /* yacc.c:1646  */
+#line 67 "c3ainterpret.y" /* yacc.c:1646  */
     { (yyval.quad) = Quad_create(0,Ret, 0, 0, 0); }
-#line 1455 "c3ainterpret.tab.c" /* yacc.c:1646  */
+#line 1457 "c3ainterpret.tab.c" /* yacc.c:1646  */
     break;
 
   case 25:
-#line 70 "c3ainterpret.y" /* yacc.c:1646  */
+#line 72 "c3ainterpret.y" /* yacc.c:1646  */
     {(yyval.value) = Value_create('I', &(yyvsp[0].constant));}
-#line 1461 "c3ainterpret.tab.c" /* yacc.c:1646  */
+#line 1463 "c3ainterpret.tab.c" /* yacc.c:1646  */
     break;
 
   case 26:
-#line 71 "c3ainterpret.y" /* yacc.c:1646  */
+#line 73 "c3ainterpret.y" /* yacc.c:1646  */
     {(yyvsp[0].constant) = (yyvsp[0].constant)*-1; (yyval.value) = Value_create('I', &(yyvsp[0].constant));}
-#line 1467 "c3ainterpret.tab.c" /* yacc.c:1646  */
+#line 1469 "c3ainterpret.tab.c" /* yacc.c:1646  */
     break;
 
   case 27:
-#line 72 "c3ainterpret.y" /* yacc.c:1646  */
+#line 74 "c3ainterpret.y" /* yacc.c:1646  */
     {(yyval.value) = Value_create('I', &(yyvsp[0].constant));}
-#line 1473 "c3ainterpret.tab.c" /* yacc.c:1646  */
+#line 1475 "c3ainterpret.tab.c" /* yacc.c:1646  */
     break;
 
   case 28:
-#line 73 "c3ainterpret.y" /* yacc.c:1646  */
+#line 75 "c3ainterpret.y" /* yacc.c:1646  */
     { (yyval.value) = Value_create('V', (yyvsp[0].identity));}
-#line 1479 "c3ainterpret.tab.c" /* yacc.c:1646  */
+#line 1481 "c3ainterpret.tab.c" /* yacc.c:1646  */
     break;
 
   case 29:
-#line 75 "c3ainterpret.y" /* yacc.c:1646  */
+#line 77 "c3ainterpret.y" /* yacc.c:1646  */
     {(yyval.value) = Value_create('I', &(yyvsp[0].constant));}
-#line 1485 "c3ainterpret.tab.c" /* yacc.c:1646  */
+#line 1487 "c3ainterpret.tab.c" /* yacc.c:1646  */
     break;
 
   case 30:
-#line 76 "c3ainterpret.y" /* yacc.c:1646  */
+#line 78 "c3ainterpret.y" /* yacc.c:1646  */
     {(yyvsp[0].constant) = (yyvsp[0].constant)*-1; (yyval.value) = Value_create('I', &(yyvsp[0].constant));}
-#line 1491 "c3ainterpret.tab.c" /* yacc.c:1646  */
+#line 1493 "c3ainterpret.tab.c" /* yacc.c:1646  */
     break;
 
   case 31:
-#line 77 "c3ainterpret.y" /* yacc.c:1646  */
+#line 79 "c3ainterpret.y" /* yacc.c:1646  */
     {(yyval.value) = Value_create('I', &(yyvsp[0].constant));}
-#line 1497 "c3ainterpret.tab.c" /* yacc.c:1646  */
+#line 1499 "c3ainterpret.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1501 "c3ainterpret.tab.c" /* yacc.c:1646  */
+#line 1503 "c3ainterpret.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1725,7 +1727,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 78 "c3ainterpret.y" /* yacc.c:1906  */
+#line 80 "c3ainterpret.y" /* yacc.c:1906  */
 
 
 int main()

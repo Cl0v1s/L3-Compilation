@@ -4,7 +4,7 @@
 	#include "include/Quads.h"
 	#include "include/C3A.h"
 	#include "include/Env_C3A.h"
-	#include "Stack_C3A.h"
+	#include "include/Stack_C3A.h"
 
 
 	int yyerror(char *s);

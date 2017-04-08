@@ -10,49 +10,50 @@ struct Stack* Stack_init(){
     return _stack;
 }
 
-int Stack_push(struct Stack* _stack, int size){
+int Stack_push(struct Stack* stack, int sz){
 
-    for(int i = 0; i < _stack->refsLength; i++)
+    for(int i = 0; i < stack->refsLength; i++)
     {
-        if(_stack->adr[i] < 0 && _stack->size[i] >= size)
+        if(stack->adr[i] < 0 && stack->size[i] >= sz)
         {
-            _stack->adr[i] = _stack->adr[i] * -1;
-            _stack->size[i] = size;
+            stack->adr[i] = stack->adr[i] * -1;
+            stack->size[i] = sz;
             return i;
         }
     }
+    printf("Allocating...\n");
 
-    // Getting returned index ( index of the new entry in adr and size arrays )
-    int ind = _stack->refsLength;
+    int index = stack->refsLength;
 
-    // Allocating new arrays and copying old ones
-    int* newSize = malloc(_stack->refsLength * sizeof(int));
-    int* newAdr = malloc(_stack->refsLength * sizeof(int));
-    int* newValues = malloc((_stack->valuesLength + size) * sizeof(int));
+    int* adr = malloc((stack->refsLength+1)*sizeof(int));
+    int* size = malloc((stack->refsLength+1)*sizeof(int));
+    int* values = malloc((stack->valuesLength+sz)*sizeof(int));
 
-    memcpy(newSize, _stack->size, _stack->refsLength * sizeof(int));
-    memcpy(newAdr, _stack->adr, _stack->refsLength * sizeof(int));
-    memcpy(newValues, _stack->values, _stack->valuesLength * sizeof(int));
+    memcpy(adr, stack->adr, (stack->refsLength)*sizeof(int));
+    memcpy(size, stack->size, (stack->refsLength)*sizeof(int));
+    memcpy(values, stack->values, (stack->valuesLength)*sizeof(int));
 
-    // Then incrementing size of adr and size arrays
-    _stack->refsLength++;
+    adr[index] = stack->valuesLength;
+    size[index] = sz;
 
-    // Init
-    for(int i = _stack->valuesLength; i < _stack->valuesLength + size; i++){
-        newValues[i] = 0;
+    for(int i = stack->valuesLength; i < stack->valuesLength+sz; i++)
+    {
+        values[i] = 0;
     }
 
-    _stack->valuesLength = _stack->valuesLength + size;
-    // Free old
-    free(_stack->values);
-    free(_stack->size);
-    free(_stack->adr);
-    // Affect
-    _stack->size = newSize;
-    _stack->adr = newAdr;
-    _stack->values = newValues;
+    free(stack->adr);
+    free(stack->size);
+    free(stack->values);
 
-    return ind;
+    stack->adr = adr;
+    stack->size = size;
+    stack->values = values;
+
+    stack->refsLength++;
+    stack->valuesLength = stack->valuesLength + sz;
+
+    return index;
+
 }
 
 void Stack_setValue(struct Stack* _stack, int index, int value)
@@ -78,4 +79,24 @@ int Stack_getValue(struct Stack* _stack, int index)
 void Stack_remove(struct Stack* stack, int index)
 {
     stack->adr[index] = stack->adr[index] * -1;
+}
+
+void Stack_print(struct Stack* stack)
+{
+    printf("Adr: ");
+    for(int i = 0; i < stack->refsLength; i++)
+    {
+        printf("%d,", stack->adr[i]);
+    }
+    printf("\nsize: ");
+    for(int i = 0; i < stack->refsLength; i++)
+    {
+        printf("%d,", stack->size[i]);
+    }
+    printf("\nvalues: ");
+    for(int i = 0; i < stack->valuesLength; i++)
+    {
+        printf("%d,", stack->values[i]);
+    }
+    printf("\n");
 }

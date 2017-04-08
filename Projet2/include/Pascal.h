@@ -15,6 +15,6 @@
 #define CallFUNC -2
 
 
-struct Variable Pascal_run(struct Stack* stack, struct Env* global, struct FuncList* functions, struct Ast* ast, struct Env* local);
+struct Variable* Pascal_run(struct Stack* stack, struct Env* global, struct FuncList* functions, struct Ast* ast, struct Env* local);
 
 #endif //COMPILATION_PASCAL_H

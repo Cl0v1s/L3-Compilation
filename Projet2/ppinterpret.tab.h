@@ -91,7 +91,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 16 "ppinterpret.y" /* yacc.c:1909  */
+#line 18 "ppinterpret.y" /* yacc.c:1909  */
 
 		char* identity;
 		int constant;

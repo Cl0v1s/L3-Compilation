@@ -11,6 +11,8 @@
 	int yyerror(char *s);
 	int yylex();
 	int yylineno;
+
+	struct Stack* stack;
 %}
 
 	%union {
@@ -51,7 +53,7 @@
 
 
 MP: L_vart LD C {
-    Pascal_run(Stack_init(), $1, $2, $3, 0);
+    Pascal_run(stack, $1, $2, $3, 0);
 }
 
 E: E Pl E { $$ = Ast_init('E', Pl, $1, $3); }
@@ -98,7 +100,7 @@ L_argt: %empty { $$ = Env_init(); }
 L_argtnn: Argt { $$ = $1;}
   | L_argtnn Comma Argt { $$ = Env_concat($1, $3);free($1); free($3); }
 
-Argt: V Colon TP { printf("Adding %s\n", $1); $$ = Env_init(); Env_set_value($$, $1,Variable_init($3)); }
+Argt: V Colon TP { printf("Adding %s\n", $1); $$ = Env_init(); Env_set_value($$, $1,Variable_arrayInit(stack, $3, 1)); }
 
 TP: T_boo { $$ = Type_init(BOOL, 0); }
   | T_int  { $$ = Type_init(INT, 0); }
@@ -124,6 +126,7 @@ LD: %empty { $$ = FuncList_init(); }
 
 int main()
 {
+    stack = Stack_init();
 	yyparse();
 }
 

@@ -17,6 +17,13 @@ void TypeSystem_init()
     Type_VOID = Type_init(VOID, 0);
 }
 
+int TypeSystem_isInit()
+{
+    if(Type_BOOL == 0 || Type_INT == 0 || Type_VOID == 0)
+        return false;
+    return true;
+}
+
 void Collector_init()
 {
     collector.list = malloc(0);
@@ -67,22 +74,28 @@ struct Type* Type_init(int desc, struct Type* child)
     return type;
 }
 
+int Type_check(struct Type* type1, struct Type* type2)
+{
+#ifdef DEBUG
+    printf("Checking type: %d / %d\n", type1->desc, type2->desc);
+#endif
+    if(type1->desc == VOID || type2->desc == VOID)
+        return true;
+    if( (type1->desc == BOOL && type2->desc == INT) || (type1->desc == INT && type2->desc == BOOL))
+        return true;
+    if(type1->desc != type2->desc)
+        return false;
+    if(type1->desc == ARRAY)
+        return Type_check(type1->child, type2->child);
+    return true;
+}
+
 void Type_free(struct Type* type)
 {
     if(type->desc != ARRAY)
         return;
     Type_free(type->child);
     free(type);
-}
-
-struct Variable* Variable_init(struct Type* type)
-{
-    struct Variable* var = malloc(sizeof(struct Variable));
-    var->type = type;
-    var->value = 0;
-    var->refs = 1;
-    var->array_set = false;
-    return var;
 }
 
 struct Variable* Variable_arrayInit(struct Stack* stack, struct Type* type, int size)
@@ -93,6 +106,27 @@ struct Variable* Variable_arrayInit(struct Stack* stack, struct Type* type, int 
     var->refs = 1;
     var->array_set = true;
     return var;
+}
+
+void Variable_arrayCopy(struct Stack* stack, struct Variable* var1, struct Variable* var2)
+{
+    if(Type_check(var1->type, var2->type) == false)
+    {
+        printf("VARIABLE: cant copy two arrays from different types.\n");
+        exit(-1);
+    }
+    if(var2->array_set == false)
+    {
+        printf("VARIABLE: cant copy a non initialized array.\n");
+        exit(-1);
+    }
+    if(var1->array_set == true)
+        Stack_remove(stack, var1->value);
+    var1->value = Stack_push(stack, stack->size[var2->value]);
+    for(int i = 0; i < stack->size[var2->value]; i++)
+    {
+        Variable_arraySet(var1, stack, i, Variable_arrayGet(var2, stack, i));
+    }
 }
 
 void Variable_arraySet(struct Variable* var, struct Stack* stack, int index, int value)
@@ -117,22 +151,9 @@ int Variable_arrayGet(struct Variable* var, struct Stack* stack, int index)
     return Stack_getValue(stack, index);
 }
 
-void Variable_set(struct Variable* var, int value)
-{
-    var->value = value;
-}
-
-int Variable_get(struct Variable* var)
-{
-    return var->value;
-}
-
 void Variable_free(struct Variable* var, struct Stack* stack)
 {
-    if(var->type->desc == ARRAY)
-    {
-        Stack_remove(stack, var->value);
-    }
+    Stack_remove(stack, var->value);
     Type_free(var->type);
     free(var);
 }

@@ -8,14 +8,17 @@
 
 #include <stdio.h>
 
-#include "Quads.h"
 #include "Ast.h"
+#include "Function.h"
+#include "Pascal.h"
+#include "Variable.h"
+#include "./../ppinterpret.tab.h"
 
 /**
 * Compile un programe IMP en programme C3A
 * imp: programme IMP
 **/
-void ppascal_Compile_C3A(struct Ast* pp);
+void P_Compile_C3A(struct FuncList* functions, struct Ast* ast);
 
 
 #endif //COMPILATION_COMPPASCAL_H

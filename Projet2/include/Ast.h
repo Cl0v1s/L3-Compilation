@@ -34,5 +34,7 @@ struct Ast* Ast_init(int nodetype,int ope, struct Ast* left,struct Ast *right);
 */
 struct Ast* Ast_init_leaf(int nodetype, void* value);
 
+void Ast_print(struct Ast* ast);
+
 
 #endif 

@@ -32,3 +32,19 @@ struct Ast* Ast_init_leaf(int nodetype, void *value)
     return ast;
 }
 
+void Ast_print(struct Ast* ast)
+{
+    if(ast->left != 0 || ast->right != 0)
+        printf("%p Tree %c: %d (%p, %p)\n", ast, ast->nodetype, *(int*)ast->value, ast->left, ast->right);
+    else
+    {
+        printf("%p Leaf %c: ", ast, ast->nodetype);
+        if(ast->nodetype == 'V')
+            printf("variable %s\n", (char*)ast->value);
+        else
+            printf("constante %d\n", *(int*)ast->value);
+    }
+
+
+}
+

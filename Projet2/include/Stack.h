@@ -15,10 +15,12 @@ struct Stack* Stack_init();
 
 int Stack_push(struct Stack* _stack, int size);
 
+int Stack_getAvailableIndex(struct Stack* _stack, int size);
+
 void Stack_remove(struct Stack* _stack, int index, int size);
 
 
-void Stack_removeArray(struct Stack* _stack, struct Variable* start);
+void Stack_removeArray(struct Stack* _stack, struct Variable* tab);
 
 /**
  * Stack_trunk : tronque le Stack passé le tableau pointé par last

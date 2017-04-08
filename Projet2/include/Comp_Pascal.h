@@ -11,6 +11,7 @@
 #include "Ast.h"
 #include "Function.h"
 #include "Pascal.h"
+#include "Variable.h"
 #include "./../ppinterpret.tab.h"
 
 /**

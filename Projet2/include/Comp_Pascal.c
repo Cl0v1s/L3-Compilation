@@ -7,6 +7,7 @@
 int line = 0;
 int tmpvar = 0;
 int tmpjump = 0;
+int tmparray = 0;
 
 void P_Compile_C3A(struct FuncList* functions, struct Ast* ast)
 {
@@ -33,8 +34,12 @@ void P_Compile_C3A(struct FuncList* functions, struct Ast* ast)
     int ope = *(int*)ast->value;
     int tmpleft;
     int tmpright;
+    struct Type* tmp1;
     switch(ope)
     {
+        case NewAr:
+            tmp1 =
+            break;
         case Pl:
             P_Compile_C3A(functions, ast->left);
             tmpleft = tmpvar;
@@ -78,6 +83,19 @@ void P_Compile_C3A(struct FuncList* functions, struct Ast* ast)
             tmpright = tmpvar;
             tmpvar = tmpvar + 1;
             printf("l%d : Or : _TMP%d : _TMP%d : _TMP%d\n", line, tmpleft, tmpright, tmpvar);
+            line = line + 1;
+            break;
+        case Eq:
+            P_Compile_C3A(functions, ast->left);
+            tmpleft = tmpvar;
+            P_Compile_C3A(functions, ast->right);
+            tmpright = tmpvar;
+            tmpvar = tmpvar + 1;
+            printf("l%d : Mo : _TMP%d : _TMP%d : _TMP%d\n", line, tmpleft, tmpright, tmpvar);
+            line = line + 1;
+            tmpleft = tmpvar;
+            tmpvar = tmpvar + 1;
+            printf("l%d : Not : _TMP%d :  : _TMP%d\n", line, tmpleft, tmpvar);
             line = line + 1;
             break;
         case Lt:

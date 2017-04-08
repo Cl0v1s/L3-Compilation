@@ -9,22 +9,47 @@ struct Stack* Stack_init(){
 }
 
 int Stack_push(struct Stack* stack, int size) {
-
-    struct Variable **vars = malloc((stack->size + size) * sizeof(struct Variable *));
-    memcpy(vars, stack->vars, stack->size * sizeof(struct Variable *));
-    for (int i = stack->size; i != stack->size + size; i++) {
-        vars[i] = 0;
+    // Getting available index in stack if "size" fits
+    int index = Stack_getAvailableIndex(stack, size);
+    // If the index couldn't be defined
+    if(index == 0){
+        struct Variable **vars = malloc((stack->size + size) * sizeof(struct Variable *));
+        memcpy(vars, stack->vars, stack->size * sizeof(struct Variable *));
+        for (int i = stack->size; i != stack->size + size; i++) {
+            vars[i] = 0;
+        }
+        free(stack->vars);
+        stack->vars = vars;
+        int index = stack->size;
+        stack->size = stack->size + size;
     }
-    free(stack->vars);
-    stack->vars = vars;
-    int index = stack->size;
-    stack->size = stack->size + size;
 
 #ifdef DEBUG
     printf("Pushed to stack at Ind %i for size %i. StackSize : %i\n", index, size, stack->size);
 #endif
 
     return index;
+}
+
+int Stack_getAvailableIndex(struct Stack* _stack, int size){
+    int notFound = true;
+    int cptRange = 0, i = 0, ind = 0;
+
+    while(notFound && i < _stack->size){
+        if(_stack->vars[i] == 0){
+            cptRange++;
+        }
+        else {
+            cptRange = 0;
+        }
+        if(cptRange == size){
+            ind = i - cptRange;
+            notFound = false;
+        }
+        i++;
+    }
+
+    return ind;
 }
 
 int Stack_isIndexValid(struct Stack* _stack, int index){
@@ -69,15 +94,16 @@ void Stack_remove(struct Stack* _stack, int index, int size){
     }
 }
 
-void Stack_removeArray(struct Stack* _stack, struct Variable* start){
-  //TODO : Recoller proprement dans un tel contexte où on ne connaît que start n'est pas possible si start n'est pas également le dernier du tas
+void Stack_removeArray(struct Stack* _stack, struct Variable* tab){
+    int ind = *(int *)tab->value;
     // Plage de suppression invalide
-    if(*(int*)start->value >= _stack->size || *(int*)(start->value + start->size) >= _stack->size){
-        printf("Suppression range invalid. [%i:%i]>[%i]\n", *(int *)start->value, *(int *)start->value+start->size, _stack->size);
+    if(ind >= _stack->size || ind + tab->size >= _stack->size){
+        printf("Suppression range invalid. [%i:%i]>[%i]\n", ind, ind + tab->size, _stack->size);
     }
-    struct Variable* startVar = _stack->vars[*(int*)start->value];
-
-    // Remove one
+    for(ind; ind < ind + tab->size; ind++){
+        _stack->vars[ind]->refs = 0;
+        _stack->vars[ind] = 0;
+    }
 }
 
 int Stack_rangeValid(struct Stack* _stack, struct Variable* var){

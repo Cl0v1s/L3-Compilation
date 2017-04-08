@@ -208,7 +208,6 @@ void Variable_free(struct Variable* var, struct Stack* stack)
 {
     if(var->type->type == ARRAY)
     {
-        //TODO: virer une référence de chacunes des variables contenues dans le tableau
         Stack_removeArray(stack, var);
         Type_free(var->type);
     }

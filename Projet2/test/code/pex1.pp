@@ -1,11 +1,7 @@
-var X1 : integer,
-var X2 : integer
+var X1 : array of integer,
+var X2 : array of integer
 
-defun foo1(V : integer):integer
-    var Z : integer
-    foo1:= V-1
-
-
-
-X2 := 3;
-X2 := foo1(X2,true)
+X1 := new array of integer[2];
+X2 := X1;
+X1[0]:=42;
+X1[1]:=3

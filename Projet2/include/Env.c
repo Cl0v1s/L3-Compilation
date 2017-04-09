@@ -15,10 +15,9 @@ void Env_print(struct Env* env, struct Stack* stack)
 {
     for(int i = 0; i < env->length; i++)
     {
-        // TODO : appeler Variable_get ou Variable_arrayGet correctement
-//        printf("(%lu:%p) ", env->keys[i], Variable_arrayGet(env->values, stack, i));
-    } 
-    printf("\n"); 
+        printf("(%lu:%d) ", env->keys[i], env->values[i]->value);
+    }
+    printf("\n");
 } 
 
 char Env_key_exists(struct Env* env, char* key)

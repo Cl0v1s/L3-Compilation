@@ -56,6 +56,7 @@ MP: L_vart LD C {
     Pascal_semanticFunctions($2);
     Pascal_run(stack, $1, $2, $3, 0);
     Stack_print(stack);
+    Env_print($1, stack);
 }
 
 E: E Pl E { $$ = Ast_init('E', Pl, $1, $3); }

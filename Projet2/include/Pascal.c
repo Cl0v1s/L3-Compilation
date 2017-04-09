@@ -91,7 +91,7 @@ struct Variable* Pascal_run( struct Stack* stack, struct Env* env, struct FuncLi
                     Variable_arraySet(tmp1, stack,0, Variable_arrayGet(tmp2, stack, 0));
                 }
                 else {
-                    Variable_arrayCopy(stack, tmp1, tmp2);
+                    tmp1->value = tmp2->value;
                 }
                 Collector_clean(stack);
                 break;

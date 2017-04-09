@@ -144,7 +144,7 @@ struct Quad* C3A_eval(struct Quad* quad,  struct QuadList* list, struct Stack* s
             if(quad->arg2->type == 'V') {
                 used = C3A_select(global, local, (char *) quad->arg2->value);
                 tmp = EnvC3A_get_value(used, (char *) quad->arg2->value);
-                tmp = Stack_copy(stack, tmp);
+                //tmp = Stack_copy(stack, tmp);
                 used = C3A_select(global, local, quad->destination);
                 C3A_replace(used, stack, quad->destination, tmp);
             }

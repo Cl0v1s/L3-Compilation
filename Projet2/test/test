@@ -4,3 +4,15 @@
 : Ind : var : 10 : var2
 : Af : var3 : 55 :
 : Pl : var3 : var2 : var4
+: Param : X1 : var3 :
+: Param : X2 : 1 :
+: Call : func1 : 2 :
+: Pl : var3 : 1 : var3
+: St : : :
+
+
+func1 : Sk : : :
+: Pl : X1 : 1 : X1
+: Pl : X2 : 2 : X2
+: Af : var3 : X1 :
+: Ret : : :

@@ -1,5 +1,21 @@
 #include "C3A.h"
 
+// indicateur de profondeur d'appel de fonction
+int deep = 0;
+
+struct EnvC3A* C3A_select(struct EnvC3A* global, struct EnvC3A* local, char* value)
+{
+
+    struct EnvC3A* used = 0;
+    if(deep <= 0 )
+        used = global;
+    else used = local;
+    if(global != 0 && EnvC3A_key_exists(global, value))
+        used = global;
+    else if(local != 0 && EnvC3A_key_exists(local, value))
+        used = local;
+    return used;
+}
 
 void C3A_replace(struct EnvC3A* env, struct Stack* stack,  char* key, int value)
 {
@@ -11,9 +27,8 @@ void C3A_replace(struct EnvC3A* env, struct Stack* stack,  char* key, int value)
     EnvC3A_set_value(env, key, value);
 }
 
-void C3A_run(struct QuadList* list, struct Quad* start, struct EnvC3A* global,struct EnvC3A* local, struct EnvC3A* params)
+void C3A_run(struct QuadList* list, struct Quad* start, struct Stack* stack, struct EnvC3A* global,struct EnvC3A* local, struct EnvC3A* params)
 {
-    struct Stack* stack = Stack_init();
     struct Quad* current = list->start;
     if(start != 0)
     {
@@ -41,99 +56,114 @@ struct Quad* C3A_eval(struct Quad* quad,  struct QuadList* list, struct Stack* s
     int pos;
     struct Value* value;
     struct Quad* next;
-    //printf("Eval node %p %s | %p %p\n",quad,  quad->address, list->start, list->start->address);
+    struct EnvC3A* used;
+    printf("Eval node %d\n", quad->operation);
     switch(quad->operation)
     {
         case And:
-            tmp = Value_get(quad->arg1, global, stack, &pos, &adr, &size, 0) == true && Value_get(quad->arg2, global, stack, &pos, &adr, &size, 0) == true;
+            tmp = Value_get(quad->arg1, stack, global, local, used, &pos, &adr, &size, 0) == true && Value_get(quad->arg2, stack, global, local, used, &pos, &adr, &size, 0) == true;
             tmp1 = Stack_push(stack, 1);
             Stack_setValue(stack, stack->adr[tmp1], tmp);
-            C3A_replace(global, stack, quad->destination, tmp1);
+            used = C3A_select(global, local, quad->destination);
+            C3A_replace(used, stack, quad->destination, tmp1);
             return quad->next;
         case Or:
-            tmp = Value_get(quad->arg1, global, stack, &pos, &adr, &size, 0) == true || Value_get(quad->arg2, global, stack, &pos, &adr, &size, 0) == true;
+            tmp = Value_get(quad->arg1, stack, global, local, used, &pos, &adr, &size, 0) == true || Value_get(quad->arg2, stack, global, local, used, &pos, &adr, &size, 0) == true;
             //printf("%s <- %d\n", quad->destination, tmp);
             tmp1 = Stack_push(stack, 1);
             Stack_setValue(stack, stack->adr[tmp1], tmp);
-            C3A_replace(global, stack, quad->destination, tmp1);
+            used = C3A_select(global, local, quad->destination);
+            C3A_replace(used, stack, quad->destination, tmp1);
             return quad->next;
         case Lt:
-            tmp = Value_get(quad->arg1, global, stack, &pos, &adr, &size, 0) < Value_get(quad->arg2, global, stack, &pos, &adr, &size, 0);
+            tmp = Value_get(quad->arg1, stack, global, local, used, &pos, &adr, &size, 0) < Value_get(quad->arg2, stack, global, local, used, &pos, &adr, &size, 0);
             //printf("%s <- %d\n", quad->destination, tmp);
             tmp1 = Stack_push(stack, 1);
             Stack_setValue(stack, stack->adr[tmp1], tmp);
-            C3A_replace(global, stack, quad->destination, tmp1);
+            used = C3A_select(global, local, quad->destination);
+            C3A_replace(used, stack, quad->destination, tmp1);
             return quad->next;
         case Not:
-            tmp = !Value_get(quad->arg1, global, stack, &pos, &adr, &size, 0);
+            tmp = !Value_get(quad->arg1, stack, global, local, used, &pos, &adr, &size, 0);
             //printf("%s <- %d\n", quad->destination, tmp);
             tmp1 = Stack_push(stack, 1);
             Stack_setValue(stack, stack->adr[tmp1], tmp);
-            C3A_replace(global, stack, quad->destination, tmp1);
+            used = C3A_select(global, local, quad->destination);
+            C3A_replace(used, stack, quad->destination, tmp1);
             return quad->next;
         case Pl:
-            tmp = Value_get(quad->arg1, global, stack, &pos, &adr, &size, 0) + Value_get(quad->arg2, global, stack, &pos, &adr, &size, 0);
+            tmp = Value_get(quad->arg1, stack, global, local, used, &pos, &adr, &size, 0) + Value_get(quad->arg2, stack, global, local, used, &pos, &adr, &size, 0);
             //printf("%s <- %d\n", quad->destination, tmp);
             tmp1 = Stack_push(stack, 1);
             Stack_setValue(stack, stack->adr[tmp1], tmp);
-            C3A_replace(global, stack, quad->destination, tmp1);
+            used = C3A_select(global, local, quad->destination);
+            C3A_replace(used, stack, quad->destination, tmp1);
             return quad->next;
         case Mo:
-            tmp = Value_get(quad->arg1, global, stack, &pos, &adr, &size, 0) - Value_get(quad->arg2, global, stack, &pos, &adr, &size, 0);
+            tmp = Value_get(quad->arg1, stack, global, local, used, &pos, &adr, &size, 0) - Value_get(quad->arg2, stack, global, local, used, &pos, &adr, &size, 0);
             //printf("%s <- %d\n", quad->destination, tmp);
             tmp1 = Stack_push(stack, 1);
             Stack_setValue(stack, stack->adr[tmp1], tmp);
-            C3A_replace(global, stack, quad->destination, tmp1);
+            used = C3A_select(global, local, quad->destination);
+            C3A_replace(used, stack, quad->destination, tmp1);
             return quad->next;
         case Mu:
-            tmp = Value_get(quad->arg1, global, stack, &pos, &adr, &size, 0) * Value_get(quad->arg2, global, stack, &pos, &adr, &size, 0);
+            tmp = Value_get(quad->arg1, stack, global, local, used, &pos, &adr, &size, 0) * Value_get(quad->arg2, stack, global, local, used, &pos, &adr, &size, 0);
             //printf("%s <- %d\n", quad->destination, tmp);
             tmp1 = Stack_push(stack, 1);
             Stack_setValue(stack, stack->adr[tmp1], tmp);
-            C3A_replace(global, stack, quad->destination, tmp1);
+            used = C3A_select(global, local, quad->destination);
+            C3A_replace(used, stack, quad->destination, tmp1);
             return quad->next;
         case Af:
-            tmp = Value_get(quad->arg2, global, stack, &pos, &adr, &size, 0);
+            tmp = Value_get(quad->arg2, stack, global, local, used, &pos, &adr, &size, 0);
             tmp1 = Stack_push(stack, 1);
             Stack_setValue(stack, stack->adr[tmp1], tmp);
-            C3A_replace(global, stack, quad->destination, tmp1);
+            used = C3A_select(global, local, quad->destination);
+            C3A_replace(used, stack, quad->destination, tmp1);
             return quad->next;
         case Afc:
-            tmp = Value_get(quad->arg1, global, stack, &pos, &adr, &size, 0);
+            tmp = Value_get(quad->arg1, stack, global, local, used, &pos, &adr, &size, 0);
             //printf("%s <- %d\n", quad->destination, tmp);
             tmp1 = Stack_push(stack, 1);
             Stack_setValue(stack, stack->adr[tmp1], tmp);
-            C3A_replace(global, stack, quad->destination, tmp1);
+            used = C3A_select(global, local, quad->destination);
+            C3A_replace(used, stack, quad->destination, tmp1);
             return quad->next;
         case AfInd:
             // valeur a allouer
             value = Value_create('V', quad->destination);
-            tmp = Value_get(value, global, stack, &pos, &adr, &size, 0);
+            tmp = Value_get(value, stack, global, local, used, &pos, &adr, &size, 0);
             Value_delete(value);
             // index auquel allouer
-            tmp2 = Value_get(quad->arg2, global, stack, &pos, &adr, &size, 0);
+            tmp2 = Value_get(quad->arg2, stack, global, local, used, &pos, &adr, &size, 0);
             //index du tableau
-            Value_get(quad->arg1, global, stack, &pos, &adr, &size, 0);
+            Value_get(quad->arg1, stack, global, local, used, &pos, &adr, &size, 0);
             //allocation
             tmp1 = Stack_setValue_expand(stack, pos, tmp2, tmp);
-            C3A_replace(global, stack, (char*)quad->arg1->value, tmp1);
+            used = C3A_select(global, local, quad->destination);
+            C3A_replace(used, stack, (char*)quad->arg1->value, tmp1);
             return quad->next;
         case Ind:
             // index de la valeur
-            tmp2 = Value_get(quad->arg2, global, stack, &pos, &adr, &size, 0);
+            tmp2 = Value_get(quad->arg2, stack, global, local, used, &pos, &adr, &size, 0);
             // valeur
-            tmp = Value_get(quad->arg1, global, stack, &pos, &adr, &size, tmp2);
+            tmp = Value_get(quad->arg1, stack, global, local, used, &pos, &adr, &size, tmp2);
             //printf("%s <- %d\n", quad->destination, tmp);
             tmp1 = Stack_push(stack, 1);
             Stack_setValue(stack, stack->adr[tmp1], tmp);
-            C3A_replace(global, stack, quad->destination, tmp1);
+            used = C3A_select(global, local, quad->destination);
+            C3A_replace(used, stack, quad->destination, tmp1);
             return quad->next;
         case Param:
-            tmp = Value_get(quad->arg2, global, stack, &pos, &adr, &size, 0);
-            EnvC3A_set_value(params, (char*)quad->arg1->value, tmp);
+            tmp = Value_get(quad->arg2, stack, global, local, used, &pos, &adr, &size, 0);
+            tmp1 = Stack_push(stack, 1);
+            Stack_setValue(stack, stack->adr[tmp1], tmp);
+            EnvC3A_set_value(params, (char*)quad->arg1->value, tmp1);
             return quad->next;
         case Call:
-            tmp = Value_get(quad->arg2, global, stack, &pos, &adr, &size, 0);
+            printf("CALLLLLLL\n");
+            tmp = Value_get(quad->arg2, stack, global, local, used, &pos, &adr, &size, 0);
             next = QuadList_search(list, quad->destination);
             if(next == 0)
             {
@@ -145,12 +175,14 @@ struct Quad* C3A_eval(struct Quad* quad,  struct QuadList* list, struct Stack* s
             //ca2
             for(int i = 0; i < tmp; i++)
             {
-                Env_C3A_pop(params, 0,0);
+                EnvC3A_pop(params, 0,0);
             }
             //ca3
             struct EnvC3A* paramprim = EnvC3A_init();
             //ca4
-            C3A_run(list, next, global, localprim, paramprim);
+            deep++;
+            C3A_run(list, next, stack,  global, localprim, paramprim);
+            deep--;
             return quad->next;
         case Ret:
             return 0;
@@ -165,7 +197,7 @@ struct Quad* C3A_eval(struct Quad* quad,  struct QuadList* list, struct Stack* s
             }
             return next;
         case Jz:
-            tmp = Value_get(quad->arg1, global, stack, &pos, &adr, &size, 0);
+            tmp = Value_get(quad->arg1, stack, global, local, used, &pos, &adr, &size, 0);
             if(tmp != 0)
             {
                 return quad->next;

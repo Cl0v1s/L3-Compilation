@@ -11,16 +11,16 @@ struct EnvC3A* EnvC3A_init()
 
 struct EnvC3A* EnvC3A_copy(struct EnvC3A* source)
 {
-    struct EnvC3A* res = malloc(sizeof(struct EnVC3A));
+    struct EnvC3A* res = malloc(sizeof(struct EnvC3A));
     unsigned long *keys = malloc((source->length)*sizeof(unsigned long));
-    memcpy(keys, source->keys, (sources->length)*sizeof(unsigned long));
+    memcpy(keys, source->keys, (source->length)*sizeof(unsigned long));
     res->keys = keys;
 
     int *values = malloc((source->length)*sizeof(int));
     memcpy(values, source->values, (source->length)*sizeof(int));
     res->values = values;
 
-    res->length = source->lenght;
+    res->length = source->length;
     return res;
 }
 
@@ -117,7 +117,7 @@ unsigned long EnvC3A_hash(char *str)
     return hash;
 }
 
-void Env_C3A_pop(struct Env_C3A* env, unsigned long* hash, int* value)
+void EnvC3A_pop(struct EnvC3A* env, unsigned long* hash, int* value)
 {
     if(hash != 0)
         *hash = env->keys[env->length-1];

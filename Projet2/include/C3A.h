@@ -9,6 +9,8 @@
 #define true 1
 
 
+struct EnvC3A* C3A_select(struct EnvC3A* global, struct EnvC3A* local, char* value);
+
 void C3A_replace(struct EnvC3A* env, struct Stack* stack,  char* key, int value);
 
 /**
@@ -16,7 +18,7 @@ void C3A_replace(struct EnvC3A* env, struct Stack* stack,  char* key, int value)
 * list: programme C3A
 * env : Environnement de variables 
 */
-void C3A_run(struct QuadList* list, struct Quad* start, struct EnvC3A* global,struct EnvC3A* local, struct EnvC3A* params);
+void C3A_run(struct QuadList* list, struct Quad* start, struct Stack* stack, struct EnvC3A* global,struct EnvC3A* local, struct EnvC3A* params);
 
 /**
 * Modifie env en fonction de la commande quad

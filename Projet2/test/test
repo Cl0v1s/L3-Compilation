@@ -15,4 +15,10 @@ func1 : Sk : : :
 : Pl : X1 : 1 : X1
 : Pl : X2 : 2 : X2
 : Af : var3 : X1 :
+: Param : X1 : X1 :
+: Call: func2 : 1 :
+: Ret : : :
+
+func2 : Pl : X1 : 1 : X1
+: Af:var3 : X1:
 : Ret : : :

@@ -32,8 +32,10 @@
 
 /* Un programme est une suite de déclaration (C) composé de déclaration atomique (C0) */
 prog: C	{
+            struct Stack* stack = Stack_init();
 			struct EnvC3A* env = EnvC3A_init();
-			C3A_run($1, 0, Stack_init(), env, EnvC3A_init(), EnvC3A_init());
+			C3A_run($1, 0, stack, env, EnvC3A_init(), EnvC3A_init());
+			C3A_print(env, stack);
 	 	}
     ;
 

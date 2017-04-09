@@ -1,7 +1,27 @@
 #include "C3A.h"
 
-// indicateur de profondeur d'appel de fonction
+// indicateur de profondeur d'appel de fonction (utilisé pour déterminer quel environnement utilise par defaut)
 int deep = 0;
+
+void C3A_print(struct EnvC3A* global, struct Stack* stack)
+{
+    unsigned long key;
+    int index;
+    printf("\n=============\nResults:\n");
+    for(int i = 0; i < global->length; i++)
+    {
+        key = global->keys[i];
+        index = global->values[i];
+        printf("( %lu : [", key);
+        for(int u = 0; u <stack->size[index]; u++)
+        {
+            printf("%d,", stack->values[stack->adr[index]+u]);
+        }
+        printf("] )\n");
+    }
+    printf("Watch log to get var names.\n");
+
+}
 
 struct EnvC3A* C3A_select(struct EnvC3A* global, struct EnvC3A* local, char* value)
 {
@@ -38,7 +58,7 @@ void C3A_run(struct QuadList* list, struct Quad* start, struct Stack* stack, str
     do
     {
         current = C3A_eval(current, list, stack, global, local, params);
-        Stack_print(stack);
+        //Stack_print(stack);
         if( current == 0)
             return;
     }
@@ -57,7 +77,7 @@ struct Quad* C3A_eval(struct Quad* quad,  struct QuadList* list, struct Stack* s
     struct Value* value;
     struct Quad* next;
     struct EnvC3A* used;
-    printf("Eval node %d\n", quad->operation);
+    //printf("Eval node %d\n", quad->operation);
     switch(quad->operation)
     {
         case And:
@@ -162,7 +182,7 @@ struct Quad* C3A_eval(struct Quad* quad,  struct QuadList* list, struct Stack* s
             EnvC3A_set_value(params, (char*)quad->arg1->value, tmp1);
             return quad->next;
         case Call:
-            printf("CALLLLLLL\n");
+            //printf("CALLLLLLL\n");
             tmp = Value_get(quad->arg2, stack, global, local, used, &pos, &adr, &size, 0);
             next = QuadList_search(list, quad->destination);
             if(next == 0)

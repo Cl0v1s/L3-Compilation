@@ -4,8 +4,6 @@
 
 #include "Pascal.h"
 
-
-
 struct Variable* Pascal_run( struct Stack* stack, struct Env* env, struct FuncList* functions, struct Ast* ast, struct Env* local)
 {
     if(ast == 0)
@@ -30,6 +28,26 @@ struct Variable* Pascal_run( struct Stack* stack, struct Env* env, struct FuncLi
                 Pascal_run(stack, env, functions, ast->left, local);
                 Pascal_run(stack, env, functions, ast->right, local);
                 Collector_clean(stack);
+                break;
+            case AfInd:
+                tmp1 = Pascal_run(stack, env, functions, ast->left->left, local); // Tableau à modifier
+                tmp2 = Pascal_run(stack, env, functions, ast->left->right, local); //Index a modifier
+                tmp = Variable_arrayGet(tmp2, stack, 0);
+                tmp2 = Pascal_run(stack, env, functions, ast->right, local); //valeur a placer
+                //TODO: check qu'on déborde pas
+                if(tmp2->type->desc != ARRAY) {
+                    Stack_setValue(stack, stack->adr[tmp1->value] + tmp, Variable_arrayGet(tmp2, stack, 0));
+#ifdef DEBUG
+                    printf("AfInd: %d <- %d (tmp: %d adr: %d)\n", stack->adr[tmp1->value]+tmp, Variable_arrayGet(tmp2, stack, 0), tmp, stack->adr[tmp1->value]);
+#endif
+                }
+                else
+                {
+                    Stack_setValue(stack, stack->adr[tmp1->value] + tmp, tmp2->value);
+#ifdef DEBUG
+                    printf("AfInd (array): %d <- %d (tmp: %d adr: %d)\n", stack->adr[tmp1->value]+tmp, tmp2->value, tmp, stack->adr[tmp1->value]);
+#endif
+                }
                 break;
             case Af:
                 tmp1 = Pascal_run(stack, env, functions, ast->left, local);
@@ -185,10 +203,17 @@ struct Variable* Pascal_run( struct Stack* stack, struct Env* env, struct FuncLi
             case GetARR:
                 tmp1 = Pascal_run(stack, env, functions, ast->left, local);
                 tmp2 = Pascal_run(stack, env, functions, ast->right, local);
-                tmp = Variable_arrayGet(tmp1, stack, Variable_arrayGet(tmp2, stack, 0));
-                printf("Creating %d %d\n", tmp1->type->child->desc, tmp);
                 tmp2 = Variable_arrayInit(stack, tmp1->type->child,1);
-                tmp2->value = tmp;
+                tmp = Variable_arrayGet(tmp1, stack, Variable_arrayGet(tmp2, stack, 0));
+                if(tmp1->type->child->desc != ARRAY) {
+                    Variable_arraySet(tmp2, stack, 0, tmp);
+                }
+                else
+                {
+                    tmp2->value = tmp;
+                    tmp2->array_set = false;
+                }
+
                 tmp2->refs = 0;
                 return tmp2;
             case CallFUNC:
@@ -262,6 +287,7 @@ struct Variable* Pascal_run( struct Stack* stack, struct Env* env, struct FuncLi
             res = Env_get_value(local, (char*)ast->value);
         if(res == 0)
             res = Env_get_value(env, (char*)ast->value);
+        Variable_print(res, stack);
         return res;
     }
 }

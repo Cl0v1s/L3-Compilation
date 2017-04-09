@@ -76,9 +76,7 @@ struct Type* Type_init(int desc, struct Type* child)
 
 int Type_check(struct Type* type1, struct Type* type2)
 {
-#ifdef DEBUG
-    printf("Checking type: %d / %d\n", type1->desc, type2->desc);
-#endif
+
     if(type1->desc == VOID || type2->desc == VOID)
         return true;
     if( (type1->desc == BOOL && type2->desc == INT) || (type1->desc == INT && type2->desc == BOOL))
@@ -153,7 +151,13 @@ int Variable_arrayGet(struct Variable* var, struct Stack* stack, int index)
 
 void Variable_free(struct Variable* var, struct Stack* stack)
 {
-    Stack_remove(stack, var->value);
+    if(var->array_set == true)
+        Stack_remove(stack, var->value);
     Type_free(var->type);
     free(var);
+}
+
+void Variable_print(struct Variable* var, struct Stack* stack)
+{
+    printf("Variable: type: %d index: %d adr: %d size: %d\n", var->type->desc, var->value, stack->adr[var->value], stack->size[var->value]);
 }

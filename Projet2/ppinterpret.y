@@ -54,6 +54,7 @@
 
 MP: L_vart LD C {
     Pascal_run(stack, $1, $2, $3, 0);
+    Stack_print(stack);
 }
 
 E: E Pl E { $$ = Ast_init('E', Pl, $1, $3); }
@@ -77,7 +78,7 @@ E: E Pl E { $$ = Ast_init('E', Pl, $1, $3); }
 Et: V OBracket E CBracket { $$ = Ast_init('E', GetARR, Ast_init_leaf_ptr('V', $1), $3); }
   | Et OBracket E CBracket { $$ = Ast_init('E', GetARR, $1, $3); }
 
-CC: Et Af E { $$ = Ast_init('C', Af, $1, $3); }
+CC: Et Af E { $$ = Ast_init('C', AfInd, $1, $3); }
   | V Af E { $$ = Ast_init('C', Af, Ast_init_leaf_ptr('V', $1), $3); }
   | Sk { $$ = Ast_init('C', Sk, 0,0); }
   | OBrace C CBrace { $$ = $2; }

@@ -68,4 +68,6 @@ int Variable_arrayGet(struct Variable* var, struct Stack* stack, int index);
 
 void Variable_free(struct Variable* var, struct Stack* stack);
 
+void Variable_print(struct Variable* var, struct Stack* stack);
+
 #endif //L3_COMPILATION_VARIABLE_H

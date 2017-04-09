@@ -13,8 +13,11 @@
 
 #define GetARR -1
 #define CallFUNC -2
+#define AfInd -3
 
 
 struct Variable* Pascal_run(struct Stack* stack, struct Env* global, struct FuncList* functions, struct Ast* ast, struct Env* local);
+
+
 
 #endif //COMPILATION_PASCAL_H

@@ -24,6 +24,13 @@ struct EnvC3A* EnvC3A_copy(struct EnvC3A* source)
     return res;
 }
 
+void EnvC3A_free(struct EnvC3A* env)
+{
+    free(env->keys);
+    free(env->values);
+    free(env);
+}
+
 void EnvC3A_print(struct EnvC3A *env)
 {
     for(int i = 0; i < env->length; i++)

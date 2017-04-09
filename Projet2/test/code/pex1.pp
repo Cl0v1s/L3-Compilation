@@ -8,4 +8,4 @@ defun foo1(V : integer):integer
 
 
 X2 := 3;
-X2 := foo1(X1,true)
+X2 := foo1(X2,true)

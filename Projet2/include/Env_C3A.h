@@ -26,6 +26,8 @@ unsigned long EnvC3A_hash(char *str);
 struct EnvC3A* EnvC3A_init();
 
 struct EnvC3A* EnvC3A_copy(struct EnvC3A* ds);
+
+void EnvC3A_free(struct EnvC3A* env);
 /**
 * Affiche un environnement 
 * env : environnement à afficher

@@ -55,7 +55,7 @@
 
 
 MP: L_vart LD C {
-    P_Compile_C3A($2, $3);
+    P_Compile_C3A($1, $2, $3);
 }
 
 E: E Pl E { $$ = Ast_init('E', Pl, $1, $3); }
@@ -102,7 +102,7 @@ L_argt: %empty { $$ = Env_init(); }
 L_argtnn: Argt { $$ = $1;}
   | L_argtnn Comma Argt { $$ = Env_concat($1, $3);free($1); free($3); }
 
-Argt: V Colon TP { printf("Adding %s\n", $1); $$ = Env_init(); Env_set_value($$, $1,Variable_arrayInit(stack, $3, 1)); }
+Argt: V Colon TP { $$ = Env_init(); Env_set_value($$, $1,Variable_arrayInit(stack, $3, 1)); }
 
 TP: T_boo { $$ = Type_init(BOOL, 0); }
   | T_int  { $$ = Type_init(INT, 0); }

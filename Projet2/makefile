@@ -15,7 +15,7 @@ comp_pp: ppascal.l pptoc3a.y
 int_c3a: c3a.l c3ainterpret.y
 	bison -d c3ainterpret.y
 	flex c3a.l
-	cc -o test/int_pp c3ainterpret.tab.c lex.yy.c include/*.c -lfl -DDEBUG
+	cc -o test/int_c3a c3ainterpret.tab.c lex.yy.c include/*.c -lfl -DDEBUG
 	rm *.c;
 
 

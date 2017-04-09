@@ -3,9 +3,7 @@
 	#include <string.h>
 	#include "include/Quads.h"
 	#include "include/C3A.h"
-	#include "include/Env_C3A.h"
-	#include "include/Stack_C3A.h"
-
+    #include "include/Env_C3A.h"
 
 	int yyerror(char *s);
 	int yylex();
@@ -34,7 +32,7 @@
 
 /* Un programme est une suite de déclaration (C) composé de déclaration atomique (C0) */
 prog: C	{
-			struct Env_C3A* env = Env_C3A_init();
+			struct EnvC3A* env = EnvC3A_init();
 			C3A_run($1, env);
 	 	}
     ;

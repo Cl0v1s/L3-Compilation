@@ -1,1 +1,6 @@
 : Or : 0 : 0 : var
+: Afc : 15 : : var
+: AfInd : var : 10 : var
+: Ind : var : 10 : var2
+: Af : var3 : var2 :
+: Pl : var3 : var2 : var4

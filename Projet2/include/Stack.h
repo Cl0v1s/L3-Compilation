@@ -20,6 +20,8 @@ int Stack_push(struct Stack* _stack, int size);
 
 void Stack_setValue(struct Stack* _stack, int index, int value);
 
+int Stack_setValue_expand(struct Stack* _stack, int pos, int index, int value);
+
 int Stack_getValue(struct Stack* _stack, int index);
 
 void Stack_remove(struct Stack* stack, int index);

@@ -16,9 +16,10 @@ struct Value* Value_create(char type, void* value)
         value = strdup(value);
     }
     obj->value = value;
+    return obj;
 }
 
-int Value_get(struct Value* value, struct EnvC3A* env, struct Stack* stack, int* adr, int* size, int index)
+int Value_get(struct Value* value, struct EnvC3A* env, struct Stack* stack, int* pos, int* adr, int* size, int index)
 {
     int tmp;
     switch(value->type)
@@ -30,9 +31,10 @@ int Value_get(struct Value* value, struct EnvC3A* env, struct Stack* stack, int*
                 exit(1);
             }
             tmp = EnvC3A_get_value(env, (char*)value->value);
+            *pos = tmp;
             *adr = stack->adr[tmp];
             *size = stack->size[tmp];
-            return Stack_getValue(stack, *adr+index);
+            return Stack_getValue(stack, stack->adr[tmp]+index);
         case 'I':
         case 'B':
             return *(int*)value->value;

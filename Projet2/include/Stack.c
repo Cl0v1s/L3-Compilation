@@ -66,6 +66,27 @@ void Stack_setValue(struct Stack* _stack, int index, int value)
     _stack->values[index] = value;
 }
 
+int Stack_setValue_expand(struct Stack* stack, int pos, int index, int value)
+{
+    int size = stack->size[pos];
+    int adr = stack->adr[pos];
+
+    int res = pos;
+
+    if(index >= size)
+    {
+        res = Stack_push(stack, index+1);
+        for(int i=0; i < size; i++)
+        {
+            stack->values[stack->adr[res]+i] = stack->values[stack->adr[pos]+i];
+        }
+        Stack_remove(stack, pos);
+    }
+    Stack_setValue(stack, stack->adr[res]+index, value);
+
+    return res;
+}
+
 int Stack_getValue(struct Stack* _stack, int index)
 {
     if(index >= _stack->valuesLength)

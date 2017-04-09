@@ -45,7 +45,7 @@ struct Value* Value_create(char type, void* value);
 * value : valeur dans laquel chercher 
 * env :  environnement 
 */
-int Value_get(struct Value* value, struct EnvC3A* env, struct Stack* stack, int* adr, int* size, int index);
+int Value_get(struct Value* value, struct EnvC3A* env, struct Stack* stack, int* pos, int* adr, int* size, int index);
 
 void Value_delete(struct Value* value);
 

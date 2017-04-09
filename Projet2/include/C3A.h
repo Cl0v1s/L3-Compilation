@@ -8,6 +8,9 @@
 #define false 0
 #define true 1
 
+
+void C3A_replace(struct EnvC3A* env, struct Stack* stack,  char* key, int value);
+
 /**
 * Lance le parcours et l'execution d'un programme C3A
 * list: programme C3A

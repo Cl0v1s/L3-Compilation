@@ -27,7 +27,33 @@ struct Quad* C3A_eval(struct Quad* quad, struct EnvC3A* env, struct QuadList* li
     //printf("Eval node %p %s | %p %p\n",quad,  quad->address, list->start, list->start->address);
     switch(quad->operation)
     {
-
+        case And:
+            tmp = Value_get(quad->arg1, env, stack, &adr, &size, 0) == true && Value_get(quad->arg2, env, stack, &adr, &size, 0) == true;
+            tmp1 = Stack_push(stack, 1);
+            Stack_setValue(stack, tmp1, tmp);
+            EnvC3A_set_value(env, quad->destination, tmp1);
+            return quad->next;
+        case Or:
+            tmp = Value_get(quad->arg1, env, stack, &adr, &size, 0) == true || Value_get(quad->arg2, env, stack, &adr, &size, 0) == true;
+            //printf("%s <- %d\n", quad->destination, tmp);
+            tmp1 = Stack_push(stack, 1);
+            Stack_setValue(stack, tmp1, tmp);
+            EnvC3A_set_value(env, quad->destination, tmp1);
+            return quad->next;
+        case Lt:
+            tmp = Value_get(quad->arg1, env, stack, &adr, &size, 0) < Value_get(quad->arg2, env, stack, &adr, &size, 0);
+            //printf("%s <- %d\n", quad->destination, tmp);
+            tmp1 = Stack_push(stack, 1);
+            Stack_setValue(stack, tmp1, tmp);
+            EnvC3A_set_value(env, quad->destination, tmp1);
+            return quad->next;
+        case Not:
+            tmp = !Value_get(quad->arg1, env, stack, &adr, &size, 0);
+            //printf("%s <- %d\n", quad->destination, tmp);
+            tmp1 = Stack_push(stack, 1);
+            Stack_setValue(stack, tmp1, tmp);
+            EnvC3A_set_value(env, quad->destination, tmp1);
+            return quad->next;
         case Pl:
             tmp = Value_get(quad->arg1, env, stack, &adr, &size, 0) + Value_get(quad->arg2, env, stack, &adr, &size, 0);
             //printf("%s <- %d\n", quad->destination, tmp);

@@ -53,5 +53,17 @@ struct Func* FuncList_search(struct FuncList* funcs, char* name)
 }
 
 
-void FuncList_append(struct FuncList* funcs, struct Func* func);
+int FuncDiclaimer_check(struct FuncDisclaimer* d1, struct FuncDisclaimer* d2)
+{
+    if(Type_check_strict(d1->type, d2->type) == false)
+        return false;
+    if(d1->args->length != d2->args->length)
+        return false;
+    for(int i = 0; i<d1->args->length; i++)
+    {
+        if(Type_check_strict(d1->args->values[i]->type, d2->args->values[i]->type) == false)
+            return false;
+    }
+    return true;
+}
 

@@ -40,6 +40,8 @@ void FuncList_append(struct FuncList* funcs, struct Func* func);
 
 struct FuncDisclaimer* FuncDisclaimer_init(char* name, struct Env* args, struct Type* type);
 
+int FuncDiclaimer_check(struct FuncDisclaimer* d1, struct FuncDisclaimer* d2);
+
 struct Func* FuncList_search(struct FuncList* funcs, char* name);
 
 

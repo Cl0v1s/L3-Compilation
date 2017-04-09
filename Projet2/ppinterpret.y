@@ -53,6 +53,7 @@
 
 
 MP: L_vart LD C {
+    Pascal_semanticFunctions($2);
     Pascal_run(stack, $1, $2, $3, 0);
     Stack_print(stack);
 }
@@ -82,7 +83,7 @@ CC: Et Af E { $$ = Ast_init('C', AfInd, $1, $3); }
   | V Af E { $$ = Ast_init('C', Af, Ast_init_leaf_ptr('V', $1), $3); }
   | Sk { $$ = Ast_init('C', Sk, 0,0); }
   | OBrace C CBrace { $$ = $2; }
-  | If E Th CC El CC { $$ = Ast_init('C', If, $2, Ast_init('C', El, $4, $6));}
+  | If E Th C El CC { $$ = Ast_init('C', If, $2, Ast_init('C', El, $4, $6));}
   | Wh E Do CC { $$ = Ast_init('C', Wh, $2, $4); }
   | V OPar L_args CPar { $$ = Ast_init('C', CallFUNC, Ast_init_leaf_ptr('V', $1), $3); }
 

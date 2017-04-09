@@ -22,7 +22,6 @@ int Stack_push(struct Stack* stack, int sz){
             return i;
         }
     }
-    printf("Allocating...\n");
 
     int index = stack->refsLength;
 

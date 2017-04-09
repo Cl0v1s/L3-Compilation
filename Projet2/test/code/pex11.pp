@@ -1,14 +1,16 @@
 var X1 : integer,
 var X2 : integer
 
-defun foo1(X : integer, Y : boolean):integer
-    var Z : integer
-    foo1:= X+1
-    
 defun foo2(X : integer):integer
     var T : integer
     T := 1;
     foo2 := X+T
+
+defun foo2(V : integer):integer
+    var Z : integer
+    foo2:= V-1
+    
+
 
 X2 := 3;
 if false

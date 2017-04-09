@@ -56,6 +56,7 @@ void Collector_clean(struct Stack* stack);
 struct Type* Type_init(int desc, struct Type* child);
 void Type_free(struct Type* type);
 int Type_check(struct Type* type1, struct Type* type2);
+int Type_check_strict(struct Type* type1, struct Type* type2);
 
 
 struct Variable* Variable_arrayInit(struct Stack* stack, struct Type*, int size);

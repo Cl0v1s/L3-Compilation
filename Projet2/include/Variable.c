@@ -88,6 +88,15 @@ int Type_check(struct Type* type1, struct Type* type2)
     return true;
 }
 
+int Type_check_strict(struct Type* type1, struct Type* type2)
+{
+    if(type1->desc != type2->desc)
+        return false;
+    if(type1->desc == ARRAY)
+        return Type_check(type1->child, type2->child);
+    return true;
+}
+
 void Type_free(struct Type* type)
 {
     if(type->desc != ARRAY)

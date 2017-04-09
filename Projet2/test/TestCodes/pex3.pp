@@ -1,5 +1,7 @@
-var X1 : integer,
-var X2 : integer
+var X1 : array of integer,
+var X2 : array of boolean,
+var X3 : integer
 
-X2 := 10 ;
+while
+X2 := 100 ;
 X1 := X2

@@ -76,6 +76,19 @@ int Stack_getValue(struct Stack* _stack, int index)
     return _stack->values[index];
 }
 
+int Stack_getValueByAdr(struct Stack* _stack, int adr, int index){
+    if(adr > _stack->refsLength){
+        printf("STACK : Adr out of range.\n");
+        exit(-1);
+    }
+    if(_stack->adr[adr] + index > _stack->valuesLength){
+        printf("STACK : Index out of range.\n");
+        exit(-1);
+    }
+
+    return _stack->values[_stack->adr[adr] + index];
+}
+
 void Stack_remove(struct Stack* stack, int index)
 {
     printf("Removing.. %d\n", index);

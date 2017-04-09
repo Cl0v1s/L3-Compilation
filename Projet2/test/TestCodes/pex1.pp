@@ -7,8 +7,8 @@ var S2  integer
 X1 := new array of integer[5];
 X2 := new array of array of integer[5];
 I := 0;
-S1 := 4;
-S2 := 4;
+S1 := 5;
+S2 := 5;
 while I < S1 do
     X1[I] := I;
     I := I + 1

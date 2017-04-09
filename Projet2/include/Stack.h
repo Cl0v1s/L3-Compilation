@@ -22,6 +22,8 @@ void Stack_setValue(struct Stack* _stack, int index, int value);
 
 int Stack_getValue(struct Stack* _stack, int index);
 
+int Stack_getValueByAdr(struct Stack* _stack, int adr, int index);
+
 void Stack_remove(struct Stack* stack, int index);
 
 void Stack_print(struct Stack* stack);

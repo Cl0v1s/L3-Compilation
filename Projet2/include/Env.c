@@ -179,6 +179,7 @@ void Env_free(struct Env* env)
 {
     free(env->keys);
     free(env->values);
+    free(env->names);
     free(env);
 }
 
@@ -199,6 +200,19 @@ struct Env* Env_concat(struct Env* env1, struct Env* env2)
         struct Variable* value = Env_get_value_index(env2, i);
         Env_add_value_hash(res, key, value);
     }
+
+    char** names = malloc((res->length)*sizeof(char*));
+    for(int i = 0; i != env1->length; i++)
+    {
+        names[i] = env1->names[i];
+    }
+    for(int i = 0; i != env2->length; i++)
+    {
+        names[env1->length+i] = env2->names[i];
+    }
+    free(res->names);
+    res->names = names;
+
     return res;
 }
 

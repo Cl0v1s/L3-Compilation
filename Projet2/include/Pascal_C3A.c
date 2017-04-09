@@ -8,8 +8,15 @@ int line = 0;
 int tmpvar = 0;
 int tmpjump = 0;
 
-void P_Compile_C3A(struct FuncList* functions, struct Ast* ast)
+void P_Compile_C3A(struct Env* vars, struct FuncList* functions, struct Ast* ast)
 {
+    // déclération des variables globales
+    for(int i = 0; i < vars->length; i++)
+    {
+        printf("l%d : Afc : 0 : : %s\n", line,vars->names[i]);
+        line = line + 1;
+    }
+
     // déclaration de variables globales portant le nom des fonctions pour gérer le retour des valeurs des fonctions
     for(int i = 0; i < functions->length; i++)
     {
@@ -148,14 +155,17 @@ void P_Compile_C3A_eval(struct FuncList* functions, struct Ast* ast) {
             printf("l%d : Af : %s : _TMP%d : \n", line, (char*)ast->left->value, tmpvar);
             line++;
             return;
-        case NewAr:
+        /*case NewAr:
+            tmpvar++;
+            printf("l%d : Afc : 0 :  : _TMP%d\n", line, tmpvar);
+            tmpleft = tmpvar;
             P_Compile_C3A_eval(functions,  ast->right);
             tmpright = tmpvar;
             tmpvar++;
             // le tableau aura une taille supérieur de 1 a la taille demandée
-            printf("l%d : AfInd : _TMP%d : _TMP%d : 0\n", line, tmpvar, tmpright);
+            printf("l%d : AfInd : _TMP%d : _TMP%d : _TMP%d\n", line, tmpvar, tmpright, tmpleft);
             line++;
-            return;
+            return;*/
         case GetARR:
             P_Compile_C3A_eval(functions,  ast->left);
             tmpleft = tmpvar;

@@ -4,12 +4,14 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
 
 struct Stack
 {
     int* values;
     int* adr;
     int* size;
+    int* refs;
     int refsLength;
     int valuesLength;
 };
@@ -23,6 +25,12 @@ void Stack_setValue(struct Stack* _stack, int index, int value);
 int Stack_setValue_expand(struct Stack* _stack, int pos, int index, int value);
 
 int Stack_getValue(struct Stack* _stack, int index);
+
+int Stack_copy(struct Stack* stack, int index);
+
+void Stack_ref(struct Stack* stack, int index);
+
+void Stack_deref(struct Stack* stack, int index);
 
 void Stack_remove(struct Stack* stack, int index);
 

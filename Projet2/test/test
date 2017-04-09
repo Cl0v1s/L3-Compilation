@@ -1,24 +1,8 @@
-: Or : 0 : 0 : var
-: Afc : 15 : : var
-: AfInd : var : 10 : var
-: Ind : var : 10 : var2
-: Af : var3 : 55 :
-: Pl : var3 : var2 : var4
-: Param : X1 : var3 :
-: Param : X2 : 1 :
-: Call : func1 : 2 :
-: Pl : var3 : 1 : var3
-: St : : :
+: Afc : 2 : : _TMP1
+: Afc : 5 : : var
+: AfInd : var : 10 : _TMP1
+: Af : var2 : var :
+: Afc : 10 : : _TMP1
+: AfInd : var : 1 : _TMP1
+: AfInd : var2 : 9 : _TMP1
 
-
-func1 : Sk : : :
-: Pl : X1 : 1 : X1
-: Pl : X2 : 2 : X2
-: Af : var3 : X1 :
-: Param : X1 : X1 :
-: Call: func2 : 1 :
-: Ret : : :
-
-func2 : Pl : X1 : 1 : X1
-: Af:var3 : X1:
-: Ret : : :

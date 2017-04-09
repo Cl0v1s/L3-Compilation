@@ -12,6 +12,14 @@ comp_pp: ppascal.l pptoc3a.y
 	cc -o test/comp_pp ppinterpret.tab.c lex.yy.c include/*.c -lfl -DDEBUG
 	rm *.c;
 
+comp_pp_prod: ppascal.l pptoc3a.y
+	bison -d pptoc3a.y
+	mv pptoc3a.tab.h ppinterpret.tab.h
+	mv pptoc3a.tab.c ppinterpret.tab.c
+	flex ppascal.l
+	cc -o test/comp_pp ppinterpret.tab.c lex.yy.c include/*.c -lfl
+	rm *.c;
+
 int_c3a: c3a.l c3ainterpret.y
 	bison -d c3ainterpret.y
 	flex c3a.l

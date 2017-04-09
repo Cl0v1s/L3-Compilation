@@ -33,7 +33,7 @@
 /* Un programme est une suite de déclaration (C) composé de déclaration atomique (C0) */
 prog: C	{
 			struct EnvC3A* env = EnvC3A_init();
-			C3A_run($1, env);
+			C3A_run($1, 0, env, EnvC3A_init(), EnvC3A_init());
 	 	}
     ;
 
@@ -59,7 +59,7 @@ O : Pl Sp F Sp F Sp V { $$ = Quad_create(0,Pl, $3, $5, $7); }
 | AfInd Sp FF Sp F Sp V { $$ = Quad_create(0,AfInd, $3, $5, $7); }
 | Ind Sp FF Sp F Sp V { $$ = Quad_create(0, Ind, $3, $5, $7); }
 | Param Sp FF Sp F Sp { $$ = Quad_create(0,Param, $3, $5, 0); }
-| Call Sp FF Sp FI Sp { $$ = Quad_create(0,Call, $3, $5, 0); }
+| Call Sp V Sp FI Sp { $$ = Quad_create(0,Call, 0, $5, $3); }
 | Ret Sp Sp Sp { $$ = Quad_create(0,Ret, 0, 0, 0); }
 
 

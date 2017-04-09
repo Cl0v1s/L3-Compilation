@@ -24,6 +24,8 @@ unsigned long EnvC3A_hash(char *str);
 * env : EnvC3Aironnement à initialiser
 */
 struct EnvC3A* EnvC3A_init();
+
+struct EnvC3A* EnvC3A_copy(struct EnvC3A*);
 /**
 * Affiche un environnement 
 * env : environnement à afficher
@@ -59,4 +61,6 @@ int EnvC3A_get_value(struct EnvC3A *env, char* key);
 */
 void EnvC3A_set_value(struct EnvC3A *env, char* key, int value);
 
+
+void Env_C3A_pop(struct Env_C3A* env, unsigned long* hash, int* value);
 #endif

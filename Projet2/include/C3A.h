@@ -16,7 +16,7 @@ void C3A_replace(struct EnvC3A* env, struct Stack* stack,  char* key, int value)
 * list: programme C3A
 * env : Environnement de variables 
 */
-void C3A_run(struct QuadList* list, struct EnvC3A* env);
+void C3A_run(struct QuadList* list, struct Quad* start, struct EnvC3A* global,struct EnvC3A* local, struct EnvC3A* params);
 
 /**
 * Modifie env en fonction de la commande quad
@@ -24,7 +24,7 @@ void C3A_run(struct QuadList* list, struct EnvC3A* env);
 * env : environnement sur lequel agit la commande 
 * list : totalité du programme C3A
 */
-struct Quad* C3A_eval(struct Quad* quad, struct EnvC3A* env, struct QuadList* list, struct Stack* stack);
+struct Quad* C3A_eval(struct Quad* quad,  struct QuadList* list, struct Stack* stack, struct EnvC3A* global,struct EnvC3A* local, struct EnvC3A* params);
 
 
 

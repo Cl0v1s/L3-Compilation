@@ -9,6 +9,21 @@ struct EnvC3A* EnvC3A_init()
     return env;
 }
 
+struct EnvC3A* EnvC3A_copy(struct EnvC3A* source)
+{
+    struct EnvC3A* res = malloc(sizeof(struct EnVC3A));
+    unsigned long *keys = malloc((source->length)*sizeof(unsigned long));
+    memcpy(keys, source->keys, (sources->length)*sizeof(unsigned long));
+    res->keys = keys;
+
+    int *values = malloc((source->length)*sizeof(int));
+    memcpy(values, source->values, (source->length)*sizeof(int));
+    res->values = values;
+
+    res->length = source->lenght;
+    return res;
+}
+
 void EnvC3A_print(struct EnvC3A *env)
 {
     for(int i = 0; i < env->length; i++)
@@ -100,4 +115,24 @@ unsigned long EnvC3A_hash(char *str)
         hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
 
     return hash;
+}
+
+void Env_C3A_pop(struct Env_C3A* env, unsigned long* hash, int* value)
+{
+    if(hash != 0)
+        *hash = env->keys[env->length-1];
+    if(value != 0)
+        *value = env->values[env->length-1];
+
+    unsigned long *keys = malloc((env->length-1)*sizeof(unsigned long));
+    memcpy(keys, env->keys, (env->length-1)*sizeof(unsigned long));
+    free(env->keys);
+    env->keys = keys;
+
+    int *values = malloc((env->length-1)*sizeof(int));
+    memcpy(values, env->values, (env->length-1)*sizeof(int));
+    free(env->values);
+    env->values = values;
+
+    env->length--;
 }

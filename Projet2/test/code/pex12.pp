@@ -1,6 +1,8 @@
-var TAB1 : array of integer,
-var TAL1 : integer,
-var min : integer
+var X2 : integer
 
-TAL1 := (1 + 1) * 3;
-TAL1 := TAL1 + 1
+defun foo(X : integer) : integer
+    if X = 0 then foo := 0 else foo := foo(X-1)
+
+
+X2 := 4;
+X2 := foo(X2)

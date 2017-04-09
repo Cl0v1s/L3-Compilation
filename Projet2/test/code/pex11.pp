@@ -10,6 +10,7 @@ defun foo2(X : integer):integer
     T := 1;
     foo2 := X+T
 
+X2 := 3;
 if false
    then X1 := foo1(X1,true)
    else X1 := foo2(X2,false)

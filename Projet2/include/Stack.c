@@ -16,6 +16,7 @@ int Stack_push(struct Stack* stack, int sz){
     {
         if(stack->adr[i] < 0 && stack->size[i] >= sz)
         {
+            printf("Found free space at %d\n", i);
             stack->adr[i] = stack->adr[i] * -1;
             stack->size[i] = sz;
             return i;
@@ -78,7 +79,9 @@ int Stack_getValue(struct Stack* _stack, int index)
 
 void Stack_remove(struct Stack* stack, int index)
 {
+    printf("Removing.. %d\n", index);
     stack->adr[index] = stack->adr[index] * -1;
+    Stack_print(stack);
 }
 
 void Stack_print(struct Stack* stack)

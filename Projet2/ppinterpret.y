@@ -13,6 +13,7 @@
 	int yylineno;
 
 	struct Stack* stack;
+	int code = -1;
 %}
 
 	%union {
@@ -33,14 +34,12 @@
 
 	%start MP
 
-  %type<type> TP
-
-  %type<env> L_argt L_argtnn Argt L_vartnn L_vart
-  %type<funcDisc> D_entf D_entp
-  %type<funcList> LD
-   %type<function> D
-  %type<ast> E Et C CC L_argsnn L_args
-
+    %type<type> TP
+    %type<env> L_argt L_argtnn Argt L_vartnn L_vart
+    %type<funcDisc> D_entf D_entp
+    %type<funcList> LD
+    %type<function> D
+    %type<ast> E Et C CC L_argsnn L_args
 
     %left Se
     %left Pl Mo
@@ -56,6 +55,8 @@ MP: L_vart LD C {
     Pascal_semanticFunctions($2);
     Pascal_run(stack, $1, $2, $3, 0);
     Stack_print(stack);
+    if(code > 0)
+        Verif_call(code, $1, stack);
 }
 
 E: E Pl E { $$ = Ast_init('E', Pl, $1, $3); }
@@ -126,10 +127,14 @@ LD: %empty { $$ = FuncList_init(); }
 
 %%
 
-int main()
+int main(int argc, char const * argv[])
 {
+    if(argc > 0){
+
+    }
     stack = Stack_init();
 	yyparse();
+	printf("Fin\n");
 }
 
 

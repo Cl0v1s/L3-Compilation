@@ -8,5 +8,5 @@ var X6 : array of integer
 X2 := 5;
 X5 := new array of boolean [6];
 X5[0] := true;
-X5[1] := false;
+X5[1] := false
 

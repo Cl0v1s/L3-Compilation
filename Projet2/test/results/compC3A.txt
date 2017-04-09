@@ -1,0 +1,93 @@
+Commun à tous les programes : manque "St" pour stopper l'exécution ?
+
+pex1.pp :
+Correct
+
+pex2.pp :
+Correct
+
+pex3.pp :
+Semble correct bien que je pense que l'affectation dans les tableaux soit bizarre de manière générale.
+Par exemple on a 
+l5 : Af : _TMP4 : X5 :
+l6 : Afc : 0 : : _TMP5
+l7 : Afc : 1 : : _TMP6
+l8 : AfInd : _TMP4 : _TMP5 : _TMP6
+de produit pour X5(0) := true
+Cela me donne l'impression que X5 ne sera jamais vraiment modifié en fait ? 
+De mon point de vue (je me trompe peut être voir surement vu que j'ai l'impression d'être un débile depuis hier) cela devrait etre
+l5 : Afc : 0 : : _TMP4
+l6 : Afc : 1 : : _TMP5
+l7 : AfInd : X5 : _TMP4 : _TMP5
+A moins qu'en mémoire ils partagent la même plage ?..
+( Je ne mentionne pas dans la suite le même soucis - si c'en est un -, c'est inutile, j'en ferai abstraction )
+pex4.pp :
+Semble correct
+
+pex5.pp :
+Semble correct
+
+pex6.pp :
+Semble correct
+
+pex7.pp :
+Semble correct
+
+pex8.pp :
+Semble correct
+
+pex9.pp :
+la version originale il y avait une coquille, je ne sais pas si c'est volontaire ? Mais du coup y avait une seg fault car on a pas de control sémantique sur le code pour la compilation
+
+Probleme avec l'initialisation des paramètres de la fonction suite à leur appel, quand on dépasse plus d'un argument, ça vaut (null) plutôt que le bon nom de variable
+
+pex10.pp :
+
+Semble correct
+
+pex11.pp :
+
+Même soucis que pex9
+
+pex12.pp :
+
+Même soucis que pex9
+
+pex21.pp :
+
+Même soucis que pex9 (j'ai du enlever les commentaires du prof car sinon n a un "error near - ligne de commentaire-"
+Les commentaires étaient les suivants : 
+
+/* test d' erreur de type */
+/* detete a la ligne 7 = lookahead de la reduction de X + T */
+
+Du coup pas de contrôle sémantique au préalable donc bon on peut pas détecter l'erreur stipulée par son comm
+
+pex22.pp :
+
+Commentaires supprimés : 
+/* test d' erreur de type */
+/* detecteea  aux lignes 13,15 = lookahead de leur reduction */
+
+Pareil que pex21
+
+pex23.pp :
+
+Commentaires supprimés :
+/* pex23.pp: test de detection d'erreurs semantiques */
+/* Se Se Se Af X1 Ind X4 X1 Af X1 + X1 X2 Af X2 + X1 X3 Af X1 Ind Ind X4 + X1 1 X2 */
+
+Problemes de non détection sémantique (check de types etc sinon c'est bon)
+
+pex24.pp :
+
+Commentaires supprimés :
+/* type de foo incompatible avec +  */ (Type de foo, mdr lol des barres. Pardon)
+/* teste: appels de foo sur types incorrects, sur nombre d'args <> 2 */
+
+Même problème que les pex précédents avec les paramètres des fonctions quand ils sont plus de deux
+Puis juste un problème lié à l'absence de contrôle sémantique
+
+
+
+pex25.pp :

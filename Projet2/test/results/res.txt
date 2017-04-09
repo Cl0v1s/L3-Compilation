@@ -1,0 +1,31 @@
+Adding X1
+Creating value X1 : (5862862 <- 0x1a4f210)
+Adding X2
+Creating value X2 : (5862863 <- 0x1a4f320)
+Adding X3
+Creating value X3 : (5862864 <- 0x1a4f490)
+Adding X4
+Creating value X4 : (5862865 <- 0x1a4f5d0)
+0x1a4f290 Leaf I: constante 10
+0x1a4f180 Leaf V: variable X2
+0x1a4f710 Tree C: 269 (0x1a4f180, 0x1a4f290)
+0x1a4f780 Leaf B: constante 1
+0x1a4f7d0 Leaf V: variable X4
+0x1a4f800 Tree C: 269 (0x1a4f7d0, 0x1a4f780)
+0x1a4f850 Tree C: 272 (0x1a4f710, 0x1a4f800)
+0x1a4f8e0 Leaf V: variable X2
+0x1a4f910 Leaf V: variable X1
+0x1a4f940 Tree C: 269 (0x1a4f910, 0x1a4f8e0)
+0x1a4f990 Tree C: 272 (0x1a4f850, 0x1a4f940)
+0x1a4fa20 Leaf V: variable X4
+0x1a4fa50 Leaf V: variable X3
+0x1a4fa80 Tree C: 269 (0x1a4fa50, 0x1a4fa20)
+0x1a4fad0 Tree C: 272 (0x1a4f990, 0x1a4fa80)
+l0 : Afc : 10 : : _TMP1
+l1 : Af : X2 : _TMP1 : 
+l2 : Afc : 1 : : _TMP2
+l3 : Af : X4 : _TMP2 : 
+l4 : Af : _TMP3 : X2 :
+l5 : Af : X1 : _TMP3 : 
+l6 : Af : _TMP4 : X4 :
+l7 : Af : X3 : _TMP4 : 

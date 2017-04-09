@@ -1,0 +1,8 @@
+//
+// Created by nazruden on 4/9/17.
+//
+
+#ifndef COMPILATION_VERIFICATION_H
+#define COMPILATION_VERIFICATION_H
+
+#endif //COMPILATION_VERIFICATION_H

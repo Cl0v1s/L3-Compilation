@@ -136,6 +136,7 @@ struct Quad* C3A_eval(struct Quad* quad,  struct QuadList* list, struct Stack* s
             C3A_replace(used, stack, quad->destination, tmp1);
             return quad->next;
         case Af:
+            //TODO: revoir
             tmp = Value_get(quad->arg2, stack, global, local, used, &pos, &adr, &size, 0);
             tmp1 = Stack_push(stack, 1);
             Stack_setValue(stack, stack->adr[tmp1], tmp);

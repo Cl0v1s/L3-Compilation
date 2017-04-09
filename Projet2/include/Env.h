@@ -16,6 +16,7 @@ L_vart
 **/
 struct Env
 {
+    char** names;
     unsigned long *keys;
     struct Variable** values;
     int length;

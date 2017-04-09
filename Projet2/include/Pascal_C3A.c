@@ -13,12 +13,27 @@ void P_Compile_C3A(struct FuncList* functions, struct Ast* ast)
     // déclaration de variables globales portant le nom des fonctions pour gérer le retour des valeurs des fonctions
     for(int i = 0; i < functions->length; i++)
     {
-        printf("l%d : Afc : 0 : : %s\n", line, functions->list[i]->disclaimer->name);
+        printf("l%d : Afc : 0 : : %s\n", line,functions->list[i]->disclaimer->name);
         line = line + 1;
     }
 
-
     P_Compile_C3A_eval(functions, ast);
+
+    // Ajout des différentes fonctions
+    for(int i = 0; i < functions->length; i++)
+    {
+        printf("%s : Sk :  : : \n", functions->list[i]->disclaimer->name);
+        line = line + 1;
+        for(int u = 0; u < functions->list[i]->disclaimer->args->length; u++)
+        {
+            printf("l%d : Af : %s : _P%lu :\n", line, functions->list[i]->disclaimer->args->names[u], functions->list[i]->disclaimer->args->keys[u]);
+            line++;
+        }
+        P_Compile_C3A_eval(functions, functions->list[i]->ast);
+        printf("l%d : Ret : : :\n", line);
+        line++;
+    }
+
 }
 
 void P_Compile_C3A_eval(struct FuncList* functions, struct Ast* ast) {
@@ -48,36 +63,36 @@ void P_Compile_C3A_eval(struct FuncList* functions, struct Ast* ast) {
     struct Ast* tmp6;
     switch (ope) {
         case Pl:
-            P_Compile_C3A(functions, ast->left);
+            P_Compile_C3A_eval(functions, ast->left);
             tmpleft = tmpvar;
-            P_Compile_C3A(functions, ast->right);
+            P_Compile_C3A_eval(functions, ast->right);
             tmpright = tmpvar;
             tmpvar = tmpvar + 1;
             printf("l%d : Pl : _TMP%d : _TMP%d : _TMP%d\n", line, tmpleft, tmpright, tmpvar);
             line = line + 1;
             break;
         case Mo:
-            P_Compile_C3A(functions, ast->left);
+            P_Compile_C3A_eval(functions, ast->left);
             tmpleft = tmpvar;
-            P_Compile_C3A(functions, ast->right);
+            P_Compile_C3A_eval(functions, ast->right);
             tmpright = tmpvar;
             tmpvar = tmpvar + 1;
             printf("l%d : Mo : _TMP%d : _TMP%d : _TMP%d\n", line, tmpleft, tmpright, tmpvar);
             line = line + 1;
             break;
         case Mu:
-            P_Compile_C3A(functions, ast->left);
+            P_Compile_C3A_eval(functions, ast->left);
             tmpleft = tmpvar;
-            P_Compile_C3A(functions, ast->right);
+            P_Compile_C3A_eval(functions, ast->right);
             tmpright = tmpvar;
             tmpvar = tmpvar + 1;
             printf("l%d : Mu : _TMP%d : _TMP%d : _TMP%d\n", line, tmpleft, tmpright, tmpvar);
             line = line + 1;
             break;
         case Eq:
-            P_Compile_C3A(functions, ast->left);
+            P_Compile_C3A_eval(functions, ast->left);
             tmpleft = tmpvar;
-            P_Compile_C3A(functions, ast->right);
+            P_Compile_C3A_eval(functions, ast->right);
             tmpright = tmpvar;
             tmpvar = tmpvar + 1;
             printf("l%d : Mu : _TMP%d : _TMP%d : _TMP%d\n", line, tmpleft, tmpright, tmpvar);
@@ -88,34 +103,34 @@ void P_Compile_C3A_eval(struct FuncList* functions, struct Ast* ast) {
             line = line + 1;
             break;
         case Lt:
-            P_Compile_C3A(functions, ast->left);
+            P_Compile_C3A_eval(functions, ast->left);
             tmpleft = tmpvar;
-            P_Compile_C3A(functions, ast->right);
+            P_Compile_C3A_eval(functions, ast->right);
             tmpright = tmpvar;
             tmpvar = tmpvar + 1;
             printf("l%d : Lt : _TMP%d : _TMP%d : _TMP%d\n", line, tmpleft, tmpright, tmpvar);
             line = line + 1;
             break;
         case And:
-            P_Compile_C3A(functions, ast->left);
+            P_Compile_C3A_eval(functions, ast->left);
             tmpleft = tmpvar;
-            P_Compile_C3A(functions, ast->right);
+            P_Compile_C3A_eval(functions, ast->right);
             tmpright = tmpvar;
             tmpvar = tmpvar + 1;
             printf("l%d : And : _TMP%d : _TMP%d : _TMP%d\n", line, tmpleft, tmpright, tmpvar);
             line = line + 1;
             break;
         case Or:
-            P_Compile_C3A(functions, ast->left);
+            P_Compile_C3A_eval(functions, ast->left);
             tmpleft = tmpvar;
-            P_Compile_C3A(functions, ast->right);
+            P_Compile_C3A_eval(functions, ast->right);
             tmpright = tmpvar;
             tmpvar = tmpvar + 1;
             printf("l%d : Or : _TMP%d : _TMP%d : _TMP%d\n", line, tmpleft, tmpright, tmpvar);
             line = line + 1;
             break;
         case Not:
-            P_Compile_C3A(functions, ast->left);
+            P_Compile_C3A_eval(functions, ast->left);
             tmpleft = tmpvar;
             tmpvar = tmpvar + 1;
             printf("l%d : Not : _TMP%d : : _TMP%d\n", line, tmpleft, tmpvar);
@@ -125,16 +140,16 @@ void P_Compile_C3A_eval(struct FuncList* functions, struct Ast* ast) {
             printf("l%d : Sk :  :  : \n", line);
             return;
         case Se:
-            P_Compile_C3A(functions,  ast->left);
-            P_Compile_C3A(functions,  ast->right);
+            P_Compile_C3A_eval(functions,  ast->left);
+            P_Compile_C3A_eval(functions,  ast->right);
             return;
         case Af:
-            P_Compile_C3A(functions,  ast->right);
+            P_Compile_C3A_eval(functions,  ast->right);
             printf("l%d : Af : %s : _TMP%d : \n", line, (char*)ast->left->value, tmpvar);
             line++;
             return;
         case NewAr:
-            P_Compile_C3A(functions,  ast->right);
+            P_Compile_C3A_eval(functions,  ast->right);
             tmpright = tmpvar;
             tmpvar++;
             // le tableau aura une taille supérieur de 1 a la taille demandée
@@ -142,35 +157,35 @@ void P_Compile_C3A_eval(struct FuncList* functions, struct Ast* ast) {
             line++;
             return;
         case GetARR:
-            P_Compile_C3A(functions,  ast->left);
+            P_Compile_C3A_eval(functions,  ast->left);
             tmpleft = tmpvar;
-            P_Compile_C3A(functions,  ast->right);
+            P_Compile_C3A_eval(functions,  ast->right);
             tmpright = tmpvar;
             tmpvar++;
             printf("l%d : Ind : _TMP%d : _TMP%d : _TMP%d\n", line, tmpleft, tmpright, tmpvar);
             line++;
             return;
         case AfInd:
-            P_Compile_C3A(functions,  ast->left->left);
+            P_Compile_C3A_eval(functions,  ast->left->left);
             tmpleft = tmpvar;
-            P_Compile_C3A(functions,  ast->left->right);
+            P_Compile_C3A_eval(functions,  ast->left->right);
             tmpright = tmpvar;
-            P_Compile_C3A(functions,  ast->right);
+            P_Compile_C3A_eval(functions,  ast->right);
             printf("l%d : AfInd : _TMP%d : _TMP%d : _TMP%d\n", line, tmpleft, tmpright, tmpvar);
             line++;
             return;
         case If:
             tmpjump = tmpjump + 1;
             tmpleft = tmpjump;
-            P_Compile_C3A(functions, ast->left);
+            P_Compile_C3A_eval(functions, ast->left);
             printf("l%d : Jz : _TMP%d : : IfFalse%d\n", line, tmpvar, tmpleft);
             line = line + 1;
-            P_Compile_C3A(functions, ast->right->left);
+            P_Compile_C3A_eval(functions, ast->right->left);
             printf("l%d : Jp : : : IfEnd%d\n", line, tmpleft);
             line = line + 1;
             printf("IfFalse%d : Sk : : : \n", tmpleft);
             line = line + 1;
-            P_Compile_C3A(functions, ast->right->right);
+            P_Compile_C3A_eval(functions, ast->right->right);
             printf("IfEnd%d : Sk : : : \n", tmpleft);
             line = line + 1;
             break;
@@ -179,10 +194,10 @@ void P_Compile_C3A_eval(struct FuncList* functions, struct Ast* ast) {
             tmpleft = tmpjump;
             printf("IfStart%d : Sk : : : \n", tmpleft);
             line = line + 1;
-            P_Compile_C3A(functions, ast->left);
+            P_Compile_C3A_eval(functions, ast->left);
             printf("l%d : Jz : _TMP%d : : IfEnd%d\n", line, tmpvar, tmpleft);
             line = line + 1;
-            P_Compile_C3A(functions, ast->right);
+            P_Compile_C3A_eval(functions, ast->right);
             printf("l%d : Jp : : : IfStart%d\n", line, tmpleft);
             line = line + 1;
             printf("IfEnd%d : Sk : : : \n", tmpleft);
@@ -194,7 +209,7 @@ void P_Compile_C3A_eval(struct FuncList* functions, struct Ast* ast) {
             tmp6 = ast->right;
             for(int i = 0; i < tmp4->disclaimer->args->length; i++)
             {
-                P_Compile_C3A(functions, tmp6->right);
+                P_Compile_C3A_eval(functions, tmp6->right);
                 printf("l%d : Param : _P%lu : _TMP%d :\n", line, tmp4->disclaimer->args->keys[i], tmpvar);
                 line++;
                 tmp6 = tmp6->left;

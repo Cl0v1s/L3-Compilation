@@ -6,6 +6,7 @@ struct Env* Env_init()
     env->keys = malloc(0);
     int size = ARRAY;
     env->values = malloc(0);
+    env->names = malloc(0);
     env->length = 0;
     return env;
 }
@@ -106,6 +107,11 @@ void Env_add_value_hash(struct Env* env, unsigned long hash, struct Variable* va
 
 void Env_add_value(struct Env* env, char* key, struct Variable* value)
 {
+    char** names = malloc((env->length+1)*sizeof(char*));
+    memcpy(names, env->names, (env->length)*sizeof(char*));
+    names[env->length] = strdup(key);
+    free(env->names);
+    env->names = names;
 
     unsigned long hash = Env_hash(key);
 

@@ -442,6 +442,7 @@ struct Variable* Pascal_semanticAnalyseEval(struct Stack* stack, struct Env* env
                     Env_set_value_index(tmp5, i, tmp1);
                     tmp6 = tmp6->left;
                 }
+                Pascal_semantic(tmp6 == 0, "Too many arguments.");
                 // execution de la fonction
                 free(tmp5);
                 Collector_clean(stack);
@@ -590,6 +591,7 @@ struct Variable* Pascal_semanticAnalyseEval(struct Stack* stack, struct Env* env
                     Env_set_value_index(tmp5, i, tmp1);
                     tmp6 = tmp6->left;
                 }
+                Pascal_semantic(tmp6 == 0, "Too many arguments.");
                 // Ajout d'une variable portant le nom de la fonction faisant office de return
                 Env_add_value(tmp5, (char*)ast->left->value, Variable_arrayInit(stack, tmp4->disclaimer->type, 1));
                 // execution de la fonction

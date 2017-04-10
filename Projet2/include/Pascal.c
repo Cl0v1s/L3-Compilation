@@ -322,7 +322,9 @@ void Pascal_semantic(int cond, char* error)
 
 void Pascal_semanticAnalyse(struct Stack* stack, struct Env* global, struct FuncList* functions, struct Ast* ast, struct Env* local)
 {
+#ifdef DEBUG
     printf("SEMANTIC ANALYSE\n");
+#endif
     struct Env* tmp;
     // Lancement de l'analyse sur les AST des fonctions
     for(int i = 0; i < functions->length; i++)
@@ -338,7 +340,9 @@ void Pascal_semanticAnalyse(struct Stack* stack, struct Env* global, struct Func
         Env_free(tmp);
     }
     Pascal_semanticAnalyseEval(stack, global, functions, ast, local);
+#ifdef DEBUG
     printf("SEMANTIC ANALYSE DONE\n========\n");
+#endif
 
 }
 

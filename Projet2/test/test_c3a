@@ -1,22 +1,50 @@
 l0 : Afc : 0 : : X1
 l1 : Afc : 0 : : X2
-l2 : Afc : 0 : : X3
-l3 : Afc : 0 : : X4
-l4 : Afc : 0 : : X5
-l5 : Afc : 0 : : X6
-l6 : Afc : 5 : : _TMP1
-l7 : Af : X2 : _TMP1 :
-l8 : Afc : 0 :  : _TMP2
-l8 : Afc : 6 : : _TMP3
-l9 : Afc : 0 :  : _TMP4
-l10 : AfInd : _TMP4 : _TMP3 : _TMP2
-l11 : Af : X5 : _TMP4 :
-l12 : Af : _TMP5 : X5 :
-l13 : Afc : 0 : : _TMP6
-l14 : Afc : 1 : : _TMP7
-l15 : AfInd : _TMP5 : _TMP6 : _TMP7
-l16 : Af : _TMP8 : X5 :
-l17 : Afc : 1 : : _TMP9
-l18 : Afc : 0 : : _TMP10
-l19 : AfInd : _TMP8 : _TMP9 : _TMP10
-l20 : St :  :  :
+l2 : Afc : 0 : : Z
+l3 : Afc : 0 : : X3
+l4 : Afc : 0 : : X4
+l5 : Afc : 2 : : _TMP1
+l6 : Af : X2 : _TMP1 :
+l7 : Afc : 0 :  : _TMP2
+l7 : Afc : 3 : : _TMP3
+l8 : Afc : 0 :  : _TMP4
+l9 : AfInd : _TMP4 : _TMP3 : _TMP2
+l10 : Af : X4 : _TMP4 :
+l11 : Af : _TMP5 : X4 :
+l12 : Afc : 0 : : _TMP6
+l13 : Afc : 0 :  : _TMP7
+l13 : Afc : 2 : : _TMP8
+l14 : Afc : 0 :  : _TMP9
+l15 : AfInd : _TMP9 : _TMP8 : _TMP7
+l16 : AfInd : _TMP5 : _TMP6 : _TMP9
+l17 : Af : _TMP10 : X4 :
+l18 : Afc : 1 : : _TMP11
+l19 : Afc : 0 :  : _TMP12
+l19 : Afc : 3 : : _TMP13
+l20 : Afc : 0 :  : _TMP14
+l21 : AfInd : _TMP14 : _TMP13 : _TMP12
+l22 : AfInd : _TMP10 : _TMP11 : _TMP14
+l23 : Af : _TMP15 : X4 :
+l24 : Afc : 2 : : _TMP16
+l25 : Afc : 0 :  : _TMP17
+l25 : Afc : 4 : : _TMP18
+l26 : Afc : 0 :  : _TMP19
+l27 : AfInd : _TMP19 : _TMP18 : _TMP17
+l28 : AfInd : _TMP15 : _TMP16 : _TMP19
+l29 : Af : _TMP20 : X4 :
+l30 : Afc : 2 : : _TMP21
+l31 : Ind : _TMP20 : _TMP21 : _TMP22
+l32 : Afc : 1 : : _TMP23
+l33 : Afc : 1 : : _TMP24
+l34 : AfInd : _TMP22 : _TMP23 : _TMP24
+l35 : Af : _TMP25 : X4 :
+l36 : Af : _TMP26 : X2 :
+l37 : Ind : _TMP25 : _TMP26 : _TMP27
+l38 : Af : X3 : _TMP27 :
+l39 : Af : _TMP28 : X4 :
+l40 : Afc : 2 : : _TMP29
+l41 : Ind : _TMP28 : _TMP29 : _TMP30
+l42 : Afc : 1 : : _TMP31
+l43 : Ind : _TMP30 : _TMP31 : _TMP32
+l44 : Af : Z : _TMP32 :
+l45 : St :  :  :

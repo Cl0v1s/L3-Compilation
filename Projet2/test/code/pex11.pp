@@ -14,5 +14,5 @@ defun foo2(V : integer):integer
 
 X2 := 3;
 if false
-   then X1 := foo1(X1,true)
+   then X1 := foo2(X1,true)
    else X1 := foo2(X2,false)

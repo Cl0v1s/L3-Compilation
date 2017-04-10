@@ -19,7 +19,7 @@ struct Value* Value_create(char type, void* value)
     return obj;
 }
 
-int Value_get(struct Value* value, struct Stack* stack, struct EnvC3A* global, struct EnvC3A* local,  struct EnvC3A* used, int* pos, int* adr, int* size, int index)
+int Value_get(struct Value* value, struct Stack* stack, struct EnvC3A* global, struct EnvC3A* local,  struct EnvC3A* used)
 {
     int tmp;
     switch(value->type)
@@ -35,11 +35,7 @@ int Value_get(struct Value* value, struct Stack* stack, struct EnvC3A* global, s
                 printf("Variable '%s' indéfinie.\n", (char*)value->value);
                 exit(1);
             }
-            tmp = EnvC3A_get_value(used, (char*)value->value);
-            *pos = tmp;
-            *adr = stack->adr[tmp];
-            *size = stack->size[tmp];
-            return Stack_getValue(stack, stack->adr[tmp]+index);
+            return EnvC3A_get_value(used, (char*)value->value);
         case 'I':
         case 'B':
             return *(int*)value->value;

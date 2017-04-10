@@ -30,13 +30,9 @@ struct EnvC3A* EnvC3A_copy(struct EnvC3A* source)
     return res;
 }
 
-void EnvC3A_free(struct EnvC3A* env, struct Stack* stack)
+void EnvC3A_free(struct EnvC3A* env)
 {
     free(env->keys);
-    for(int i = 0; i < env->length; i++)
-    {
-        Stack_deref(stack, env->values[i]);
-    }
     free(env->values);
     free(env->names);
     free(env);

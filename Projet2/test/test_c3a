@@ -1,18 +1,22 @@
 l0 : Afc : 0 : : X1
 l1 : Afc : 0 : : X2
-l2 : Afc : 0 : : foo1
-l3 : Afc : 3 : : _TMP1
-l4 : Af : X2 : _TMP1 : 
-l6 : Af : _TMP2 : X2 :
-l7 : Param : _P177659 : _TMP2 :
-l8 : Call : foo1 : 1 :
-l9 : Af : _TMP3 : foo1 :
-l10 : Af : X2 : _TMP3 :
-: St : : :
-foo1 : Sk :  : : 
-l12 : Af : V : _P177659 :
-l13 : Af : _TMP4 : V :
-l14 : Afc : 1 : : _TMP5
-l15 : Mo : _TMP4 : _TMP5 : _TMP6
-l16 : Af : foo1 : _TMP6 : 
-l17 : Ret : : :
+l2 : Afc : 0 : : X3
+l3 : Afc : 0 : : X4
+l4 : Afc : 0 : : X5
+l5 : Afc : 0 : : X6
+l6 : Afc : 5 : : _TMP1
+l7 : Af : X2 : _TMP1 :
+l8 : Afc : 0 :  : _TMP2
+l8 : Afc : 6 : : _TMP3
+l9 : Afc : 0 :  : _TMP4
+l10 : AfInd : _TMP4 : _TMP3 : _TMP2
+l11 : Af : X5 : _TMP4 :
+l12 : Af : _TMP5 : X5 :
+l13 : Afc : 0 : : _TMP6
+l14 : Afc : 1 : : _TMP7
+l15 : AfInd : _TMP5 : _TMP6 : _TMP7
+l16 : Af : _TMP8 : X5 :
+l17 : Afc : 1 : : _TMP9
+l18 : Afc : 0 : : _TMP10
+l19 : AfInd : _TMP8 : _TMP9 : _TMP10
+l20 : St :  :  :

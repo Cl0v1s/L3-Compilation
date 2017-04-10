@@ -30,8 +30,8 @@
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
-#ifndef YY_YY_PPTOC3A_TAB_H_INCLUDED
-# define YY_YY_PPTOC3A_TAB_H_INCLUDED
+#ifndef YY_YY_PPINTERPRET_TAB_H_INCLUDED
+# define YY_YY_PPINTERPRET_TAB_H_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
@@ -91,7 +91,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 20 "pptoc3a.y" /* yacc.c:1909  */
+#line 18 "ppinterpret.y" /* yacc.c:1909  */
 
 		char* identity;
 		int constant;
@@ -104,7 +104,7 @@ union YYSTYPE
         struct Ast*  ast;
 	
 
-#line 108 "pptoc3a.tab.h" /* yacc.c:1909  */
+#line 108 "ppinterpret.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -117,4 +117,4 @@ extern YYSTYPE yylval;
 
 int yyparse (void);
 
-#endif /* !YY_YY_PPTOC3A_TAB_H_INCLUDED  */
+#endif /* !YY_YY_PPINTERPRET_TAB_H_INCLUDED  */

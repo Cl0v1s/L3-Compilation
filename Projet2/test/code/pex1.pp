@@ -1,7 +1,18 @@
-var X1 : array of integer,
-var X2 : array of integer
+var X1 : integer,
+var X2 : integer
 
-X1 := new array of integer[2];
-X2 := X1;
-X1[0]:=42;
-X1[1]:=3
+defun foo2(X : integer):integer
+    var T : integer
+    T := 1;
+    foo2 := X+T
+
+defun foo1(V : integer):integer
+    var Z : integer
+    foo1:= V-1
+
+
+
+X2 := 3;
+if false
+   then X1 := foo1(X1,true)
+   else X1 := foo2(X2,false)

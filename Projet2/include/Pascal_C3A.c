@@ -160,7 +160,7 @@ void P_Compile_C3A_eval(struct FuncList* functions, struct Ast* ast) {
             printf("l%d : Af : %s : _TMP%d : \n", line, (char*)ast->left->value, tmpvar);
             line++;
             return;
-        /*case NewAr:
+        case NewAr:
             tmpvar++;
             printf("l%d : Afc : 0 :  : _TMP%d\n", line, tmpvar);
             tmpleft = tmpvar;
@@ -168,9 +168,11 @@ void P_Compile_C3A_eval(struct FuncList* functions, struct Ast* ast) {
             tmpright = tmpvar;
             tmpvar++;
             // le tableau aura une taille supérieur de 1 a la taille demandée
+            printf("l%d : Afc : 0 :  : _TMP%d\n", line, tmpvar);
+            line++;
             printf("l%d : AfInd : _TMP%d : _TMP%d : _TMP%d\n", line, tmpvar, tmpright, tmpleft);
             line++;
-            return;*/
+            return;
         case GetARR:
             P_Compile_C3A_eval(functions,  ast->left);
             tmpleft = tmpvar;

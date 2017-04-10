@@ -61,6 +61,8 @@ int Type_check_strict(struct Type* type1, struct Type* type2);
 
 struct Variable* Variable_arrayInit(struct Stack* stack, struct Type*, int size);
 
+struct Variable* Variable_arrayRef(struct Type*, int value);
+
 void Variable_arrayCopy(struct Stack* stack, struct Variable* var1, struct Variable* var2);
 
 void Variable_arraySet(struct Variable* var, struct Stack* stack, int index, int value);

@@ -115,6 +115,16 @@ struct Variable* Variable_arrayInit(struct Stack* stack, struct Type* type, int 
     return var;
 }
 
+struct Variable* Variable_arrayRef(struct Type* type, int value)
+{
+    struct Variable* var = malloc(sizeof(struct Variable));
+    var->type = type;
+    var->value = value;
+    var->refs = 1;
+    var->array_set = true;
+    return var;
+}
+
 void Variable_arrayCopy(struct Stack* stack, struct Variable* var1, struct Variable* var2)
 {
     if(Type_check(var1->type, var2->type) == false)

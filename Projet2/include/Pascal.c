@@ -4,6 +4,8 @@
 
 #include "Pascal.h"
 
+int affectingIndex = false;
+
 void Pascal_semanticFunctions(struct FuncList* functions)
 {
     for(int i = 0; i < functions->length; i++)
@@ -233,20 +235,25 @@ struct Variable* Pascal_run( struct Stack* stack, struct Env* env, struct FuncLi
                 //Stack_print(stack);
                 return tmp1;
             case GetARR:
-                tmp1 = Pascal_run(stack, env, functions, ast->left, local);
-                tmp2 = Pascal_run(stack, env, functions, ast->right, local);
-                tmp2 = Variable_arrayInit(stack, tmp1->type->child,1);
-                tmp = Variable_arrayGet(tmp1, stack, Variable_arrayGet(tmp2, stack, 0));
-                if(tmp1->type->child->desc != ARRAY) {
-                    Variable_arraySet(tmp2, stack, 0, tmp);
-                }
-                else
+                // Tableau
+                tmp1 = Pascal_semanticAnalyseEval(stack, env, functions, ast->left, local);
+                // Index
+                tmp2 = Pascal_semanticAnalyseEval(stack, env, functions, ast->right, local);
+                tmp = Variable_arrayGet(tmp2, stack, 0);
+                // Valeur Tableau[index]
+                tmp = Variable_arrayGet(tmp1, stack, tmp);
+                if(tmp1->type->child->desc != ARRAY)
                 {
-                    tmp2->value = tmp;
-                    tmp2->array_set = false;
+                    tmp2 = Variable_arrayInit(stack, tmp1->type->child, 1);
+                    Variable_arraySet(tmp2, stack, 0, tmp);
+                    tmp2->refs = 0;
+                    return tmp2;
                 }
-                tmp2->refs = 0;
-                return tmp2;
+                else {
+                    tmp2 = Variable_arrayRef(tmp1->type->child, tmp);
+                    tmp2->refs = 0;
+                    return tmp2;
+                }
             case CallFUNC:
                 tmp4 = FuncList_search(functions, ((char*)ast->left->value));
                 // création de l'environnement local
@@ -354,6 +361,7 @@ struct Variable* Pascal_semanticAnalyseEval(struct Stack* stack, struct Env* env
         struct Env* tmp5;
         struct Env* tmp7;
         struct Ast* tmp6;
+        char* msg = malloc(0);
         switch(ope) {
             case Se:
                 Pascal_semanticAnalyseEval(stack, env, functions, ast->left, local);
@@ -366,7 +374,10 @@ struct Variable* Pascal_semanticAnalyseEval(struct Stack* stack, struct Env* env
                 tmp = Variable_arrayGet(tmp2, stack, 0);
                 tmp2 = Pascal_semanticAnalyseEval(stack, env, functions, ast->right, local); //valeur a placer
                 Pascal_semantic(Type_check(tmp1->type->child, tmp2->type), "Cant allocate different types.");
-                Pascal_semantic(tmp < stack->size[tmp1->value], "Cant allocate different types.");
+                free(msg);
+                msg = malloc(0);
+                sprintf(msg, "Index out of range %d >= %d", tmp, stack->size[tmp1->value]);
+                Pascal_semantic(tmp < stack->size[tmp1->value], msg);
                 if(tmp2->type->desc != ARRAY) {
                     Stack_setValue(stack, stack->adr[tmp1->value] + tmp, Variable_arrayGet(tmp2, stack, 0));
 #ifdef DEBUG
@@ -541,24 +552,28 @@ struct Variable* Pascal_semanticAnalyseEval(struct Stack* stack, struct Env* env
                 tmp1->refs = 0;
                 return tmp1;
             case GetARR:
+                // Tableau
                 tmp1 = Pascal_semanticAnalyseEval(stack, env, functions, ast->left, local);
                 Pascal_semantic(tmp1->type->desc == ARRAY, "Cant access index on non-array.");
+                // Index
                 tmp2 = Pascal_semanticAnalyseEval(stack, env, functions, ast->right, local);
                 Pascal_semantic(tmp2->type->desc == INT, "Index must be numeric.");
-                Pascal_semantic(Variable_arrayGet(tmp2, stack, 0) < stack->size[tmp1->value], "Index out of range.");
-                tmp2 = Variable_arrayInit(stack, tmp1->type->child,1);
-                tmp = Variable_arrayGet(tmp1, stack, Variable_arrayGet(tmp2, stack, 0));
-                if(tmp1->type->child->desc != ARRAY) {
-                    Variable_arraySet(tmp2, stack, 0, tmp);
-                }
-                else
+                tmp = Variable_arrayGet(tmp2, stack, 0);
+                // Valeur Tableau[index]
+                Pascal_semantic(tmp < stack->size[tmp1->value],"Index out of range.");
+                tmp = Variable_arrayGet(tmp1, stack, tmp);
+                if(tmp1->type->child->desc != ARRAY)
                 {
-                    tmp2->value = tmp;
-                    tmp2->array_set = false;
+                    tmp2 = Variable_arrayInit(stack, tmp1->type->child, 1);
+                    Variable_arraySet(tmp2, stack, 0, tmp);
+                    tmp2->refs = 0;
+                    return tmp2;
                 }
-                Pascal_semantic(Type_check(tmp1->type->child, tmp2->type), "Inconsistent array.");
-                tmp2->refs = 0;
-                return tmp2;
+                else {
+                    tmp2 = Variable_arrayRef(tmp1->type->child, tmp);
+                    tmp2->refs = 0;
+                    return tmp2;
+                }
             case CallFUNC:
                 tmp4 = FuncList_search(functions, ((char*)ast->left->value));
                 Pascal_semantic(tmp4 != 0, "Undeclared func/proc.");

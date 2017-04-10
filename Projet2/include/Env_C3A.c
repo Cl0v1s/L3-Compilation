@@ -3,6 +3,7 @@
 struct EnvC3A* EnvC3A_init()
 {
     struct EnvC3A* env = malloc(sizeof(struct EnvC3A));
+    env->names = malloc(0);
     env->keys = malloc(0);
     env->values = malloc(0);
     env->length = 0;
@@ -20,14 +21,24 @@ struct EnvC3A* EnvC3A_copy(struct EnvC3A* source)
     memcpy(values, source->values, (source->length)*sizeof(int));
     res->values = values;
 
+    char **names = malloc((source->length)*sizeof(char*));
+    memcpy(names, source->names, (source->length)*sizeof(char*));
+    res->names = names;
+
+
     res->length = source->length;
     return res;
 }
 
-void EnvC3A_free(struct EnvC3A* env)
+void EnvC3A_free(struct EnvC3A* env, struct Stack* stack)
 {
     free(env->keys);
+    for(int i = 0; i < env->length; i++)
+    {
+        Stack_deref(stack, env->values[i]);
+    }
     free(env->values);
+    free(env->names);
     free(env);
 }
 
@@ -35,7 +46,7 @@ void EnvC3A_print(struct EnvC3A *env)
 {
     for(int i = 0; i < env->length; i++)
     {
-        printf("(%lu:%d) ", env->keys[i], env->values[i]);
+        printf("((%s) %lu:%d ) ",env->names[i], env->keys[i], env->values[i]);
     }
     printf("\n");
 }
@@ -70,6 +81,12 @@ int EnvC3A_get_value(struct EnvC3A *env, char* key)
 
 void EnvC3A_add_value(struct EnvC3A *env, char* key, int value)
 {
+
+    char** names = malloc((env->length+1)*sizeof(char*));
+    memcpy(names, env->names, (env->length)*sizeof(char*));
+    names[env->length] = strdup(key);
+    free(env->names);
+    env->names = names;
 
     unsigned long hash = EnvC3A_hash(key);
 

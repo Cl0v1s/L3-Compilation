@@ -7,7 +7,8 @@ l6 : Af : _TMP2 : X2 :
 l7 : Param : _P177659 : _TMP2 :
 l8 : Call : foo1 : 1 :
 l9 : Af : _TMP3 : foo1 :
-l10 : Af : X2 : _TMP3 : 
+l10 : Af : X2 : _TMP3 :
+: St : : :
 foo1 : Sk :  : : 
 l12 : Af : V : _P177659 :
 l13 : Af : _TMP4 : V :

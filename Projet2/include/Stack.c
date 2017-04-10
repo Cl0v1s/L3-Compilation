@@ -43,7 +43,7 @@ int Stack_push(struct Stack* stack, int sz){
         if(stack->adr[i] < 0 && stack->size[i] >= sz)
         {
             //printf("Found free space at %d\n", i);
-            stack->adr[i] = stack->adr[i] * -1;
+            stack->adr[i] = abs(stack->adr[i]);
             stack->size[i] = sz;
             return i;
         }

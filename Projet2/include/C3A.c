@@ -12,7 +12,7 @@ void C3A_print(struct EnvC3A* global, struct Stack* stack)
     {
         key = global->keys[i];
         index = global->values[i];
-        printf("( %lu : [", key);
+        printf("(%s (%lu) : [",global->names[i], key);
         for(int u = 0; u <stack->size[index]; u++)
         {
             printf("%d,", stack->values[stack->adr[index]+u]);
@@ -194,6 +194,7 @@ struct Quad* C3A_eval(struct Quad* quad,  struct QuadList* list, struct Stack* s
             tmp = Value_get(quad->arg2, stack, global, local, used, &pos, &adr, &size, 0);
             tmp1 = Stack_push(stack, 1);
             Stack_setValue(stack, stack->adr[tmp1], tmp);
+            Stack_ref(stack, tmp1);
             EnvC3A_set_value(params, (char*)quad->arg1->value, tmp1);
             return quad->next;
         case Call:
@@ -218,8 +219,8 @@ struct Quad* C3A_eval(struct Quad* quad,  struct QuadList* list, struct Stack* s
             deep++;
             C3A_run(list, next, stack,  global, localprim, paramprim);
             deep--;
-            EnvC3A_free(localprim);
-            EnvC3A_free(paramprim);
+            EnvC3A_free(localprim, stack);
+            EnvC3A_free(paramprim, stack);
             return quad->next;
         case Ret:
             return 0;

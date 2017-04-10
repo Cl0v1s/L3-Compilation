@@ -5,6 +5,8 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "Stack.h"
+
 #define false 0
 #define true 1
 /**
@@ -12,6 +14,7 @@
 **/
 struct EnvC3A
 {
+    char** names;
     unsigned long *keys;
     int *values;
     int length;
@@ -27,7 +30,7 @@ struct EnvC3A* EnvC3A_init();
 
 struct EnvC3A* EnvC3A_copy(struct EnvC3A* ds);
 
-void EnvC3A_free(struct EnvC3A* env);
+void EnvC3A_free(struct EnvC3A* env, struct Stack* stack);
 /**
 * Affiche un environnement 
 * env : environnement à afficher

@@ -26,6 +26,10 @@ void P_Compile_C3A(struct Env* vars, struct FuncList* functions, struct Ast* ast
 
     P_Compile_C3A_eval(functions, ast);
 
+    // Ajout d'un stop pour arreter le programme sans passer par les fonctions a la fin
+    printf("l%d : St :  :  : \n", line);
+    line++;
+
     // Ajout des différentes fonctions
     for(int i = 0; i < functions->length; i++)
     {
@@ -145,6 +149,7 @@ void P_Compile_C3A_eval(struct FuncList* functions, struct Ast* ast) {
             break;
         case Sk:
             printf("l%d : Sk :  :  : \n", line);
+            line++;
             return;
         case Se:
             P_Compile_C3A_eval(functions,  ast->left);

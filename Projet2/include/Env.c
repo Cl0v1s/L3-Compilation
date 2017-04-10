@@ -15,7 +15,12 @@ void Env_print(struct Env* env, struct Stack* stack)
 {
     for(int i = 0; i < env->length; i++)
     {
-        printf("(%lu:%d) ", env->keys[i], env->values[i]->value);
+        printf("((%s) %lu : [ ", env->names[i], env->keys[i]);
+        for(int u = 0; u < stack->size[env->values[i]->value]; u++)
+        {
+            printf("%d,", stack->values[stack->adr[env->values[i]->value]+u]);
+        }
+        printf("])\n");
     }
     printf("\n");
 } 

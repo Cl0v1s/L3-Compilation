@@ -11,6 +11,31 @@ struct Stack* Stack_init(){
     return _stack;
 }
 
+struct Stack* Stack_clone(struct Stack* source)
+{
+    struct Stack* _stack = malloc(sizeof(struct Stack));
+    _stack->values = malloc(source->valuesLength*sizeof(int));
+    memcpy(_stack->values, source->values,source->valuesLength*sizeof(int) );
+    _stack->size = malloc(source->refsLength*sizeof(int));
+    memcpy(_stack->size, source->size,source->refsLength*sizeof(int) );
+    _stack->adr = malloc(source->refsLength*sizeof(int));
+    memcpy(_stack->adr, source->adr,source->refsLength*sizeof(int) );
+    _stack->refs = malloc(source->refsLength*sizeof(int));
+    memcpy(_stack->refs, source->refs,source->refsLength*sizeof(int) );
+    _stack->refsLength = source->refsLength;
+    _stack->valuesLength = source->valuesLength;
+    return _stack;
+}
+
+void Stack_free(struct Stack* stack)
+{
+    free(stack->values);
+    free(stack->refs);
+    free(stack->adr);
+    free(stack->size);
+    free(stack);
+}
+
 int Stack_push(struct Stack* stack, int sz){
 
     for(int i = 0; i < stack->refsLength; i++)

@@ -3,7 +3,7 @@ var X2 : integer
 
 defpro proo(X : integer, Y : boolean)
     var Z : boolean
-    X1:= X+Y
+    X1:= 3
     
 defun foo(X : integer, Y : boolean):integer
     var T : integer
@@ -13,6 +13,6 @@ defun foo(X : integer, Y : boolean):integer
        else foo := false
 
 X2 := 10;
-if false
+if true
    then proo(X2,true)
    else X1 := foo(X2,false)

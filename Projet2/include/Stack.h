@@ -18,6 +18,10 @@ struct Stack
 
 struct Stack* Stack_init();
 
+struct Stack* Stack_clone(struct Stack* source);
+
+void Stack_free(struct Stack* stack);
+
 int Stack_push(struct Stack* _stack, int size);
 
 void Stack_setValue(struct Stack* _stack, int index, int value);

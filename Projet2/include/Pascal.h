@@ -25,6 +25,9 @@ void Pascal_semantic(int cond, char* error);
 
 void Pascal_semanticFunctions(struct FuncList* functions);
 
+void Pascal_semanticAnalyse(struct Stack* stack, struct Env* env, struct FuncList* functions, struct Ast* ast, struct Env* local);
+struct Variable* Pascal_semanticAnalyseEval(struct Stack* stack, struct Env* env, struct FuncList* functions, struct Ast* ast, struct Env* local);
+
 
 
 

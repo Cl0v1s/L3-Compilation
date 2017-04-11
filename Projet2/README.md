@@ -3,6 +3,8 @@
 Réalisé par: Célia Paqué, Benjamin de Pourquery, Quentin Lemonnier et Clovis Portron
 Les fichiers produits avec make se trouvent dans le répertoire test/.
 
+Le rapport se trouve dans doc/.
+
 # Question 1:
     Fonction C répondant à la question: int main();  
     Dans les fichiers: (produite à partir de) ppascal.l et ppinterpret.y

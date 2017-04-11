@@ -140,7 +140,7 @@ struct Quad* C3A_eval(struct Quad* quad,  struct QuadList* list, struct Stack* s
             return quad->next;
         case Param:
             tmp = Value_get(quad->arg2, stack, global, local, used);
-            EnvC3A_set_value(params, (char*)quad->arg1->value, tmp1);
+            EnvC3A_set_value(params, (char*)quad->arg1->value, tmp);
             return quad->next;
         case Call:
             //printf("CALLLLLLL\n");

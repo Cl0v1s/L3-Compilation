@@ -13,6 +13,6 @@ defun foo2(V : integer):integer
 
 
 X2 := 3;
-if false
+if true
    then X1 := foo2(X1)
    else X1 := foo2(X2)

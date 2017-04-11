@@ -1,0 +1,36 @@
+l0 : Afc : 0 : : X1
+l1 : Afc : 0 : : X2
+l2 : Afc : 0 : : foo2
+l3 : Afc : 0 : : foo2
+l4 : Afc : 3 : : _TMP1
+l5 : Af : X2 : _TMP1 : 
+l6 : Afc : 1 : : _TMP2
+l7 : Jz : _TMP2 : : IfFalse1
+l9 : Af : _TMP3 : X1 :
+l10 : Param : _P177659 : _TMP3 :
+l11 : Call : foo2 : 1 :
+l12 : Af : _TMP4 : foo2 :
+l13 : Af : X1 : _TMP4 : 
+l14 : Jp : : : IfEnd1
+IfFalse1 : Sk : : : 
+l17 : Af : _TMP5 : X2 :
+l18 : Param : _P177659 : _TMP5 :
+l19 : Call : foo2 : 1 :
+l20 : Af : _TMP6 : foo2 :
+l21 : Af : X1 : _TMP6 : 
+IfEnd1 : Sk : : : 
+l23 : St :  :  : 
+foo2 : Sk :  : : 
+l25 : Af : V : _P177659 :
+l26 : Af : _TMP7 : V :
+l27 : Afc : 1 : : _TMP8
+l28 : Mo : _TMP7 : _TMP8 : _TMP9
+l29 : Af : foo2 : _TMP9 : 
+l30 : Ret : : :
+foo2 : Sk :  : : 
+l32 : Af : V : _P177659 :
+l33 : Af : _TMP10 : V :
+l34 : Afc : 1 : : _TMP11
+l35 : Mo : _TMP10 : _TMP11 : _TMP12
+l36 : Af : foo2 : _TMP12 : 
+l37 : Ret : : :
